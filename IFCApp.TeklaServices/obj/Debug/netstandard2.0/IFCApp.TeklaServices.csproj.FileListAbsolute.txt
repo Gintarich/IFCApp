@@ -1,0 +1,11 @@
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\bin\Debug\netstandard2.0\IFCApp.TeklaServices.deps.json
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\bin\Debug\netstandard2.0\IFCApp.TeklaServices.dll
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\bin\Debug\netstandard2.0\IFCApp.TeklaServices.pdb
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.AssemblyInfo.cs
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.sourcelink.json
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.dll
+C:\Users\Admin\source\repos\Gintarich\IFCApp\IFCApp.TeklaServices\obj\Debug\netstandard2.0\IFCApp.TeklaServices.pdb
