@@ -29,7 +29,11 @@ public class Matrix4d
 
     public double[,] GetData() { return _matrix; }
 
-    // Static Method: Rotation around X-axis
+    /// <summary>
+    /// Creates a transformation matrix for rotation around the X-axis.
+    /// </summary>
+    /// <param name="angle">The rotation angle in degrees.</param>
+    /// <returns>A transformation matrix for the specified rotation.</returns>
     public static Matrix4d RotationX(double angle)
     {
         double c = Math.Cos(angle);
@@ -45,8 +49,11 @@ public class Matrix4d
     }
 
     
-
-    // Static Method: Rotation around Y-axis
+    /// <summary>
+    /// Creates a transformation matrix for rotation around the X-axis.
+    /// </summary>
+    /// <param name="angle">The rotation angle in radians.</param>
+    /// <returns>A transformation matrix for the specified rotation.</returns>
     public static Matrix4d RotationY(double angle)
     {
         double c = Math.Cos(angle);
@@ -61,11 +68,16 @@ public class Matrix4d
         });
     }
 
-    // Static Method: Rotation around Z-axis
+    /// <summary>
+    /// Creates a transformation matrix for rotation around the Z-axis.
+    /// </summary>
+    /// <param name="angle">The rotation angle in degrees.</param>
+    /// <returns>A transformation matrix for the specified rotation.</returns>
     public static Matrix4d RotationZ(double angle)
     {
-        double c = Math.Cos(angle);
-        double s = Math.Sin(angle);
+        var radians = angle * Math.PI / 180.0; 
+        double c = Math.Cos(radians);
+        double s = Math.Sin(radians);
 
         return new Matrix4d(new double[,]
         {
@@ -110,6 +122,12 @@ public class Matrix4d
 
         // Return the first three elements as a 3D vector
         return new[] { result[0], result[1], result[2] };
+    }
+
+    public Point3d Apply(Point3d point)
+    {
+        var vArray = this.Apply([point.X,point.Y,point.Z]);
+        return new Point3d(vArray[0], vArray[1], vArray[2]);
     }
 
     // Combine this transformation with another

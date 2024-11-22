@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "lqLLWMEPMbE=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\IFCApp.IFCServices.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.database.managedesent\\2.0.3\\microsoft.database.managedesent.2.0.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\2.1.1\\microsoft.extensions.dependencyinjection.2.1.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.1\\microsoft.extensions.dependencyinjection.abstractions.2.1.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.1.1\\microsoft.extensions.logging.abstractions.2.1.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.common\\6.0.445\\xbim.common.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.essentials\\6.0.445\\xbim.essentials.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.ifc\\6.0.445\\xbim.ifc.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.ifc2x3\\6.0.445\\xbim.ifc2x3.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.ifc4\\6.0.445\\xbim.ifc4.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.ifc4x3\\6.0.445\\xbim.ifc4x3.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.io.esent\\6.0.445\\xbim.io.esent.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.io.memorymodel\\6.0.445\\xbim.io.memorymodel.6.0.445.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\xbim.tessellator\\6.0.445\\xbim.tessellator.6.0.445.nupkg.sha512"
+  ],
+  "logs": []
+}

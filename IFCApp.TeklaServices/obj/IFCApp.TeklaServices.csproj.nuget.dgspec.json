@@ -11,7 +11,7 @@
         "projectName": "IFCApp.TeklaServices",
         "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.TeklaServices\\IFCApp.TeklaServices.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\Gintarich\\IFCApp\\IFCApp.TeklaServices\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.TeklaServices\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

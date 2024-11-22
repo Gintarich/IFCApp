@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IFCApp.Core\IFCApp.Core.csproj" />
+    <ProjectReference Include="..\IFCApp.IFCServices\IFCApp.IFCServices.csproj" />
     <ProjectReference Include="..\IFCApp.TeklaServices\IFCApp.TeklaServices.csproj" />
   </ItemGroup>
 

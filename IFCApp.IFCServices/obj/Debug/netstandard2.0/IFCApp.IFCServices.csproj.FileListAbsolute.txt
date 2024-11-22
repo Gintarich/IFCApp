@@ -1,0 +1,11 @@
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\bin\Debug\netstandard2.0\IFCApp.IFCServices.deps.json
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\bin\Debug\netstandard2.0\IFCApp.IFCServices.dll
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\bin\Debug\netstandard2.0\IFCApp.IFCServices.pdb
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.csproj.AssemblyReference.cache
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.AssemblyInfoInputs.cache
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.AssemblyInfo.cs
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.sourcelink.json
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.dll
+C:\Users\Admin\Source\Repos\Gintarich\IFCApp\IFCApp.IFCServices\obj\Debug\netstandard2.0\IFCApp.IFCServices.pdb
