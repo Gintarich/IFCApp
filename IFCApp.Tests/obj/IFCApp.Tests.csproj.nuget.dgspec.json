@@ -100,7 +100,11 @@
         "frameworks": {
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.Core\\IFCApp.Core.csproj": {
+                "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.Core\\IFCApp.Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

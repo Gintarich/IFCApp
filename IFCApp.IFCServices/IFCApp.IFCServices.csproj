@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
+    <PackageReference Include="Xbim.Essentials" Version="6.0.445" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xbim.Essentials" Version="6.0.445" />
+    <ProjectReference Include="..\IFCApp.Core\IFCApp.Core.csproj" />
   </ItemGroup>
 
 </Project>

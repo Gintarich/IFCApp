@@ -236,6 +236,16 @@
             "related": ".pdb;.xml"
           }
         }
+      },
+      "IFCApp.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/IFCApp.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IFCApp.Core.dll": {}
+        }
       }
     }
   },
@@ -634,10 +644,16 @@
         "xbim.tessellator.6.0.445.nupkg.sha512",
         "xbim.tessellator.nuspec"
       ]
+    },
+    "IFCApp.Core/1.0.0": {
+      "type": "project",
+      "path": "../IFCApp.Core/IFCApp.Core.csproj",
+      "msbuildProject": "../IFCApp.Core/IFCApp.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "IFCApp.Core >= 1.0.0",
       "NETStandard.Library >= 2.0.3",
       "Xbim.Essentials >= 6.0.445"
     ]
@@ -649,11 +665,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\IFCApp.IFCServices.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\IFCApp.IFCServices.csproj",
       "projectName": "IFCApp.IFCServices",
-      "projectPath": "C:\\Users\\Admin\\source\\repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\IFCApp.IFCServices.csproj",
+      "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\IFCApp.IFCServices.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\source\\repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.IFCServices\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -674,7 +690,11 @@
       "frameworks": {
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.Core\\IFCApp.Core.csproj": {
+              "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Gintarich\\IFCApp\\IFCApp.Core\\IFCApp.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

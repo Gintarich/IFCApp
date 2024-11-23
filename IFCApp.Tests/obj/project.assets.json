@@ -475,6 +475,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "IFCApp.Core": "1.0.0",
           "Xbim.Essentials": "6.0.445"
         },
         "compile": {
