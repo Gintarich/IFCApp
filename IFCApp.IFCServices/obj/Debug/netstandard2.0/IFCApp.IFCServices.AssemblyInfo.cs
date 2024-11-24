@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IFCApp.IFCServices")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d5f0cf609fe9bc3c15fc90c82731fc51f62b5f77")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e179bf744f6913486ed5dc633e54338ffe7c6df0")]
 [assembly: System.Reflection.AssemblyProductAttribute("IFCApp.IFCServices")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IFCApp.IFCServices")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
