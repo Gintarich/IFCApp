@@ -16,7 +16,7 @@
 x64/
 [Bb]in/
 [Oo]bj/
-obj
+*/obj/*
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
