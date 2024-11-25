@@ -141,8 +141,30 @@ public class Matrix4d
 
     public Point3d Apply(Point3d point)
     {
-        var vArray = this.Apply([point.X, point.Y, point.Z]);
-        return new Point3d(vArray[0], vArray[1], vArray[2]);
+        Point3d result = new Point3d();
+        for (int i = 0; i < 3; i++)
+        { 
+            for(int j = 0; j < 4; j++)
+            {
+                if(j == 3)
+                {
+                    result[i] += _matrix[i, j];
+                }
+                else
+                {
+                    result[i] += _matrix[i, j] * point[j];
+                }
+            }
+        }
+        return result;
+        //var vArray = this.Apply([point.X, point.Y, point.Z]);
+        //return new Point3d(vArray[0], vArray[1], vArray[2]);
+    }
+
+    public Vector3d Apply(Vector3d vec)
+    {
+        var vArray = this.Apply([vec.X, vec.Y, vec.Z]);
+        return new Vector3d(vArray[0], vArray[1], vArray[2]);
     }
 
     // Combine this transformation with another

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IFCApp.Core.Geometry;
 
-public struct Point3d(double x, double y, double z) 
+public struct Point3d(double x = 0, double y = 0, double z = 0)
 {
     public double X { get; set; } = x;
     public double Y { get; set; } = y;
@@ -19,13 +19,35 @@ public struct Point3d(double x, double y, double z)
         this.Z = Math.Round(this.Z, precision);
     }
 
-    public static Point3d operator+ (Point3d lhs,Point3d rhs)
+    public static Point3d operator +(Point3d lhs, Point3d rhs)
     {
-        return new Point3d(lhs.X+rhs.X,lhs.Y+rhs.Y,lhs.Z+rhs.Z);
+        return new Point3d(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
     }
-    public static Point3d operator- (Point3d lhs,Point3d rhs)
+    public static Point3d operator -(Point3d lhs, Point3d rhs)
     {
-        return new Point3d(lhs.X-rhs.X,lhs.Y-rhs.Y,lhs.Z-rhs.Z);
+        return new Point3d(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
     }
-
+    public double this[int index]
+    {
+        get
+        {
+            return index switch
+            {
+                0 => X,
+                1 => Y,
+                2 => Z,
+                _ => throw new IndexOutOfRangeException("Index must be 0, 1, or 2.")
+            };
+        }
+        set
+        {
+            switch (index)
+            {
+                case 0: X = value; break;
+                case 1: Y = value; break;
+                case 2: Z = value; break;
+                default: throw new IndexOutOfRangeException("Index must be 0, 1, or 2.");
+            }
+        }
+    }
 }
