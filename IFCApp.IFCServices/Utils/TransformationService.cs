@@ -10,9 +10,24 @@ namespace IFCApp.IFCServices.Utils
 {
     public class TransformationService
     {
-        public Matrix4d GetTransformation()
+        public Matrix4d GetTransformation(IIfcObjectPlacement placement)
         {
-            return new Matrix4d();
+            var cumulativeMatrix = new Matrix4d();
+
+            // Traverse up the placement hierarchy
+            while (placement != null)
+            {
+                // Get the current placement matrix
+                var placementMatrix = GetMatrix(placement);
+
+                // Combine with the cumulative transformation
+                cumulativeMatrix = placementMatrix.Combine(cumulativeMatrix);
+
+                // Move to the parent placement (if any)
+                placement = (placement as IIfcLocalPlacement)?.PlacementRelTo;
+            }
+
+            return cumulativeMatrix;
         }
         public Matrix4d GetMatrix(IIfcObjectPlacement placement)
         {
@@ -20,11 +35,11 @@ namespace IFCApp.IFCServices.Utils
             {
                 return new Matrix4d();
             }
-            if (localPlacement.RelativePlacement is not IIfcAxis2Placement3D relativePlacement) 
+            if (localPlacement.RelativePlacement is not IIfcAxis2Placement3D relativePlacement)
             {
                 return new Matrix4d();
             }
-            
+
             var location = relativePlacement.Location;
 
             Vector3d xAxis = Vector3d.xAxis;
@@ -48,8 +63,8 @@ namespace IFCApp.IFCServices.Utils
                     relativePlacement.RefDirection.DirectionRatios[2]
                     );
             }
-            
-            yAxis = xAxis.Cross( zAxis );
+
+            yAxis = xAxis.Cross(zAxis);
 
             xAxis.Normalize();
             yAxis.Normalize();
@@ -63,7 +78,7 @@ namespace IFCApp.IFCServices.Utils
                 {0,       0,       0,       1         }
             };
 
-            var transformationMatrix = new Matrix4d( transformation );
+            var transformationMatrix = new Matrix4d(transformation);
 
             return transformationMatrix;
         }

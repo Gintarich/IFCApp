@@ -39,8 +39,8 @@ namespace IFCApp.TeklaServices.Elements
 
         private void InsertWindow(Window window)
         {
-            Point startPoint = window.StartPoint.TeklaPoint();
-            Point endPoint = window.EndPoint.TeklaPoint();
+            Point startPoint = window.GetStartPoint().TeklaPoint();
+            Point endPoint = window.GetEndPoint().TeklaPoint();
             Identifier identifier = new Identifier(window.FatherID);
             var father = Model.SelectModelObject(identifier);
             if (father == null) return;

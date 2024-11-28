@@ -1,5 +1,6 @@
 ﻿using IFCApp.IFCServices.Utils;
 using System;
+using System.IO;
 using System.Linq;
 using Xbim.Ifc;
 using Xbim.Ifc2x3.GeometricConstraintResource;
@@ -9,14 +10,17 @@ using Xbim.IO;
 
 namespace IFCApp.IFCServices
 {
-    public class IfcTester
+    public class IFCModel
     {
-        const string fileName = @"C:\Users\Admin\Desktop\KUL-7AM-00-00-M3-AR-0001.ifc";
+
+        const string fileName = "KUL-7AM-00-00-M3-AR-0001.ifc";
         readonly IfcStore _model;
 
-        public IfcTester()
+        public IFCModel()
         {
-            _model = IfcStore.Open(fileName);
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var path = Path.Combine(desktop, fileName );
+            _model = IfcStore.Open(path);
         }
         public IfcStore GetModel()
         {
