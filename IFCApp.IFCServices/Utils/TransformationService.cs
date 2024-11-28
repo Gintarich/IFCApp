@@ -5,11 +5,20 @@ using IFCApp.Core;
 using IFCApp.Core.Geometry;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc4.Interfaces;
+using Xbim.IO.Xml.BsConf;
 
 namespace IFCApp.IFCServices.Utils
 {
     public class TransformationService
     {
+        public static readonly Matrix4d INVERSE = new Matrix4d( new double[,]
+        {
+            {0.515038078489869 ,   0.857167298551142,    0, -463783847.754614 },
+            {-0.857167298551142,   0.515038078489869,    0, 159621882.973248 },
+            {0,                    0,                    1, -32200    },
+            {0,                    0,                    0, 1        }
+        });
+
         public Matrix4d GetTransformation(IIfcObjectPlacement placement)
         {
             var cumulativeMatrix = new Matrix4d();
@@ -21,13 +30,13 @@ namespace IFCApp.IFCServices.Utils
                 var placementMatrix = GetMatrix(placement);
 
                 // Combine with the cumulative transformation
-                cumulativeMatrix = placementMatrix.Combine(cumulativeMatrix);
+                cumulativeMatrix = cumulativeMatrix.Combine(placementMatrix);
 
                 // Move to the parent placement (if any)
                 placement = (placement as IIfcLocalPlacement)?.PlacementRelTo;
             }
 
-            return cumulativeMatrix;
+            return cumulativeMatrix.Combine(INVERSE);
         }
         public Matrix4d GetMatrix(IIfcObjectPlacement placement)
         {
@@ -82,5 +91,11 @@ namespace IFCApp.IFCServices.Utils
 
             return transformationMatrix;
         }
+
+        //Calculate inverse
+        //var rot = Matrix4d.RotationZ(59);
+        //var trans = Matrix4d.Translation(375689000, 315329000, 32200);
+        //var tot = trans.Combine(rot);
+        //var TestInv = tot.Inverse();
     }
 }
