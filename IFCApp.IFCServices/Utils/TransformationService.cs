@@ -64,7 +64,7 @@ namespace IFCApp.IFCServices.Utils
                     );
             }
 
-            yAxis = xAxis.Cross(zAxis);
+            yAxis = zAxis.Cross(xAxis);
 
             xAxis.Normalize();
             yAxis.Normalize();
