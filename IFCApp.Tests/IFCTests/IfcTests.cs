@@ -29,11 +29,11 @@ public class IfcTests
         var labels = new List<int>() { 24175, 24184, 24215 };
         var window = model.Instances.OfType<IfcWindow>().Where(x => labels.Contains(x.EntityLabel)).ToList().FirstOrDefault();
         var openingElement = window.FillsVoids.First().RelatingOpeningElement;
+
         var tforms = new TransformationService();
         var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
+        BBoxService bBoxService = new BBoxService();
+        var box = bBoxService.GetBBox(openingElement.Representation, matrix);
 
-        BBoxService bBoxService = new BBoxService(model);
-        var pts = bBoxService.GetPoints(openingElement.Representation);
-        var tPoints = pts.Select(x => matrix.Apply(x)).ToList();
     }
 }
