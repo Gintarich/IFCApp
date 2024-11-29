@@ -22,8 +22,30 @@ namespace IFCApp.IFCServices.Services
         }
         public BBox GetBBox(IfcProductRepresentation product, Matrix4d tForm)
         {
-            var points = GetPoints(product).Select(tForm.Apply).ToList();
-            return new BBox(points);
+            var points = GetPoints(product);
+            var trimmedPoints = TrimPointsY(points, 500);
+            var ptsOut = trimmedPoints.Select(tForm.Apply).ToList();
+            return new BBox(ptsOut);
+        }
+        public List<Point3d> TrimPointsY(List<Point3d> pts, double amount)
+        {
+            List<Point3d> ptsOut = new List<Point3d>();
+            foreach (var pt in pts)
+            {
+                if(pt.Y>amount)
+                {
+                    ptsOut.Add(new Point3d(pt.X,amount,pt.Z));
+                }
+                else if(pt.Y < -amount)
+                {
+                    ptsOut.Add(new Point3d(pt.X,-amount,pt.Z));
+                }
+                else
+                {
+                    ptsOut.Add(pt);
+                }
+            }
+            return ptsOut;
         }
     }
 }
