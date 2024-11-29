@@ -10,12 +10,12 @@ namespace IFCApp.Core.Geometry
         public Point3d Max { get; set; }
         public BBox(List<Point3d> points)
         {
-            double minX = 0;
-            double minY = 0;
-            double minZ = 0;
-            double maxX = 0;
-            double maxY = 0;
-            double maxZ = 0;
+            double minX = double.MaxValue;
+            double minY = double.MaxValue;
+            double minZ = double.MaxValue;
+            double maxX = double.MinValue;
+            double maxY = double.MinValue;
+            double maxZ = double.MinValue;
 
             foreach (var point in points)
             {
