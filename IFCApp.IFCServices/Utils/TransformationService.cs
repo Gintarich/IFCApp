@@ -30,13 +30,12 @@ namespace IFCApp.IFCServices.Utils
                 var placementMatrix = GetMatrix(placement);
 
                 // Combine with the cumulative transformation
-                cumulativeMatrix = cumulativeMatrix.Combine(placementMatrix);
+                cumulativeMatrix = placementMatrix.Combine(cumulativeMatrix);
 
                 // Move to the parent placement (if any)
                 placement = (placement as IIfcLocalPlacement)?.PlacementRelTo;
             }
-
-            return cumulativeMatrix.Combine(INVERSE);
+            return INVERSE.Combine(cumulativeMatrix);
         }
         public Matrix4d GetMatrix(IIfcObjectPlacement placement)
         {
