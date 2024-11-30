@@ -10,6 +10,19 @@ namespace IFCApp.Tests.UnitTests;
 public class MatrixTests
 {
     [TestMethod]
+    public void TestReturnVectors()
+    {
+        var mat = new Matrix4d( new double[,]
+        { 
+            {1,0,0,0}, 
+            {0,1,0,0}, 
+            {0,0,1,0}, 
+            {0,0,0,1}});
+        Assert.AreEqual(mat.XAxis,Vector3d.XAxis);
+        Assert.AreEqual(mat.YAxis,Vector3d.YAxis);
+        Assert.AreEqual(mat.ZAxis,Vector3d.ZAxis);
+    }
+    [TestMethod]
     public void ShouldTransLate()
     {
         var sut = Matrix4d.Translation(100, 100, 0);

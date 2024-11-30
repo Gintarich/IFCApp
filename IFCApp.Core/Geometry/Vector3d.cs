@@ -27,9 +27,9 @@ namespace IFCApp.Core.Geometry
         /// </summary>
         public double Z { get; set; } = z;
 
-        readonly public static Vector3d xAxis = new Vector3d(1, 0, 0);
-        readonly public static Vector3d yAxis = new Vector3d(0, 1, 0);
-        readonly public static Vector3d zAxis = new Vector3d(0, 0, 1);
+        readonly public static Vector3d XAxis = new Vector3d(1, 0, 0);
+        readonly public static Vector3d YAxis = new Vector3d(0, 1, 0);
+        readonly public static Vector3d ZAxis = new Vector3d(0, 0, 1);
 
         /// <summary>
         /// Calculates the magnitude (length) of the vector.
@@ -76,7 +76,6 @@ namespace IFCApp.Core.Geometry
                 X * other.Y - Y * other.X
             );
         }
-
         /// <summary>
         /// Adds two vectors.
         /// </summary>

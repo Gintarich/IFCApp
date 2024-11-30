@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IFCApp.Core.Elements;
 using IFCApp.Core.Geometry;
 using IFCApp.IFCServices;
 using IFCApp.IFCServices.Services;
@@ -42,20 +43,12 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllWindows()
     {
-        var model = _model.GetModel();
-        var labels = new List<int>() { 24175, 24184, 24215 };
-        var windows = model.Instances.OfType<IfcWindow>();
-
-        foreach ( var window in windows)
+        IfcWindowService serv = new IfcWindowService(_model);
+        var windows = serv.GetWindows();
+        foreach (var window in windows)
         {
-            var openingElement = window.FillsVoids.First().RelatingOpeningElement;
-            Debug.WriteLine(openingElement.Representation.Name.ToString());
-            var tforms = new TransformationService();
-            var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
-            BBoxService bBoxService = new BBoxService();
-            var box = bBoxService.GetBBox(openingElement.Representation, matrix);
             TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
-            gd.DrawBox(box);
+            gd.DrawBox(window.GetBox());
         }
     }
 }

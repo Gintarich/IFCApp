@@ -7,6 +7,9 @@ namespace IFCApp.Core.Geometry;
 
 public class Matrix4d
 {
+    public Vector3d XAxis { get => new Vector3d(_matrix[0, 0], _matrix[1,0], _matrix[2,0]); }
+    public Vector3d YAxis { get => new Vector3d(_matrix[0, 1], _matrix[1,1], _matrix[2,1]); }
+    public Vector3d ZAxis { get => new Vector3d(_matrix[0, 2], _matrix[1,2], _matrix[2,2]); }
     private readonly double[,] _matrix;
 
     public Matrix4d()
@@ -27,6 +30,16 @@ public class Matrix4d
     }
 
     public Matrix4d(Matrix4d mat) : this(mat.GetData()) { }
+    public Matrix4d(Vector3d x, Vector3d y, Vector3d z, Point3d origin)
+    {
+        _matrix = new double[,]
+        {
+            { x.X, y.X, z.X, origin.X },
+            { x.Y, y.Y, z.Y, origin.Y },
+            { x.Z, y.Z, z.Z, origin.Z },
+            { 0  , 0  , 0  , 1 }
+        };
+    }
 
     public double[,] GetData() { return _matrix; }
 
@@ -143,10 +156,10 @@ public class Matrix4d
     {
         Point3d result = new Point3d();
         for (int i = 0; i < 3; i++)
-        { 
-            for(int j = 0; j < 4; j++)
+        {
+            for (int j = 0; j < 4; j++)
             {
-                if(j == 3)
+                if (j == 3)
                 {
                     result[i] += _matrix[i, j];
                 }

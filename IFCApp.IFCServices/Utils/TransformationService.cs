@@ -50,9 +50,9 @@ namespace IFCApp.IFCServices.Utils
 
             var location = relativePlacement.Location;
 
-            Vector3d xAxis = Vector3d.xAxis;
-            Vector3d yAxis = Vector3d.yAxis;
-            Vector3d zAxis = Vector3d.zAxis;
+            Vector3d xAxis = Vector3d.XAxis;
+            Vector3d yAxis = Vector3d.YAxis;
+            Vector3d zAxis = Vector3d.ZAxis;
 
             if (relativePlacement.Axis != null)
             {

@@ -12,8 +12,8 @@ public class VectorTests
     [TestMethod]
     public void EnsureStaticFields()
     {
-        var axis = Vector3d.xAxis;
-        var copy = Vector3d.xAxis;
+        var axis = Vector3d.XAxis;
+        var copy = Vector3d.XAxis;
 
         axis.X = 100;
         axis.Y = 100;
@@ -22,11 +22,11 @@ public class VectorTests
     [TestMethod]
     public void EnsureCrossProduct()
     {
-        var xAxis = Vector3d.xAxis;
-        var zAxis = Vector3d.zAxis;
+        var xAxis = Vector3d.XAxis;
+        var zAxis = Vector3d.ZAxis;
 
         var testVec = zAxis.Cross(xAxis);
-        var expected = Vector3d.yAxis;
+        var expected = Vector3d.YAxis;
 
         Assert.AreEqual(expected, testVec);
     }
