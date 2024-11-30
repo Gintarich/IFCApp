@@ -26,12 +26,16 @@ namespace IFCApp.Core.Elements
         }
         public Point3d GetEndPoint()
         {
-            return _box.Min;
+            var pt = _box.Min;
+            pt.Round(0);
+            return pt;
         }
 
         public Point3d GetStartPoint()
         {
-            return _box.Max;
+            var pt = _box.Max;
+            pt.Round(0);
+            return pt;
         }
     }
 }
