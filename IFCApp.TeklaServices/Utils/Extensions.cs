@@ -64,4 +64,22 @@ public static class Extensions
         if (created == 1) return true;
         else return false;
     }
+    public static string GetStringProp(this ModelObject mo, string prop)
+    {
+        var val = string.Empty;
+        mo.GetReportProperty(prop, ref val);
+        return val;
+    }
+    public static double GetDoubleProp(this ModelObject mo, string prop)
+    {
+        double val = double.MinValue;
+        mo.GetReportProperty(prop, ref val);
+        return val;
+    }
+    public static int GetIntProp(this ModelObject mo, string prop)
+    {
+        int val = int.MinValue;
+        mo.GetReportProperty(prop, ref val);
+        return val;
+    }
 }

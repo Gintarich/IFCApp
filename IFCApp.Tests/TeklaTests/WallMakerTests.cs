@@ -1,4 +1,5 @@
 ﻿using IFCApp.TeklaServices;
+using IFCApp.TeklaServices.Services;
 using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,10 @@ public class WallMakerTests
     {
         //Picker picker = new Picker();
         //Tekla.Structures.Model.ModelObject obj = picker.PickObject(Picker.PickObjectEnum.PICK_ONE_OBJECT);
-        TeklaWallService wallMaker = new TeklaWallService();
-        var wall = wallMaker.GetWall(1056597);
+        TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
+        TeklaWallService wallMaker = new TeklaWallService(teklaBoundingBoxService);
+        var wall = wallMaker.GetWalls(["SIENAS PANELIS"]);
         TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
-        gd.DrawBox(wall.GetBox());
+        //gd.DrawBox(wall.GetBox());
     }
 }

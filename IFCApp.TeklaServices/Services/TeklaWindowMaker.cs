@@ -16,14 +16,13 @@ namespace IFCApp.TeklaServices;
 
 public class TeklaWindowMaker
 {
-    public TS.Component WindowComponent { get; }
+    private TS.Component _windowComponent;
     public List<Wall> Walls { get; }
     public TS.Model Model { get; }
 
     public TeklaWindowMaker(List<Wall> walls)
     {
         Walls = walls;
-        WindowComponent = SetupComponent();
         Model = new TS.Model();
     }
 
@@ -33,6 +32,14 @@ public class TeklaWindowMaker
         Model.CommitChanges();
         foreach (Wall wall in Walls)
         {
+            if (wall is SandwichPanel sandwichPanel)
+            {
+                _windowComponent = SetupComponent(sandwichPanel);
+            }
+            else
+            {
+                _windowComponent = SetupComponent();
+            }
             List<Window> windows = wall.GetWindows();
             foreach (Window window in windows)
             {
@@ -62,14 +69,18 @@ public class TeklaWindowMaker
         input.AddInputObject(father);
         input.AddOneInputPosition(startPoint);
         input.AddOneInputPosition(endPoint);
-        WindowComponent.SetComponentInput(input);
-        WindowComponent.Insert();
-        WindowComponent.SetUserProperty("Inserted", 1);
-        WindowComponent.Modify();
+        _windowComponent.SetComponentInput(input);
+        _windowComponent.Insert();
+        _windowComponent.SetUserProperty("Inserted", 1);
+        _windowComponent.Modify();
     }
 
-    private TS.Component SetupComponent()
+    private TS.Component SetupComponent(SandwichPanel sandwichPanel)
     {
+        Layers layers = sandwichPanel.Layers;
+        var insulationPart = 60;
+        double thickPartWidth = layers.InsulationThickness + layers.InnerLayerThickness - insulationPart;
+        double insulationOffset = layers.InsulationThickness - insulationPart;
         TS.Component opening = new TS.Component();
         opening.Name = "SandwichWallWindow";
         opening.Number = TS.Component.PLUGIN_OBJECT_NUMBER;
@@ -83,11 +94,11 @@ public class TeklaWindowMaker
         opening.SetAttribute("pict_pt1_off_z", 0.0);
         //TOP
         //Iekšējais
-        opening.SetAttribute("T_inside_cb", 2); // Otrais tips nesošajā slānī
-        opening.SetAttribute("T_inside_ext_h", 100.0); // Pabiezinājuma augstums
-        opening.SetAttribute("T_inside_ext_l", 320.0); // Pabiezinājuma garums
         opening.SetAttribute("T_inside_cut_y", 10.0);
         opening.SetAttribute("T_inside_cut_z", 10.0);
+        opening.SetAttribute("T_inside_cb", 2); // Otrais tips nesošajā slānī
+        opening.SetAttribute("T_inside_ext_h", 100.0); // Pabiezinājuma augstums
+        opening.SetAttribute("T_inside_ext_l", thickPartWidth); // Pabiezinājuma garums
         //Izoācija
         opening.SetAttribute("T_insul_off", 100.0); // Izolācijas offsets
         //Apdares slānis
@@ -96,7 +107,7 @@ public class TeklaWindowMaker
         opening.SetAttribute("T_wood.profile", "BL100*60"); // Profils 
         opening.SetAttribute("T_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("T_wood.name", "IZOLĀCIJA");
-        opening.SetAttribute("T_wood_offset_y", 120.0); // Profila offsets
+        opening.SetAttribute("T_wood_offset_y", insulationOffset); // Profila offsets
         //Lāsenis
         opening.SetAttribute("T_drip_cut_L", 10);
         opening.SetAttribute("T_drip_cut_length", 20.0);
@@ -112,19 +123,19 @@ public class TeklaWindowMaker
         opening.SetAttribute("B_fillers_cb", 0);
         opening.SetAttribute("B_inside_cb", 2);
         opening.SetAttribute("B_inside_ext_h", 90.0);
-        opening.SetAttribute("B_inside_ext_l", 320.0);
+        opening.SetAttribute("B_inside_ext_l", thickPartWidth);
         opening.SetAttribute("B_insul_cb", 0);
         opening.SetAttribute("B_insul_foil_cb", 0);
         opening.SetAttribute("B_insul_off", 90.0);
         opening.SetAttribute("B_outside_cb", 0);
-        opening.SetAttribute("B_outside_cut_y", 10.0);
-        opening.SetAttribute("B_outside_cut_z", 10.0);
+        opening.SetAttribute("B_outside_cut_y", layers.OuterLayerThickness);
+        opening.SetAttribute("B_outside_cut_z", 20.0);
         opening.SetAttribute("B_screws_def_type", 0);
         opening.SetAttribute("B_wood.profile", "BL90*60");
         opening.SetAttribute("B_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("B_wood.name", "IZOLĀCIJA");
         opening.SetAttribute("B_wood_cb", 0);
-        opening.SetAttribute("B_wood_offset_y", 120.0);
+        opening.SetAttribute("B_wood_offset_y", insulationOffset);
 
         opening.SetAttribute("L_con_slope_cb", 0);
         opening.SetAttribute("L_fillers_cb", 0);
@@ -132,20 +143,18 @@ public class TeklaWindowMaker
         opening.SetAttribute("L_inside_cut_y", 10.0);
         opening.SetAttribute("L_inside_cut_z", 10.0);
         opening.SetAttribute("L_inside_ext_h", 90.0);
-        opening.SetAttribute("L_inside_ext_l", 320.0);
+        opening.SetAttribute("L_inside_ext_l", thickPartWidth);
         opening.SetAttribute("L_insul_cb", 0);
         opening.SetAttribute("L_insul_foil_cb", 0);
         opening.SetAttribute("L_insul_off", 90.0);
         opening.SetAttribute("L_outside_cb", 0);
-        opening.SetAttribute("L_outside_cut_y", 10.0);
-        opening.SetAttribute("L_outside_cut_z", 10.0);
         opening.SetAttribute("L_outside_off", -30.0);
         opening.SetAttribute("L_screws_def_type", 0);
         opening.SetAttribute("L_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("L_wood.name", "IZOLĀCIJA");
         opening.SetAttribute("L_wood.profile", "BL90*60");
         opening.SetAttribute("L_wood_cb", 0);
-        opening.SetAttribute("L_wood_offset_y", 120.0);
+        opening.SetAttribute("L_wood_offset_y", insulationOffset);
         opening.SetAttribute("right_same_as_left", 0);
 
         opening.SetAttribute("create_screws", 2);
@@ -153,6 +162,13 @@ public class TeklaWindowMaker
         return opening;
     }
 
+    private TS.Component SetupComponent()
+    {
+        TS.Component opening = new TS.Component();
+        opening.Name = "SandwichWallWindow";
+        opening.Number = TS.Component.PLUGIN_OBJECT_NUMBER;
+        return opening;
+    }
     private void Clear()
     {
         var selector = Model.GetModelObjectSelector();

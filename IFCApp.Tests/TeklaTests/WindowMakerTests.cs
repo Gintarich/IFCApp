@@ -4,6 +4,7 @@ using IFCApp.IFCServices;
 using IFCApp.IFCServices.Services;
 using IFCApp.IFCServices.Utils;
 using IFCApp.TeklaServices;
+using IFCApp.TeklaServices.Services;
 using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace IFCApp.Tests.TeklaTests
             //Dependencies
             BBoxService bBoxService = new BBoxService();
             TransformationService transformationService = new TransformationService();
+            TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
             //Script
 
             //Get Windows
@@ -44,7 +46,7 @@ namespace IFCApp.Tests.TeklaTests
             var windows = winServ.GetWindows();
 
             //Get Walls
-            List<Wall> walls = new TeklaWallService().GetWalls("SIENAS PANELIS");
+            List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS"]);
 
             //Add Windows to walls
             foreach (Wall wall in walls)
