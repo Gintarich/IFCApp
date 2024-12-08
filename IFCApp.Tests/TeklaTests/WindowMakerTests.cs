@@ -2,6 +2,7 @@
 using IFCApp.Core.Geometry;
 using IFCApp.IFCServices;
 using IFCApp.IFCServices.Services;
+using IFCApp.IFCServices.Utils;
 using IFCApp.TeklaServices;
 using IFCApp.TeklaServices.Utils;
 using System;
@@ -32,14 +33,20 @@ namespace IFCApp.Tests.TeklaTests
         [TestMethod]
         public void AddAllWindows()
         {
+            //Dependencies
+            BBoxService bBoxService = new BBoxService();
+            TransformationService transformationService = new TransformationService();
+            //Script
+
+            //Get Windows
             IFCModel model = new IFCModel();
-            IfcWindowService winServ = new IfcWindowService(model);
+            IfcWindowService winServ = new IfcWindowService(model,transformationService,bBoxService);
             var windows = winServ.GetWindows();
+
+            //Get Walls
             List<Wall> walls = new TeklaWallService().GetWalls("SIENAS PANELIS");
-            //var wall = wallMaker.GetWall(1056597);
-            //wall.TeklaIdentifier = 1056597;
-            //TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
-            //gd.DrawBox(wall.GetBox());
+
+            //Add Windows to walls
             foreach (Wall wall in walls)
             {
                 foreach (var window in windows)

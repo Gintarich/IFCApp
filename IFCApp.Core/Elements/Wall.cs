@@ -22,7 +22,9 @@ public class Wall
 
     public Wall TryToAddWindow(Window window)
     {
-        if (_colider.Colides(this, window))
+        bool IsParallel = _box.IsParallel(window.GetBox());
+        bool colides = _colider.Colides(this, window);
+        if (colides && IsParallel)
         {
             window.FatherID = TeklaIdentifier;
             _windows.Add(window);

@@ -12,10 +12,14 @@ namespace IFCApp.IFCServices.Services
     public class IfcWindowService
     {
         private IFCModel _model;
+        private TransformationService _transformationService;
+        private BBoxService _boxService;
 
-        public IfcWindowService(IFCModel model)
+        public IfcWindowService(IFCModel model, TransformationService transformationService, BBoxService boxService)
         {
             _model = model;
+            _transformationService = transformationService;
+            _boxService = boxService;
         }
 
         public List<Window> GetWindows()
@@ -27,9 +31,9 @@ namespace IFCApp.IFCServices.Services
             foreach (var window in windows)
             {
                 var openingElement = window.FillsVoids.First().RelatingOpeningElement;
-                var tforms = new TransformationService();
+                var tforms = _transformationService;
                 var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
-                BBoxService bBoxService = new BBoxService();
+                BBoxService bBoxService = _boxService;
                 var box = bBoxService.GetBBox(openingElement.Representation, matrix).TrimBoxWidth(1000);
                 windowsOut.Add(new Window(box));
             }

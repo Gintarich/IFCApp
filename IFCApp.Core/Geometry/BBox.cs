@@ -92,5 +92,12 @@ namespace IFCApp.Core.Geometry
             var pt2 = _coordinateSystem.Apply(_max);
             return CreateBox([pt1, pt2]).Max;
         }
+
+        public bool IsParallel(BBox other)
+        {
+            var thisYAxis = _coordinateSystem.YAxis;
+            var otherYAxis = other.CS.YAxis;
+            return Math.Abs(thisYAxis.Dot(otherYAxis)) > 0.99;
+        }
     }
 }

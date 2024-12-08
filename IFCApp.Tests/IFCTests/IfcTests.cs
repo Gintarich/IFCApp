@@ -43,7 +43,9 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllWindows()
     {
-        IfcWindowService serv = new IfcWindowService(_model);
+        TransformationService transformationService = new TransformationService();
+        BBoxService boxService = new BBoxService();
+        IfcWindowService serv = new IfcWindowService(_model,transformationService,boxService);
         var windows = serv.GetWindows();
         foreach (var window in windows)
         {
