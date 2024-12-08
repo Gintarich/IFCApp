@@ -30,6 +30,7 @@ public class TeklaWindowMaker
     public void GenerateOpenings()
     {
         Clear();
+        Model.CommitChanges();
         foreach (Wall wall in Walls)
         {
             List<Window> windows = wall.GetWindows();
