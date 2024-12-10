@@ -8,7 +8,7 @@ public class Wall
 {
     public int TeklaIdentifier { get; set; }
 
-    private List<Window> _windows = new List<Window>();
+    private List<Opening> _openings = new List<Opening>();
     private BBox _box;
     private Matrix4d _matrix;
     private Colider _colider = new Colider();
@@ -20,21 +20,21 @@ public class Wall
     }
     public Wall(BBox box):this(box,new Matrix4d()) { }
 
-    public Wall TryToAddWindow(Window window)
+    public Wall TryToAddOpening(Opening opening)
     {
-        bool IsParallel = _box.IsParallel(window.GetBox());
-        bool colides = _colider.Colides(this, window);
+        bool IsParallel = _box.IsParallel(opening.GetBox());
+        bool colides = _colider.Colides(this, opening);
         if (colides && IsParallel)
         {
-            window.FatherID = TeklaIdentifier;
-            _windows.Add(window);
+            opening.FatherID = TeklaIdentifier;
+            _openings.Add(opening);
         }
         return this;
     }
 
-    public List<Window> GetWindows()
+    public List<Opening> GetWindows()
     {
-        return _windows;
+        return _openings;
     }
     public BBox GetBox()
     {

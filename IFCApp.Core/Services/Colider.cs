@@ -9,11 +9,11 @@ namespace IFCApp.Core.Services;
 
 public class Colider
 {
-    public bool Colides(Wall wall, Window window)
+    public bool Colides(Wall wall, Opening opening)
     {
         var wallBox = wall.GetBox();
-        var windowBox = window.GetBox();
-        return Colides(wallBox, windowBox);
+        var openingBox = opening.GetBox();
+        return Colides(wallBox, openingBox);
     }
     public bool Colides( BBox box, BBox other)
     {

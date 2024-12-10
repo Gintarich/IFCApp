@@ -5,17 +5,17 @@ using System.Text;
 
 namespace IFCApp.Core.Elements
 {
-    public class Window
+    public class Opening
     {
         private BBox _box;
         public int FatherID { get; set; }
 
-        public Window(Point3d startPoint, Point3d endPoint, int fatherID = 0)
+        public Opening(Point3d startPoint, Point3d endPoint, int fatherID = 0)
         {
             FatherID = fatherID;
             _box = new BBox([startPoint, endPoint]);
         }
-        public Window(BBox box, int fatherID = 0)
+        public Opening(BBox box, int fatherID = 0)
         {
             _box = box;
             FatherID = fatherID;
