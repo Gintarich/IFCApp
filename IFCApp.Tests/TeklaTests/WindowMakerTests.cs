@@ -23,8 +23,8 @@ namespace IFCApp.Tests.TeklaTests
             List<Wall> walls = new List<Wall>()
             {
                 new Wall(new BBox([new Point3d(50000,-400,0), new Point3d(80000,400,4000)]),new Matrix4d())
-                    .TryToAddWindow(new Window(new Point3d(65000,0,1000),new Point3d(67000,0,3000),1047717))
-                    .TryToAddWindow(new Window(new Point3d(70000,0,1000),new Point3d(72000,0,3000),1047717))
+                    .TryToAddOpening(new Opening(new Point3d(65000,0,1000),new Point3d(67000,0,3000),1047717))
+                    .TryToAddOpening(new Opening(new Point3d(70000,0,1000),new Point3d(72000,0,3000),1047717))
             };
 
             var windowMaker = new TeklaWindowMaker(walls);
@@ -53,7 +53,7 @@ namespace IFCApp.Tests.TeklaTests
             {
                 foreach (var window in windows)
                 {
-                    wall.TryToAddWindow(window);
+                    wall.TryToAddOpening(window);
                 }
             }
             TeklaWindowMaker wm = new TeklaWindowMaker(walls); 
