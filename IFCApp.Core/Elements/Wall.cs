@@ -32,9 +32,9 @@ public class Wall
         return this;
     }
 
-    public List<Opening> GetWindows()
+    public List<Window> GetWindows()
     {
-        return _openings;
+        return _openings.Where(x=>x is Window).Cast<Window>().ToList();
     }
     public BBox GetBox()
     {
