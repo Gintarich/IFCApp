@@ -36,6 +36,10 @@ public class Wall
     {
         return _openings.Where(x=>x is Window).Cast<Window>().ToList();
     }
+    public List<Door> GetDoors()
+    {
+        return _openings.Where(x=>x is Door).Cast<Door>().ToList();
+    }
     public BBox GetBox()
     {
         return _box;

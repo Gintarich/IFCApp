@@ -20,6 +20,8 @@ namespace IFCApp.Tests.TeklaTests
         [TestMethod]
         public void TestIfWindowsGetsCreated()
         {
+            TeklaDoorConfig dCfng = new TeklaDoorConfig();
+            TeklaWindowConfig wCfig = new TeklaWindowConfig();
             List<Wall> walls = new List<Wall>()
             {
                 new Wall(new BBox([new Point3d(50000,-400,0), new Point3d(80000,400,4000)]),new Matrix4d())
@@ -27,7 +29,7 @@ namespace IFCApp.Tests.TeklaTests
                     .TryToAddOpening(new Opening(new Point3d(70000,0,1000),new Point3d(72000,0,3000),1047717))
             };
 
-            var windowMaker = new TeklaWindowMaker(walls);
+            var windowMaker = new TeklaOpeningMaker(walls,wCfig,dCfng);
             windowMaker.GenerateOpenings();
         }
 
@@ -38,11 +40,13 @@ namespace IFCApp.Tests.TeklaTests
             BBoxService bBoxService = new BBoxService();
             TransformationService transformationService = new TransformationService();
             TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
+            TeklaDoorConfig dCfng = new TeklaDoorConfig();
+            TeklaWindowConfig wCfig = new TeklaWindowConfig();
             //Script
 
             //Get Windows
             IFCModel model = new IFCModel();
-            IfcWindowService winServ = new IfcWindowService(model,transformationService,bBoxService);
+            IfcWindowService winServ = new IfcWindowService(model, transformationService, bBoxService);
             var windows = winServ.GetWindows();
 
             //Get Walls
@@ -56,7 +60,7 @@ namespace IFCApp.Tests.TeklaTests
                     wall.TryToAddOpening(window);
                 }
             }
-            TeklaWindowMaker wm = new TeklaWindowMaker(walls); 
+            TeklaOpeningMaker wm = new TeklaOpeningMaker(walls, wCfig, dCfng);
             wm.GenerateOpenings();
         }
     }

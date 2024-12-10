@@ -20,7 +20,7 @@ public class IfcDoorService
         _transformationService = transformationService;
         _boxService = boxService;
     }
-    public List<Door> GetDoor()
+    public List<Door> GetDoors()
     {
         var doorsOut = new List<Door>();
         var model = _model.GetModel();

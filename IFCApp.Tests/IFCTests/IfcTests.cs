@@ -53,4 +53,17 @@ public class IfcTests
             gd.DrawBox(window.GetBox());
         }
     }
+    [TestMethod]
+    public void MustGetAllDoors()
+    {
+        TransformationService transformationService1 = new TransformationService();
+        BBoxService boxService1 = new BBoxService();
+        IfcDoorService doorService = new IfcDoorService(_model,transformationService1,boxService1);
+        var doors = doorService.GetDoors();
+        foreach (var door in doors)
+        {
+            TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
+            gd.DrawBox(door.GetBox());
+        }
+    }
 }
