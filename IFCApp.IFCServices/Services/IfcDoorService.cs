@@ -33,6 +33,10 @@ public class IfcDoorService
             var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
             BBoxService bBoxService = _boxService;
             var box = bBoxService.GetBBox(openingElement.Representation, matrix).TrimBoxWidth(1000);
+            var len = door.OverallWidth.Value;
+            var height = door.OverallHeight.Value;
+            box = box.TrimBoxLength(len);
+            box = box.SetHeight(height);
             doorsOut.Add(new Door(box));
         }
         return doorsOut;

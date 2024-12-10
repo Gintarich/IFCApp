@@ -36,6 +36,37 @@ namespace IFCApp.Core.Geometry
             }
             return this;
         }
+        public BBox TrimBoxLength(double length)
+        {
+            var halfBox = length / 2;
+            if (_min.X < -halfBox)
+            {
+                _min = new Point3d(-halfBox, _min.Y, _min.Z);
+            }
+            if (_max.X > halfBox)
+            {
+                _max = new Point3d(halfBox, _max.Y, _max.Z);
+            }
+            return this;
+        }
+        public BBox TrimBoxHeight(double height)
+        {
+            var halfBox = height / 2;
+            if (_min.Z < -halfBox)
+            {
+                _min = new Point3d(_min.X, _min.Y, -halfBox);
+            }
+            if (_max.Z > halfBox)
+            {
+                _max = new Point3d(_min.X, _max.Y, halfBox);
+            }
+            return this;
+        }
+        public BBox SetHeight(double height)
+        {
+            _max.Z = height;
+            return this;
+        }
 
         /// <summary>
         /// Checks if this bounding box intersects or touches another bounding box.
