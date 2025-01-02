@@ -38,7 +38,7 @@ namespace IFCApp.Tests.TeklaTests
         {
             //Dependencies
             BBoxService bBoxService = new BBoxService();
-            TransformationService transformationService = new TransformationService();
+            TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseBol);
             TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
             TeklaDoorConfig dCfng = new TeklaDoorConfig();
             TeklaWindowConfig wCfig = new TeklaWindowConfig();

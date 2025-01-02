@@ -7,7 +7,7 @@ namespace IFCApp.Core.Elements;
 public class Wall
 {
     public int TeklaIdentifier { get; set; }
-
+    public bool ShouldHaveOpening { get; set; }
     private List<Opening> _openings = new List<Opening>();
     private BBox _box;
     private Matrix4d _matrix;
@@ -22,6 +22,7 @@ public class Wall
 
     public Wall TryToAddOpening(Opening opening)
     {
+        if (!ShouldHaveOpening) return this;
         bool IsParallel = _box.IsParallel(opening.GetBox());
         bool colides = _colider.Colides(this, opening);
         if (colides && IsParallel)

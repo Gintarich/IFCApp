@@ -13,11 +13,12 @@ namespace IFCApp.IFCServices
     public class IFCModel
     {
 
-        const string fileName = "KUL-7AM-00-00-M3-AR-0001.ifc";
+        readonly string _fileName;
         readonly IfcStore _model;
 
-        public IFCModel()
+        public IFCModel(string fileName = "KUL-7AM-00-00-M3-AR-0001.ifc" )
         {
+            _fileName = fileName;
             var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var path = Path.Combine(desktop, fileName );
             _model = IfcStore.Open(path);

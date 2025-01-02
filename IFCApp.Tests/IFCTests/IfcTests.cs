@@ -22,18 +22,18 @@ public class IfcTests
     public IFCModel _model { get; set; }
     public IfcTests()
     {
-        var model = new IFCModel();
+        var model = new IFCModel("BOL-7AM-00-00-M3-AR-0001.ifc");
         _model = model;
     }
     [TestMethod]
     public void MustGetWindow()
     {
         var model = _model.GetModel();
-        var labels = new List<int>() { 28820 };
+        var labels = new List<int>() { 11358 };
         var window = model.Instances.OfType<IfcWindow>().Where(x => labels.Contains(x.EntityLabel)).ToList().FirstOrDefault();
         var openingElement = window.FillsVoids.First().RelatingOpeningElement;
 
-        var tforms = new TransformationService();
+        var tforms = new TransformationService(VUGDCoordinateSystems.InverseBol);
         var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
         BBoxService bBoxService = new BBoxService();
         var box = bBoxService.GetBBox(openingElement.Representation, matrix);
@@ -43,7 +43,7 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllWindows()
     {
-        TransformationService transformationService = new TransformationService();
+        TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseBol);
         BBoxService boxService = new BBoxService();
         IfcWindowService serv = new IfcWindowService(_model,transformationService,boxService);
         var windows = serv.GetWindows();
@@ -56,7 +56,7 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllDoors()
     {
-        TransformationService transformationService1 = new TransformationService();
+        TransformationService transformationService1 = new TransformationService(VUGDCoordinateSystems.InverseBol);
         BBoxService boxService1 = new BBoxService();
         IfcDoorService doorService = new IfcDoorService(_model,transformationService1,boxService1);
         var doors = doorService.GetDoors();

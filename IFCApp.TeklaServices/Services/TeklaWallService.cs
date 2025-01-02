@@ -56,17 +56,19 @@ public class TeklaWallService
         {
             TeklaLayerService teklaLayerService = new TeklaLayerService(panel);
             var mainPart = panel.GetMainPart() as TS.Beam;
-            if (teklaLayerService.GetLayerCount()>1)
+            if (teklaLayerService.GetLayerCount() > 1)
             {
                 var layers = teklaLayerService.GetLayers();
                 var box = _boundingBoxService.GetBox(mainPart);
                 var sandwichPanel = new SandwichPanel(box, layers);
+                sandwichPanel.ShouldHaveOpening = ShouldHaveOpening(panel);
                 sandwichPanel.TeklaIdentifier = mainPart.Identifier.ID;
                 walls.Add(sandwichPanel);
             }
             else
             {
                 var wallPanel = new WallPanel(_boundingBoxService.GetBox(mainPart));
+                wallPanel.ShouldHaveOpening = ShouldHaveOpening(panel);
                 wallPanel.TeklaIdentifier = mainPart.Identifier.ID;
                 walls.Add(wallPanel);
             }
@@ -81,5 +83,9 @@ public class TeklaWallService
         BBox box = _boundingBoxService.GetBox(beam);
         Wall wall = new Wall(box);
         return wall;
+    }
+    private bool ShouldHaveOpening(Assembly assembly)
+    {
+        return assembly.GetIntProp("ShouldHaveOpening") == 0 ? false : true;
     }
 }

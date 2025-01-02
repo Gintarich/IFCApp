@@ -11,13 +11,12 @@ namespace IFCApp.IFCServices.Utils
 {
     public class TransformationService
     {
-        public static readonly Matrix4d INVERSE = new Matrix4d( new double[,]
+        private readonly Matrix4d _inverse ;
+
+        public TransformationService(Matrix4d inverse)
         {
-            {0.515038078489869 ,   0.857167298551142,    0, -463783847.754614 },
-            {-0.857167298551142,   0.515038078489869,    0, 159621882.973248 },
-            {0,                    0,                    1, -32200    },
-            {0,                    0,                    0, 1        }
-        });
+            _inverse = inverse;
+        }
 
         public Matrix4d GetTransformation(IIfcObjectPlacement placement)
         {
@@ -30,12 +29,15 @@ namespace IFCApp.IFCServices.Utils
                 var placementMatrix = GetMatrix(placement);
 
                 // Combine with the cumulative transformation
+                //cumulativeMatrix = cumulativeMatrix.Combine(placementMatrix);
                 cumulativeMatrix = placementMatrix.Combine(cumulativeMatrix);
 
                 // Move to the parent placement (if any)
                 placement = (placement as IIfcLocalPlacement)?.PlacementRelTo;
             }
-            return INVERSE.Combine(cumulativeMatrix);
+            var ttt = cumulativeMatrix.Combine(_inverse);
+            var tt2 = _inverse.Combine(cumulativeMatrix);
+            return _inverse.Combine(cumulativeMatrix);
         }
         public Matrix4d GetMatrix(IIfcObjectPlacement placement)
         {
