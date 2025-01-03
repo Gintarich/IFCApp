@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IFCApp.Core.Elements
 {
-    public class Opening
+    public class Opening : ElementBase
     {
         private BBox _box;
         public int FatherID { get; set; }

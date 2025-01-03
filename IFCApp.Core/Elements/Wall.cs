@@ -4,13 +4,29 @@ using IFCApp.Core.Services;
 
 namespace IFCApp.Core.Elements;
 
-public class Wall
+public class Wall : ElementBase
 {
     public int TeklaIdentifier { get; set; }
     public bool ShouldHaveOpening { get; set; }
     private List<Opening> _openings = new List<Opening>();
+    public List<Opening> Openings
+    {
+        get { return _openings; }
+        set { _openings = value; }
+    }
+
     private BBox _box;
+    public BBox Box
+    {
+        get { return _box; }
+        set { _box = value; }
+    }
     private Matrix4d _matrix;
+    public Matrix4d Matrix
+    {
+        get { return _matrix; }
+        set { _matrix = value; }
+    }
     private Colider _colider = new Colider();
 
     public Wall(BBox box, Matrix4d cs)
