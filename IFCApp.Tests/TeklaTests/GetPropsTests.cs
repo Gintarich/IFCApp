@@ -18,10 +18,10 @@ public class GetPropsTests
 
         var ass = picker.PickObject(Picker.PickObjectEnum.PICK_ONE_OBJECT) as Assembly;
         int number = -1;
-        ass.GetReportProperty("ShouldHaveOpening", ref number);
+        ass.GetUserProperty("ShouldHaveOpening", ref number);
         string text = string.Empty;
-        ass.GetReportProperty("ShouldHaveOpening", ref text);
+        ass.GetUserProperty("ShouldHaveOpening", ref text);
         double floating = -1;
-        ass.GetReportProperty("ShouldHaveOpening", ref floating);
+        ass.GetUserProperty("ShouldHaveOpening", ref floating);
     }
 }

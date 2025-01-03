@@ -86,6 +86,8 @@ public class TeklaWallService
     }
     private bool ShouldHaveOpening(Assembly assembly)
     {
-        return assembly.GetIntProp("ShouldHaveOpening") == 0 ? false : true;
+        int shouldHaveOpening = int.MinValue;
+        assembly.GetUserProperty("ShouldHaveOpening", ref shouldHaveOpening);
+        return shouldHaveOpening == 0 ? false : true;
     }
 }

@@ -72,7 +72,7 @@ public class OpeningMakerTests
         var windows = windowService.GetWindows();
 
         //Get Walls
-        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS"]);
+        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS", "MŪRA SIENA"]);
 
         //Add doors to walls
         foreach (Wall wall in walls)
