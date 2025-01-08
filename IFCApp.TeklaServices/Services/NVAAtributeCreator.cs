@@ -38,7 +38,7 @@ public class NVAAtributeCreator
         }
         catch (KeyNotFoundException e)
         {
-            throw new KeyNotFoundException($"The value that broke dict{teklaMat}");
+            throw new KeyNotFoundException($"The value that broke dict {teklaMat}");
         }
         pt.SetUserProperty("NOSAUKUMS", name);
         pt.SetUserProperty("MATERIALS", material);
@@ -52,8 +52,16 @@ public class NVAAtributeCreator
         if (!AttributeMapper.MaterialFromNames.TryGetValue(name, out material))
         {
             var mp = ass.GetMainPart() as Part;
-            material = mp.GetStringProp("MATERIAL_TYPE");
-            material = AttributeMapper.Material[material];
+            var materialType = mp.GetStringProp("MATERIAL_TYPE");
+            if (materialType == "MISCELLANEOUS")
+            {
+                var materialName = mp.Material.MaterialString;
+                material = AttributeMapper.Material[materialName];
+            }
+            else
+            {
+                material = AttributeMapper.Material[materialType];
+            }
         }
         ass.SetUserProperty("NOSAUKUMS", name);
         ass.SetUserProperty("MATERIALS", material);
@@ -66,6 +74,7 @@ public class AttributeMapper
     public static Dictionary<string, string> Material { get; set; } = new Dictionary<string, string>
     {
         { "CONCRETE", "DZELZSBETONS" },
+        { "Keramzitbetons", "KERAMZĪTBETONS" },
         { "STEEL", "TĒRAUDS" },
         { "Insulation_hard", "IZOLĀCIJA" },
         { "KOOLTHERM K20", "IZOLĀCIJA" }
