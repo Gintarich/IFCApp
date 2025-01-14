@@ -39,6 +39,15 @@ public static class Extensions
         }
         return list;
     }
+    public static List<T> ToList<T>(this ArrayList array)
+    {
+        var list = new List<T>();
+        foreach (var item in array)
+        {
+            if (item is T) list.Add((T)item);
+        }
+        return list;
+    }
     public static OBB GetObb(this Beam beam)
     {
         var cs = beam.GetCoordinateSystem();
@@ -61,6 +70,14 @@ public static class Extensions
     {
         int created = int.MaxValue;
         comp.GetUserProperty("Inserted", ref created);
+        if (created == 1) return true;
+        else return false;
+    }
+
+    public static bool IsUserCreated(this Part part)
+    {
+        int created = int.MaxValue;
+        part.GetUserProperty("Inserted", ref created);
         if (created == 1) return true;
         else return false;
     }

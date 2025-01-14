@@ -61,6 +61,7 @@ public class TeklaWallService
                 var layers = teklaLayerService.GetLayers();
                 var box = _boundingBoxService.GetBox(mainPart);
                 var sandwichPanel = new SandwichPanel(box, layers);
+                sandwichPanel.LayerCount = teklaLayerService.GetLayerCount();
                 sandwichPanel.ShouldHaveOpening = ShouldHaveOpening(panel);
                 sandwichPanel.TeklaIdentifier = mainPart.Identifier.ID;
                 walls.Add(sandwichPanel);

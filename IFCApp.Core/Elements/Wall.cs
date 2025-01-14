@@ -43,6 +43,8 @@ public class Wall : ElementBase
         bool colides = _colider.Colides(this, opening);
         if (colides && IsParallel)
         {
+            var overlap = _box.OverlapVolume(opening.GetBox());
+            if (overlap<1000) { return this; } // If overlap is small then dont add opening
             opening.FatherID = TeklaIdentifier;
             _openings.Add(opening);
         }
@@ -61,4 +63,5 @@ public class Wall : ElementBase
     {
         return _box;
     }
+
 }

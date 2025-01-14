@@ -13,6 +13,7 @@ namespace IFCApp.Core.Geometry
         private Point3d _max;
         private Point3d _min;
 
+
         public BBox(List<Point3d> Points)
         {
             var minMax = CreateBox(Points);
@@ -129,6 +130,23 @@ namespace IFCApp.Core.Geometry
             var thisYAxis = _coordinateSystem.YAxis;
             var otherYAxis = other.CS.YAxis;
             return Math.Abs(thisYAxis.Dot(otherYAxis)) > 0.99;
+        }
+        public double OverlapVolume(BBox other)
+        {
+            // Get the transformed (global) min and max points for both boxes.
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+            Point3d otherMin = other.GetMin();
+            Point3d otherMax = other.GetMax();
+
+
+            // Calculate the overlapping extents along the X, Y, and Z axes.
+            double overlapX = Math.Max(0, Math.Min(thisMax.X, otherMax.X) - Math.Max(thisMin.X, otherMin.X));
+            double overlapY = Math.Max(0, Math.Min(thisMax.Y, otherMax.Y) - Math.Max(thisMin.Y, otherMin.Y));
+            double overlapZ = Math.Max(0, Math.Min(thisMax.Z, otherMax.Z) - Math.Max(thisMin.Z, otherMin.Z));
+
+            // The overlapping volume is the product of the overlaps in X, Y, and Z.
+            return overlapX * overlapY * overlapZ;
         }
     }
 }

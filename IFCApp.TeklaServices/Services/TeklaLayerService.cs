@@ -20,9 +20,10 @@ public class TeklaLayerService
         var mainPart = _assembly.GetMainPart();
         _component = mainPart.GetFatherComponent() as Component;
         if (_component is null)
-            throw new ArgumentNullException(
-                "Component",
-                "Not intended for wall panels that is not based on WallLayot tool");
+        {
+            _layers.Add(0);
+            return;
+        }
         var str = string.Empty;
         _component.GetUserProperty("ActiveLayers", ref str);
         _layers = str.Split(';').Select(x => Int32.Parse(x)).ToList();
