@@ -67,6 +67,24 @@ public class NVAAtributeCreator
         ass.SetUserProperty("MATERIALS", material);
         ass.Modify();
     }
+    public void CreateClassification(Assembly ass)
+    {
+        var name = ass.Name;
+        if (AttributeMapper.Clasification.TryGetValue(name, out var clasification))
+        {
+            ass.SetUserProperty("KLASIFIKACIJA", clasification);
+            ass.Modify();
+        }
+    }
+    public void CreateClassification(Part part)
+    {
+        var name = part.Name;
+        if (AttributeMapper.Clasification.TryGetValue(name, out var clasification))
+        {
+            part.SetUserProperty("KLASIFIKACIJA", clasification);
+            part.Modify();
+        }
+    }
 }
 
 public class AttributeMapper
@@ -82,5 +100,23 @@ public class AttributeMapper
     public static Dictionary<string, string> MaterialFromNames { get; set; } = new Dictionary<string, string>
     {
         {"SIENAS PANELIS", "DZLEZSBETONA PANELIS AR SILTUMIZOLĀCIJU" }
+    };
+    public static Dictionary<string, string> Clasification { get; set; } = new Dictionary<string, string>
+    {
+        {"IZOLĀCIJA", "BE_07_15_03_00" },
+        {"NESOŠAIS SLĀNIS", "BE_07_15_03_00"},
+        {"PIELI", ""},
+        {"PĀRSEGUMA PANELIS", "BE_07_19_03_00"},
+        {"APDARES ĶIEĢELIS", "BE_07_15_03_00"},
+        {"METĀLA SIJA", "BE_07_21_05_00" },
+        {"APDARES SLĀNIS", "BE_07_15_03_00"},
+        {"SILTUMIZOLĀCIJA", "BE_07_15_03_00"},
+        {"PADZIĻINĀJUMS", "BE_07_07_01_00"},
+        {"RVL100","BE_07_33_07_00"},
+        {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00"},
+        {"PAMATU PLĀTNE","BE_07_07_01_00"},
+        {"KUBS",""},
+        {"SIENAS PANELIS", "BE_07_15_03_00"},
+        {"SCHOCK DORN SLD 50", "BE_07_33_07_00"},
     };
 }
