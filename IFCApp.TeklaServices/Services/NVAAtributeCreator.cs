@@ -103,20 +103,20 @@ public class AttributeMapper
     };
     public static Dictionary<string, string> Clasification { get; set; } = new Dictionary<string, string>
     {
-        {"IZOLĀCIJA", "BE_07_15_03_00" },
-        {"NESOŠAIS SLĀNIS", "BE_07_15_03_00"},
+        {"IZOLĀCIJA", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas" },
+        {"NESOŠAIS SLĀNIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"PIELI", ""},
-        {"PĀRSEGUMA PANELIS", "BE_07_19_03_00"},
-        {"APDARES ĶIEĢELIS", "BE_07_15_03_00"},
-        {"METĀLA SIJA", "BE_07_21_05_00" },
-        {"APDARES SLĀNIS", "BE_07_15_03_00"},
-        {"SILTUMIZOLĀCIJA", "BE_07_15_03_00"},
-        {"PADZIĻINĀJUMS", "BE_07_07_01_00"},
-        {"RVL100","BE_07_33_07_00"},
-        {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00"},
-        {"PAMATU PLĀTNE","BE_07_07_01_00"},
+        {"PĀRSEGUMA PANELIS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"APDARES ĶIEĢELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
+        {"METĀLA SIJA", "BE_07_21_05_00_Tērauda sijas" },
+        {"APDARES SLĀNIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
+        {"SILTUMIZOLĀCIJA", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
+        {"PADZIĻINĀJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
+        {"RVL100","BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"PAMATU PLĀTNE", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"KUBS",""},
-        {"SIENAS PANELIS", "BE_07_15_03_00"},
-        {"SCHOCK DORN SLD 50", "BE_07_33_07_00"},
+        {"SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
+        {"SCHOCK DORN SLD 50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
     };
 }
