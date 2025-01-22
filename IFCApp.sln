@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IFCApp.TeklaServices", "IFC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFCApp.IFCServices", "IFCApp.IFCServices\IFCApp.IFCServices.csproj", "{EE849465-D0A1-4E77-B6AF-24FC3CEFB76D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFCApp.UI", "IFCApp.UI\IFCApp.UI.csproj", "{D074A090-68C9-49DA-87D1-1409F2C1DD4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFCApp.GBApp", "IFCApp.GBApp\IFCApp.GBApp.csproj", "{BF3CEF0B-4774-4151-9154-658220A46F4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{EE849465-D0A1-4E77-B6AF-24FC3CEFB76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE849465-D0A1-4E77-B6AF-24FC3CEFB76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE849465-D0A1-4E77-B6AF-24FC3CEFB76D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D074A090-68C9-49DA-87D1-1409F2C1DD4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D074A090-68C9-49DA-87D1-1409F2C1DD4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D074A090-68C9-49DA-87D1-1409F2C1DD4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D074A090-68C9-49DA-87D1-1409F2C1DD4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF3CEF0B-4774-4151-9154-658220A46F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF3CEF0B-4774-4151-9154-658220A46F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF3CEF0B-4774-4151-9154-658220A46F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF3CEF0B-4774-4151-9154-658220A46F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel">
+
+
+    <!--Colors-->
+    <SolidColorBrush x:Key="Grey" Color="#8f98a1" />
+    <SolidColorBrush x:Key="Black" Color="#2e2e35" />
+    <SolidColorBrush x:Key="White" Color="#eeeeee" />
+
+    <Style x:Key="WinAll" TargetType="{x:Type Window}">
+        <Setter Property="FontFamily"
+                Value="Sans Serif Collection" />
+        <Setter Property="FontSize"
+                Value="14" />
+    </Style>
+
+    <!--Labels-->
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource Black}"/>
+        <Setter Property="FontSize" Value="40"/>
+    </Style>
+    <Style x:Key="TitleBoxLabel" TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource Black}" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    <!--Buttons-->
+    <Style x:Key="HorPanelButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Black}"/>
+        <Setter Property="Foreground" Value="{StaticResource White}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Width" Value="120" />
+    </Style>
+    <!--View Model Mapping-->
+    <!--<DataTemplate DataType="{x:Type paramvm:ParametersViewModel}">
+        <paramv:Parameters/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type paramvm:ProjectParametersSectionViewModel}">
+        <paramv:ProjectParametersView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type paramvm:DrawingParametersSectionViewModel}">
+        <paramv:DrawingParametersView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AppTwoViewModel}">
+        <views:AppTwoView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AppThreeViewModel}">
+        <views:AppThreeView/>
+    </DataTemplate>-->
+
+</ResourceDictionary>
