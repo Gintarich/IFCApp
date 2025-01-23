@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IFCApp.TeklaServices.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,11 @@ public class GetPropsTests
         ass.GetUserProperty("ShouldHaveOpening", ref text);
         double floating = -1;
         ass.GetUserProperty("ShouldHaveOpening", ref floating);
+    }
+    [TestMethod]
+    public void ShouldGetName()
+    {
+        var name = ModelAttributeServer.GetModelName();
+        var path = ModelAttributeServer.GetFilePath();
     }
 }

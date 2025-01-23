@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel">
-
-
+                    xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel"
+                    xmlns:views="clr-namespace:IFCApp.UI.View"
+                    xmlns:sectionViews="clr-namespace:IFCApp.UI.View.Sections"
+                    xmlns:sectionVMS="clr-namespace:IFCApp.UI.ViewModel.Sections">
     <!--Colors-->
     <SolidColorBrush x:Key="Grey" Color="#8f98a1" />
     <SolidColorBrush x:Key="Black" Color="#2e2e35" />
@@ -31,23 +32,15 @@
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Width" Value="120" />
     </Style>
-    <!--View Model Mapping-->
-    <!--<DataTemplate DataType="{x:Type paramvm:ParametersViewModel}">
-        <paramv:Parameters/>
+    <DataTemplate DataType="{x:Type viewModels:ModelManagerVM}">
+        <views:CanvasView/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type paramvm:ProjectParametersSectionViewModel}">
-        <paramv:ProjectParametersView/>
+    <DataTemplate DataType="{x:Type sectionVMS:OpeningsVM}">
+        <sectionViews:Openings/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type paramvm:DrawingParametersSectionViewModel}">
-        <paramv:DrawingParametersView/>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModels:AppTwoViewModel}">
-        <views:AppTwoView/>
+    <DataTemplate DataType="{x:Type sectionVMS:ParametersVM}">
+        <sectionViews:Parameters/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:AppThreeViewModel}">
-        <views:AppThreeView/>
-    </DataTemplate>-->
 
 </ResourceDictionary>

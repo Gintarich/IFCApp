@@ -2,6 +2,7 @@
 using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,12 +26,9 @@ public class AttributeCreatorTests
         var combo = beams.Concat(plates).Concat(assemblies);
         foreach ( var part in combo)
         {
-            //if(part.Name == "RVL100" )
-            //{
-            //    Console.WriteLine("RVL");
-            //}
             creator.CreateAttributes(part);
         }
+        model.CommitChanges();
     }
     [TestMethod]
     public void ShouldCreateClasification()

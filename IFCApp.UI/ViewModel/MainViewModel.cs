@@ -17,4 +17,8 @@ class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(SelectedViewModel));
         }
     }
+    public MainViewModel()
+    {
+        _selectedViewModel = new ModelManagerVM();
+    }
 }
