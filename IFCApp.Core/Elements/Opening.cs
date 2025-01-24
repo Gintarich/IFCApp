@@ -7,33 +7,37 @@ namespace IFCApp.Core.Elements
 {
     public class Opening : ElementBase
     {
-        private BBox _box;
+        public BBox Box { get; set; }
         public int FatherID { get; set; }
 
+        public Opening()
+        {
+            Box = new BBox();
+        }
         public Opening(Point3d startPoint, Point3d endPoint, int fatherID = 0)
         {
             FatherID = fatherID;
-            _box = new BBox([startPoint, endPoint]);
+            Box = new BBox([startPoint, endPoint]);
         }
         public Opening(BBox box, int fatherID = 0)
         {
-            _box = box;
+            Box = box;
             FatherID = fatherID;
         }
         public BBox GetBox()
         {
-            return _box;
+            return Box;
         }
         public Point3d GetEndPoint()
         {
-            var pt = _box.Min;
+            var pt = Box.GetMin();
             pt.Round(0);
             return pt;
         }
 
         public Point3d GetStartPoint()
         {
-            var pt = _box.Max;
+            var pt = Box.GetMax();
             pt.Round(0);
             return pt;
         }

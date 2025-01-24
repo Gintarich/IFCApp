@@ -97,14 +97,14 @@ public class TeklaGraphicsDrawerService
         // Define the 8 corner points of the cube
         var vertices = new List<Point>
         {
-            new Point(box.Min.X,box.Min.Y,box.Min.Z), // Point 0
-            new Point(box.Max.X, box.Min.Y,box.Min.Z), // Point 1
-            new Point(box.Max.X, box.Max.Y, box.Min.Z), // Point 2
-            new Point(box.Min.X,box.Max.Y,box.Min.Z), // Point 3
-            new Point(box.Min.X,box.Min.Y,box.Max.Z), // Point 4
-            new Point(box.Max.X,box.Min.Y,box.Max.Z), // Point 5
-            new Point(box.Max.X,box.Max.Y,box.Max.Z), // Point 6
-            new Point(box.Min.X,box.Max.Y,box.Max.Z)  // Point 7
+            new Point(box.GetMin().X,box.GetMin().Y,box.GetMin().Z), // Point 0
+            new Point(box.GetMax().X, box.GetMin().Y,box.GetMin().Z), // Point 1
+            new Point(box.GetMax().X, box.GetMax().Y, box.GetMin().Z), // Point 2
+            new Point(box.GetMin().X,box.GetMax().Y,box.GetMin().Z), // Point 3
+            new Point(box.GetMin().X,box.GetMin().Y,box.GetMax().Z), // Point 4
+            new Point(box.GetMax().X,box.GetMin().Y,box.GetMax().Z), // Point 5
+            new Point(box.GetMax().X,box.GetMax().Y,box.GetMax().Z), // Point 6
+            new Point(box.GetMin().X,box.GetMax().Y,box.GetMax().Z)  // Point 7
         };
 
         var edges = new List<(int, int)>

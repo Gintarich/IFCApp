@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace IFCApp.Core.Geometry
 {
+
     public class BBox
     {
-        public Point3d Min { get => GetMin(); }
-        public Point3d Max { get => GetMax(); }
-        public Matrix4d CS { get => _coordinateSystem; }
+        [JsonPropertyName("Min")]
+        public Point3d Min { get { return _min; } set { _min = value; } }
+        [JsonPropertyName("Max")]
+        public Point3d Max { get { return _max; } set { _max = value; } }
+        [JsonPropertyName("CS")]
+        public Matrix4d CS { get => _coordinateSystem; set { _coordinateSystem = value; } }
+        [JsonIgnore]
         private Matrix4d _coordinateSystem = new();
+        [JsonIgnore]
         private Point3d _max;
+        [JsonIgnore]
         private Point3d _min;
 
-
+        public BBox() { }
         public BBox(List<Point3d> Points)
         {
             var minMax = CreateBox(Points);
@@ -77,10 +85,10 @@ namespace IFCApp.Core.Geometry
         public bool Intersects(BBox other)
         {
             // Get the min and max points of both bounding boxes
-            Point3d thisMin = this.Min;
-            Point3d thisMax = this.Max;
-            Point3d otherMin = other.Min;
-            Point3d otherMax = other.Max;
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+            Point3d otherMin = other.GetMin();
+            Point3d otherMax = other.GetMax();
 
             // Check for overlap in each dimension
             bool xOverlap = thisMin.X <= otherMax.X && thisMax.X >= otherMin.X;
@@ -112,13 +120,13 @@ namespace IFCApp.Core.Geometry
             var max = new Point3d(maxX, maxY, maxZ);
             return (min, max);
         }
-        private Point3d GetMin()
+        public Point3d GetMin()
         {
             var pt1 = _coordinateSystem.Apply(_min);
             var pt2 = _coordinateSystem.Apply(_max);
             return CreateBox([pt1, pt2]).Min;
         }
-        private Point3d GetMax()
+        public Point3d GetMax()
         {
             var pt1 = _coordinateSystem.Apply(_min);
             var pt2 = _coordinateSystem.Apply(_max);

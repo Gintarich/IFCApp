@@ -1,32 +1,36 @@
 
 using IFCApp.Core.Geometry;
 using IFCApp.Core.Services;
+using System.Text.Json.Serialization;
 
 namespace IFCApp.Core.Elements;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(SandwichPanel), typeDiscriminator: "SandwichPanel")]
+[JsonDerivedType(typeof(WallPanel),     typeDiscriminator: "WallPanel")]
 public class Wall : ElementBase
 {
     public int TeklaIdentifier { get; set; }
     public bool ShouldHaveOpening { get; set; }
-    private List<Opening> _openings = new List<Opening>();
     public List<Opening> Openings
     {
         get { return _openings; }
         set { _openings = value; }
     }
-
-    private BBox _box;
     public BBox Box
     {
         get { return _box; }
         set { _box = value; }
     }
-    private Matrix4d _matrix;
     public Matrix4d Matrix
     {
         get { return _matrix; }
         set { _matrix = value; }
     }
+
+    private BBox _box;
+    private Matrix4d _matrix;
+    private List<Opening> _openings = new List<Opening>();
     private Colider _colider = new Colider();
 
     public Wall(BBox box, Matrix4d cs)

@@ -2,15 +2,62 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace IFCApp.Core.Geometry;
 
 public class Matrix4d
 {
-    public Vector3d XAxis { get => new Vector3d(_matrix[0, 0], _matrix[1,0], _matrix[2,0]); }
-    public Vector3d YAxis { get => new Vector3d(_matrix[0, 1], _matrix[1,1], _matrix[2,1]); }
-    public Vector3d ZAxis { get => new Vector3d(_matrix[0, 2], _matrix[1,2], _matrix[2,2]); }
-    private readonly double[,] _matrix;
+    [JsonIgnore]
+    public Vector3d XAxis => new Vector3d(_matrix[0, 0], _matrix[1, 0], _matrix[2, 0]);
+    [JsonIgnore]
+    public Vector3d YAxis => new Vector3d(_matrix[0, 1], _matrix[1, 1], _matrix[2, 1]);
+    [JsonIgnore]
+    public Vector3d ZAxis => new Vector3d(_matrix[0, 2], _matrix[1, 2], _matrix[2, 2]);
+
+    [JsonPropertyName("Matrix")]
+    public double[][] Data
+    {
+        get
+        {
+            // Convert _matrix (4x4) to a jagged array (array of 4 arrays)
+            var jagged = new double[4][];
+            for (int i = 0; i < 4; i++)
+            {
+                var row = new double[4];
+                for (int j = 0; j < 4; j++)
+                {
+                    row[j] = _matrix[i, j];
+                }
+                jagged[i] = row;
+            }
+            return jagged;
+        }
+        set
+        {
+            // When deserializing, set _matrix from the incoming jagged array
+            if (value == null || value.Length != 4)
+                throw new ArgumentException("Expected a 4x4 array for Matrix.");
+
+            // Ensure each row has length 4
+            for (int i = 0; i < 4; i++)
+            {
+                if (value[i].Length != 4)
+                    throw new ArgumentException("Expected each row to have length 4.");
+            }
+
+            _matrix = new double[4, 4];
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    _matrix[i, j] = value[i][j];
+                }
+            }
+        }
+    }
+    [JsonIgnore]
+    private double[,] _matrix;
 
     public Matrix4d()
     {
