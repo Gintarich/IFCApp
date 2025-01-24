@@ -182,6 +182,7 @@ public class AttributeMapper
         {"PĀRSEGUMA PANELIS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"METĀLA SIJA", "BE_07_21_05_00_Tērauda sijas"},
+        {"JUMTA SIJA", "BE_07_21_05_00_Tērauda sijas"},
         {"KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"HORIZONTĀLĀ SAITE","BE_07_27_05_00_Tērauda saites"},
         {"RVL100", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
