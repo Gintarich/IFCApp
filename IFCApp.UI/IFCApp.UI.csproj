@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\IFCApp.TeklaServices\IFCApp.TeklaServices.csproj" />
+	  <ProjectReference Include="..\ModalControl\ModalControl.csproj" />
 	</ItemGroup>
 
 </Project>

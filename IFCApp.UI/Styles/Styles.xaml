@@ -3,7 +3,10 @@
                     xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel"
                     xmlns:views="clr-namespace:IFCApp.UI.View"
                     xmlns:sectionViews="clr-namespace:IFCApp.UI.View.Sections"
-                    xmlns:sectionVMS="clr-namespace:IFCApp.UI.ViewModel.Sections">
+                    xmlns:sectionVMS="clr-namespace:IFCApp.UI.ViewModel.Sections"
+                    xmlns:modalVMS="clr-namespace:IFCApp.UI.ViewModel.Modals"
+                    xmlns:modalViews="clr-namespace:IFCApp.UI.View.Modals"
+                    >
     <!--Colors-->
     <SolidColorBrush x:Key="Grey" Color="#8f98a1" />
     <SolidColorBrush x:Key="Black" Color="#2e2e35" />
@@ -41,6 +44,8 @@
     <DataTemplate DataType="{x:Type sectionVMS:ParametersVM}">
         <sectionViews:Parameters/>
     </DataTemplate>
-
+    <DataTemplate DataType="{x:Type modalVMS:StartAppModalVM}">
+        <modalViews:StartAppModal/>
+    </DataTemplate>
 
 </ResourceDictionary>

@@ -39,7 +39,7 @@ namespace IFCApp.UI.ViewModel.Sections
             _parentViewModel = vm;
             ChangeViewCommand = new RelayCommand(ChangeView);
             AddParametersCommand = new RelayCommand(AddParameters);
-            ModelName = ModelAttributeServer.GetModelName();
+            //ModelName = ModelAttributeServer.GetModelName();
             Errors = "TEST123";
         }
         private void ChangeView()

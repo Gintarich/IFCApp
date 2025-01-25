@@ -1,24 +1,38 @@
-﻿using System;
+﻿using IFCApp.UI.ViewModel.Modals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace IFCApp.UI.ViewModel;
-class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
     private ViewModelBase _selectedViewModel;
     public ViewModelBase SelectedViewModel
     {
         get { return _selectedViewModel; }
-        set
-        {
-            _selectedViewModel = value;
-            OnPropertyChanged(nameof(SelectedViewModel));
-        }
+        set { _selectedViewModel = value; OnPropertyChanged(nameof(SelectedViewModel)); }
     }
+
+    private StartAppModalVM _selectedModal;
+    public StartAppModalVM SelectedModal
+    {
+        get { return _selectedModal; }
+        set { _selectedModal = value; OnPropertyChanged(nameof(SelectedModal)); }
+    }
+
+    private bool _isOpen;
+    public bool IsOpen
+    {
+        get { return _isOpen; }
+        set { _isOpen = value; OnPropertyChanged(nameof(IsOpen)); }
+    }
+
     public MainViewModel()
     {
         _selectedViewModel = new ModelManagerVM();
+        _selectedModal = new StartAppModalVM(this);
+        IsOpen = true;
     }
 }
