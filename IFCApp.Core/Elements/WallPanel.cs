@@ -7,6 +7,10 @@ namespace IFCApp.Core.Elements
 {
     public class WallPanel : Wall
     {
+        public WallPanel() : base()
+        {
+            
+        }
         public WallPanel(BBox box) : base(box)
         {
         }

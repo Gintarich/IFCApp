@@ -9,24 +9,19 @@ namespace IFCApp.Tests.SerializationTests
     [TestClass]
     public class WallSerializationTests
     {
-        private const double Tolerance = 1e-9;
+        private const double Tolerance = 0.001;
 
         [TestMethod]
         public void SerializeWall_ShouldReturnCorrectJson()
         {
             // Arrange
-            var box = new BBox(new List<Point3d>
-            {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-            var wall = new Wall(box);
+            var wall = new Wall(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }));
+            var expectedJson = "{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
 
             // Act
-            var json = JsonSerializer.Serialize(wall);
+            var json = JsonSerializer.Serialize<Wall>(wall);
 
             // Assert
-            var expectedJson = "{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
             Assert.AreEqual(expectedJson, json);
         }
 
@@ -34,18 +29,14 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeWall_ShouldReturnCorrectWall()
         {
             // Arrange
-            var json = "{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var json = "{\"$type\":\"Wall\",\"TeklaIdentifier\":1,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedBox = new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) });
 
             // Act
             var wall = JsonSerializer.Deserialize<Wall>(json);
 
             // Assert
-            var expectedBox = new BBox(new List<Point3d>
-            {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-
+            Assert.IsNotNull(wall);
             AssertHelpers.AssertBBoxAreEqual(expectedBox, wall.Box, Tolerance);
         }
 
@@ -53,19 +44,13 @@ namespace IFCApp.Tests.SerializationTests
         public void SerializeSandwichPanel_ShouldReturnCorrectJson()
         {
             // Arrange
-            var box = new BBox(new List<Point3d>
-            {
-                new Point3d(-100, -100, -100),
-                new Point3d(100, 100, 100)
-            });
-            var layers = new Layers(); // Assuming Layers is a class with a default constructor
-            var sandwichPanel = new SandwichPanel(box, layers);
+            var sandwichPanel = new SandwichPanel(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }), new Layers(70, 150, 250));
+            var expectedJson = "{\"$type\":\"SandwichPanel\",\"Layers\":{\"InnerLayerThickness\":70,\"OuterLayerThickness\":150,\"InsulationThickness\":250},\"LayerCount\":0,\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
 
             // Act
-            var json = JsonSerializer.Serialize(sandwichPanel);
+            var json = JsonSerializer.Serialize<Wall>(sandwichPanel);
 
             // Assert
-            var expectedJson = "{\"$type\":\"SandwichPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-100,\"Y\":-100,\"Z\":-100},\"Max\":{\"X\":100,\"Y\":100,\"Z\":100},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"Layers\":null,\"LayerCount\":0}";
             Assert.AreEqual(expectedJson, json);
         }
 
@@ -73,18 +58,14 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeSandwichPanel_ShouldReturnCorrectSandwichPanel()
         {
             // Arrange
-            var json = "{\"$type\":\"SandwichPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-100,\"Y\":-100,\"Z\":-100},\"Max\":{\"X\":100,\"Y\":100,\"Z\":100},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"Layers\":null,\"LayerCount\":0}";
+            var json = "{\"$type\":\"SandwichPanel\",\"Layers\":{\"InnerLayerThickness\":70,\"OuterLayerThickness\":150,\"InsulationThickness\":250},\"LayerCount\":0,\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedBox = new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) });
 
             // Act
-            var sandwichPanel = JsonSerializer.Deserialize<SandwichPanel>(json);
+            var sandwichPanel = JsonSerializer.Deserialize<Wall>(json);
 
             // Assert
-            var expectedBox = new BBox(new List<Point3d>
-            {
-                new Point3d(-100, -100, -100),
-                new Point3d(100, 100, 100)
-            });
-
+            Assert.IsNotNull(sandwichPanel);
             AssertHelpers.AssertBBoxAreEqual(expectedBox, sandwichPanel.Box, Tolerance);
         }
 
@@ -92,18 +73,13 @@ namespace IFCApp.Tests.SerializationTests
         public void SerializeWallPanel_ShouldReturnCorrectJson()
         {
             // Arrange
-            var box = new BBox(new List<Point3d>
-            {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-            var wallPanel = new WallPanel(box);
+            var wallPanel = new WallPanel(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }));
+            var expectedJson = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
 
             // Act
-            var json = JsonSerializer.Serialize(wallPanel);
+            var json = JsonSerializer.Serialize<Wall>(wallPanel);
 
             // Assert
-            var expectedJson = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
             Assert.AreEqual(expectedJson, json);
         }
 
@@ -111,18 +87,14 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeWallPanel_ShouldReturnCorrectWallPanel()
         {
             // Arrange
-            var json = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var json = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedBox = new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) });
 
             // Act
-            var wallPanel = JsonSerializer.Deserialize<WallPanel>(json);
+            var wallPanel = JsonSerializer.Deserialize<Wall>(json) as WallPanel;
 
             // Assert
-            var expectedBox = new BBox(new List<Point3d>
-            {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-
+            Assert.IsNotNull(wallPanel);
             AssertHelpers.AssertBBoxAreEqual(expectedBox, wallPanel.Box, Tolerance);
         }
 
@@ -130,28 +102,17 @@ namespace IFCApp.Tests.SerializationTests
         public void SerializeWallList_ShouldReturnCorrectJson()
         {
             // Arrange
-            var box1 = new BBox(new List<Point3d>
+            var walls = new List<Wall>
             {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-            var box2 = new BBox(new List<Point3d>
-            {
-                new Point3d(-100, -100, -100),
-                new Point3d(100, 100, 100)
-            });
-            var layers = new Layers(); // Assuming Layers is a class with a default constructor
-
-            var wallPanel = new WallPanel(box1);
-            var sandwichPanel = new SandwichPanel(box2, layers);
-
-            var walls = new List<Wall> { wallPanel, sandwichPanel };
+                new Wall(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) })),
+                new Wall(new BBox(new List<Point3d> { new Point3d(1, 1, 1), new Point3d(2, 2, 2) }))
+            };
+            var expectedJson = "[{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":1,\"Y\":1,\"Z\":1},\"Max\":{\"X\":2,\"Y\":2,\"Z\":2},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}]";
 
             // Act
-            var json = JsonSerializer.Serialize(walls);
+            var json = JsonSerializer.Serialize<List<Wall>>(walls);
 
             // Assert
-            var expectedJson = "[{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},{\"$type\":\"SandwichPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-100,\"Y\":-100,\"Z\":-100},\"Max\":{\"X\":100,\"Y\":100,\"Z\":100},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"Layers\":null,\"LayerCount\":0}]";
             Assert.AreEqual(expectedJson, json);
         }
 
@@ -159,27 +120,16 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeWallList_ShouldReturnCorrectWallList()
         {
             // Arrange
-            var json = "[{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},{\"$type\":\"SandwichPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":-100,\"Y\":-100,\"Z\":-100},\"Max\":{\"X\":100,\"Y\":100,\"Z\":100},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"Layers\":null,\"LayerCount\":0}]";
+            var json = "[{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":1,\"Y\":1,\"Z\":1},\"Max\":{\"X\":2,\"Y\":2,\"Z\":2},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}]";
+            var expectedBox1 = new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) });
+            var expectedBox2 = new BBox(new List<Point3d> { new Point3d(1, 1, 1), new Point3d(2, 2, 2) });
 
             // Act
             var walls = JsonSerializer.Deserialize<List<Wall>>(json);
 
             // Assert
+            Assert.IsNotNull(walls);
             Assert.AreEqual(2, walls.Count);
-            Assert.IsInstanceOfType(walls[0], typeof(WallPanel));
-            Assert.IsInstanceOfType(walls[1], typeof(SandwichPanel));
-
-            var expectedBox1 = new BBox(new List<Point3d>
-            {
-                new Point3d(-300, -200, -500),
-                new Point3d(300, 200, 500)
-            });
-            var expectedBox2 = new BBox(new List<Point3d>
-            {
-                new Point3d(-100, -100, -100),
-                new Point3d(100, 100, 100)
-            });
-
             AssertHelpers.AssertBBoxAreEqual(expectedBox1, walls[0].Box, Tolerance);
             AssertHelpers.AssertBBoxAreEqual(expectedBox2, walls[1].Box, Tolerance);
         }

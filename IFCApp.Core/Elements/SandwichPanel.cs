@@ -9,6 +9,10 @@ namespace IFCApp.Core.Elements
     {
         public Layers Layers { get; set; }
         public int LayerCount { get; set; }
+        public SandwichPanel() : base()
+        {
+            Layers = new Layers();
+        }
         public SandwichPanel(BBox box, Layers layers) : base(box)
         {
             Layers = layers;

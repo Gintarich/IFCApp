@@ -2,9 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace IFCApp.Core.Elements
 {
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+    [JsonDerivedType(typeof(Door), typeDiscriminator: "Door")]
+    [JsonDerivedType(typeof(Window), typeDiscriminator: "Window")]
     public class Opening : ElementBase
     {
         public BBox Box { get; set; }

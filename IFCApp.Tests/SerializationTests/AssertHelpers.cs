@@ -1,5 +1,6 @@
 using IFCApp.Core.Elements;
 using IFCApp.Core.Geometry;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.Json;
 
@@ -22,9 +23,9 @@ namespace IFCApp.Tests.SerializationTests
 
         public static void AssertPointAreEqual(Point3d expected, Point3d actual, double tolerance)
         {
-            Assert.AreEqual(expected.X, actual.X, tolerance, "Mismatch in X coordinate");
-            Assert.AreEqual(expected.Y, actual.Y, tolerance, "Mismatch in Y coordinate");
-            Assert.AreEqual(expected.Z, actual.Z, tolerance, "Mismatch in Z coordinate");
+            Assert.IsTrue(AreDoublesEqual(expected.X, actual.X, tolerance), "Mismatch in X coordinate");
+            Assert.IsTrue(AreDoublesEqual(expected.Y, actual.Y, tolerance), "Mismatch in Y coordinate");
+            Assert.IsTrue(AreDoublesEqual(expected.Z, actual.Z, tolerance), "Mismatch in Z coordinate");
         }
 
         public static void AssertMatrixAreEqual(double[,] expected, double[,] actual, double tolerance)
@@ -36,7 +37,7 @@ namespace IFCApp.Tests.SerializationTests
             {
                 for (int j = 0; j < expected.GetLength(1); j++)
                 {
-                    Assert.AreEqual(expected[i, j], actual[i, j], tolerance, $"Mismatch at element [{i},{j}]");
+                    Assert.IsTrue(AreDoublesEqual(expected[i, j], actual[i, j], tolerance), $"Mismatch at element [{i},{j}]");
                 }
             }
         }
@@ -47,6 +48,11 @@ namespace IFCApp.Tests.SerializationTests
             var actualPoint = JsonSerializer.Deserialize<Point3d>(actualJson);
 
             AssertPointAreEqual(expectedPoint, actualPoint, tolerance);
+        }
+
+        private static bool AreDoublesEqual(double a, double b, double tolerance)
+        {
+            return Math.Abs(a - b) <= tolerance;
         }
     }
 }

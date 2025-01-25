@@ -44,9 +44,9 @@ public class TeklaLayerService
         var outerThickness = outerLayer.GetDoubleProp("WIDTH");
 
         var layers = new Layers();
-        layers.OuterLayerThickness = outerThickness;
-        layers.InnerLayerThickness = bearingThickness;
-        layers.InsulationThickness = insulationThickness;
+        layers.OuterLayerThickness = (int)Math.Round(outerThickness);
+        layers.InnerLayerThickness = (int)Math.Round(bearingThickness);
+        layers.InsulationThickness = (int)Math.Round(insulationThickness);
         return layers;
     }
 }

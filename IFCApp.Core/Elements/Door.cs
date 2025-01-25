@@ -7,6 +7,10 @@ namespace IFCApp.Core.Elements
 {
     public class Door : Opening
     {
+        public Door()
+        {
+            
+        }
         public Door(BBox box, int fatherID = 0) : base(box, fatherID)
         {
         }

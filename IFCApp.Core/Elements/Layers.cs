@@ -4,10 +4,17 @@ using System.Text;
 
 namespace IFCApp.Core.Elements
 {
-    public class Layers(double innerLayerThickness = 0, double outerLayerThickness = 0, double izolationThickness = 0)
+    public class Layers
     {
-        public double InnerLayerThickness { get; set; } = innerLayerThickness;
-        public double OuterLayerThickness { get; set; } = outerLayerThickness;
-        public double InsulationThickness { get; set; } = izolationThickness;
+        public int InnerLayerThickness { get; set; }
+        public int OuterLayerThickness { get; set; }
+        public int InsulationThickness { get; set; }
+        public Layers() { }
+        public Layers(int innerLayerThickness = 0, int outerLayerThickness = 0, int izolationThickness = 0)
+        {
+            InnerLayerThickness = innerLayerThickness;
+            OuterLayerThickness = outerLayerThickness;
+            InsulationThickness = izolationThickness;
+        }
     }
 }

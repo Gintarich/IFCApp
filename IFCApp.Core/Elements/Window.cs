@@ -7,6 +7,10 @@ namespace IFCApp.Core.Elements
 {
     public class Window : Opening
     {
+        public Window()
+        {
+            
+        }
         public Window(BBox box, int fatherID = 0) : base(box, fatherID)
         {
         }

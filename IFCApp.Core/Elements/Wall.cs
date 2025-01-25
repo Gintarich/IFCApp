@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 namespace IFCApp.Core.Elements;
 
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+[JsonDerivedType(typeof(Wall), typeDiscriminator: "Wall")]  
 [JsonDerivedType(typeof(SandwichPanel), typeDiscriminator: "SandwichPanel")]
 [JsonDerivedType(typeof(WallPanel),     typeDiscriminator: "WallPanel")]
 public class Wall : ElementBase
@@ -33,6 +34,11 @@ public class Wall : ElementBase
     private List<Opening> _openings = new List<Opening>();
     private Colider _colider = new Colider();
 
+    public Wall() 
+    {
+        _box = new BBox();
+        _matrix = new Matrix4d();
+    }
     public Wall(BBox box, Matrix4d cs)
     {
         _box = box;
