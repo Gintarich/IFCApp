@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using IFCApp.TeklaServices.Services;
 using Tekla.Structures.Model;
+using IFCApp.UI.Stores;
 
 namespace IFCApp.UI.ViewModel.Sections
 {
     class ParametersVM : SectionVMBase
     {
         //Parameters
-        private string _modelName;
-
         public string ModelName
         {
-            get { return _modelName; }
-            set { _modelName = value; OnPropertyChanged(nameof(ModelName)); }
+            get { return _modelStore.Model?.ModelName; }
+            set {  _modelStore.SetModelName(value); }
         }
 
         private string _errors;
@@ -28,20 +27,29 @@ namespace IFCApp.UI.ViewModel.Sections
             set { _errors = value; OnPropertyChanged(nameof(Errors)); }
         }
 
-
         public ICommand AddParametersCommand { get; set; }
 
         //Boilerplate
         private ModelManagerVM _parentViewModel;
+        private ModelStore _modelStore;
         public ICommand ChangeViewCommand { get; set; }
-        public ParametersVM(string name, ModelManagerVM vm) : base(name)
+
+        public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore) : base(name)
         {
+            _modelStore = modelStore;
             _parentViewModel = vm;
             ChangeViewCommand = new RelayCommand(ChangeView);
             AddParametersCommand = new RelayCommand(AddParameters);
             //ModelName = ModelAttributeServer.GetModelName();
-            Errors = "TEST123";
+            Errors = "";
+            _modelStore.ModelChanged += ModelChanged;
         }
+
+        private void ModelChanged()
+        {
+            OnPropertyChanged(nameof(ModelName));   
+        }
+
         private void ChangeView()
         {
             _parentViewModel.SelectedSection = this;
@@ -53,5 +61,12 @@ namespace IFCApp.UI.ViewModel.Sections
             atrCreator.CreateAttributesForAllParts();
             new Model().CommitChanges();
         }
+
+        public override void Dispose()
+        {
+            _modelStore.ModelChanged -= ModelChanged;
+            base.Dispose();
+        }
+
     }
 }

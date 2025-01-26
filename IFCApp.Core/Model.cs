@@ -9,6 +9,7 @@ namespace IFCApp.Core
     public class Model
     {
         public string ModelName { get; set; }
+        public string ModelPath { get; set; }
         public Matrix4d CS { get; set; }
 
         public List<ElementBase> Elements = new();

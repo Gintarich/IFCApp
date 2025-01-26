@@ -4,16 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IFCApp.UI.View.Modals"
+             xmlns:converters="clr-namespace:IFCApp.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Width="300" Height="300" Background="White">
+        <Grid.Resources>
+            <converters:InvertedBooleanToVisibilityConverter x:Key="InvertedBoolToVisConverter"/>
+        </Grid.Resources>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Open Tekla model and restart Application"
+                Visibility="{Binding IsTeklaOpen, Converter={StaticResource InvertedBoolToVisConverter}}"
+               FontSize="14"
+               FontWeight="Bold"
+               Foreground="DarkRed"/>
             <Button 
-                x:Name="btnCloseModal"
+            Style="{StaticResource HorPanelButton}"
                 Margin="0 10 0 0"
                 Padding="10 5"
-                Content="Close Modal"
-                Command="{Binding CloseModalCommand}"/>
+                Content="Create Model"
+                Command="{Binding CreateNewModelCommad}"/>
+            <Button 
+            Style="{StaticResource HorPanelButton}"
+                Margin="0 10 0 0"
+                Padding="10 5"
+                Content="Load Model"
+                Command="{Binding LoadModelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

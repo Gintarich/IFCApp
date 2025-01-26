@@ -1,4 +1,5 @@
 ﻿using IFCApp.UI.Core;
+using IFCApp.UI.Stores;
 using IFCApp.UI.ViewModel.Sections;
 using System;
 using System.Collections.Generic;
@@ -20,19 +21,19 @@ namespace IFCApp.UI.ViewModel
         public SectionVMBase SelectedSection
         {
             get { return _selectedSection; }
-            set 
-            { 
-                _selectedSection = value; 
+            set
+            {
+                _selectedSection = value;
                 OnPropertyChanged(nameof(SelectedSection));
             }
         }
 
         //public property here ?
 
-        public ModelManagerVM()
+        public ModelManagerVM(ModelStore modelStore)
         {
-            _sections.Add(new ParametersVM("Parameters",this));
-            _sections.Add(new OpeningsVM("Openings",this));
+            _sections.Add(new ParametersVM("Parameters", this, modelStore));
+            _sections.Add(new OpeningsVM("Openings", this, modelStore));
             _selectedSection = _sections.FirstOrDefault();
             ChangeToProjectSectionCommand = new RelayCommand(
                 () => SelectedSection = _sections.First(x => x.Name == "Project parameters"));

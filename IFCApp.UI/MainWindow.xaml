@@ -10,9 +10,7 @@
         Title="MainWindow" Height="600" Width="900"
         Style="{StaticResource WinAll}">
 
-    <Window.DataContext>
-        <viewModels:MainViewModel/>
-    </Window.DataContext>
+
     <Grid>
         <!--<custom:Modal x:Name="modal" Panel.ZIndex="10">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="200">

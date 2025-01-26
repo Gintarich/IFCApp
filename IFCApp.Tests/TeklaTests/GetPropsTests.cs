@@ -28,7 +28,8 @@ public class GetPropsTests
     [TestMethod]
     public void ShouldGetName()
     {
-        var name = ModelAttributeServer.GetModelName();
-        var path = ModelAttributeServer.GetFilePath();
+        var atrServer = new ModelAttributeServer();
+        var name = atrServer.GetModelName();
+        var path = atrServer.GetFilePath();
     }
 }
