@@ -6,10 +6,9 @@
 
     <Style x:Key="MyTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="FontSize" Value="16" />
-        <Setter Property="Width" Value="500" />
+        <!--<Setter Property="Width" Value="500" />-->
         <!--<Setter Property="Height" Value="30" />-->
         <Setter Property="Margin" Value="0 0" />
-        <Setter Property="MinWidth" Value="350"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Background" Value="{StaticResource TbBackground}" />
@@ -23,13 +22,16 @@
                         x:Name="border"
                         CornerRadius="5"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        Margin="{TemplateBinding Margin}"
+                        Padding="{TemplateBinding Padding}"
+                        Width="{TemplateBinding Width}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             x:Name="PART_ContentHost"
                             Focusable="True"
-                            HorizontalScrollBarVisibility="Hidden"
+                            HorizontalScrollBarVisibility="Auto"
                             VerticalScrollBarVisibility="Hidden"/>
                     </Border>
                     <ControlTemplate.Triggers>

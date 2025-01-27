@@ -10,6 +10,7 @@ namespace IFCApp.Core
     {
         public string ModelName { get; set; }
         public string ModelPath { get; set; }
+        public Dictionary<string, BBox> BBoxes { get; set; }
         public Matrix4d CS { get; set; }
 
         public List<ElementBase> Elements = new();

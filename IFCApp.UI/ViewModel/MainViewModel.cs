@@ -32,7 +32,7 @@ public class MainViewModel : ViewModelBase
 
     public MainViewModel(ModelStore modelStore)
     {
-        _selectedViewModel = new ModelManagerVM(modelStore);
+        _selectedViewModel = new ModelManagerVM(modelStore, this);
         _selectedModal = new StartAppModalVM(this,modelStore);
         IsOpen = true;
     }

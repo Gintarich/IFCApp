@@ -3,6 +3,7 @@ using IFCApp.UI.Core;
 using IFCApp.UI.Stores;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,8 +45,31 @@ namespace IFCApp.UI.ViewModel.Modals
 
         private void LoadModel()
         {
-            _modelStore.LoadModel();
-            _mainViewModel.IsOpen = false;
+            var path = _modelStore.GetFolderPath();
+            if (Directory.Exists(path))
+            {
+                var jsonFiles = Directory.GetFiles(path, "*.json").ToList();
+                if (jsonFiles.Count == 0)
+                {
+                    MessageBox.Show("No models found in directory.");
+                    return;
+                }
+                else if (jsonFiles.Count == 1)
+                {
+                    _modelStore.LoadModel(Path.GetFileNameWithoutExtension(jsonFiles[0]));
+                    _mainViewModel.IsOpen = false;
+                    return;
+                }
+                else
+                {
+                    var fileNames = jsonFiles.Select(Path.GetFileNameWithoutExtension).ToList();
+                    _mainViewModel.SelectedModal = new SelectModelModalVM(fileNames, _modelStore, _mainViewModel);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Directory does not exist.");
+            }
         }
 
         private void CreateModel()

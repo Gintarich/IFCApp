@@ -8,6 +8,7 @@ using System.Windows.Input;
 using IFCApp.TeklaServices.Services;
 using Tekla.Structures.Model;
 using IFCApp.UI.Stores;
+using IFCApp.UI.ViewModel.Modals;
 
 namespace IFCApp.UI.ViewModel.Sections
 {
@@ -31,18 +32,28 @@ namespace IFCApp.UI.ViewModel.Sections
 
         //Boilerplate
         private ModelManagerVM _parentViewModel;
+        private MainViewModel _mainViewModel;
         private ModelStore _modelStore;
         public ICommand ChangeViewCommand { get; set; }
+        public ICommand OpenBoxModalCommand { get; set; }
 
-        public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore) : base(name)
+        public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm) : base(name)
         {
+            _mainViewModel = mainvm;
             _modelStore = modelStore;
             _parentViewModel = vm;
             ChangeViewCommand = new RelayCommand(ChangeView);
             AddParametersCommand = new RelayCommand(AddParameters);
+            OpenBoxModalCommand = new RelayCommand(OpenBoxModal);   
             //ModelName = ModelAttributeServer.GetModelName();
             Errors = "";
             _modelStore.ModelChanged += ModelChanged;
+        }
+
+        private void OpenBoxModal()
+        { 
+            _mainViewModel.SelectedModal = new BoxModalVM(_mainViewModel);
+            _mainViewModel.IsOpen = true;
         }
 
         private void ModelChanged()
@@ -50,6 +61,7 @@ namespace IFCApp.UI.ViewModel.Sections
             OnPropertyChanged(nameof(ModelName));   
         }
 
+        
         private void ChangeView()
         {
             _parentViewModel.SelectedSection = this;

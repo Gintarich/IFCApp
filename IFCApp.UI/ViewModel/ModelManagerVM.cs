@@ -30,10 +30,10 @@ namespace IFCApp.UI.ViewModel
 
         //public property here ?
 
-        public ModelManagerVM(ModelStore modelStore)
+        public ModelManagerVM(ModelStore modelStore, MainViewModel mainvm)
         {
-            _sections.Add(new ParametersVM("Parameters", this, modelStore));
-            _sections.Add(new OpeningsVM("Openings", this, modelStore));
+            _sections.Add(new ParametersVM("Parameters", this, modelStore, mainvm));
+            _sections.Add(new OpeningsVM("Openings", this, modelStore, mainvm));
             _selectedSection = _sections.FirstOrDefault();
             ChangeToProjectSectionCommand = new RelayCommand(
                 () => SelectedSection = _sections.First(x => x.Name == "Project parameters"));
