@@ -45,14 +45,13 @@ namespace IFCApp.UI.ViewModel.Sections
             ChangeViewCommand = new RelayCommand(ChangeView);
             AddParametersCommand = new RelayCommand(AddParameters);
             OpenBoxModalCommand = new RelayCommand(OpenBoxModal);   
-            //ModelName = ModelAttributeServer.GetModelName();
             Errors = "";
             _modelStore.ModelChanged += ModelChanged;
         }
 
         private void OpenBoxModal()
         { 
-            _mainViewModel.SelectedModal = new BoxModalVM(_mainViewModel);
+            _mainViewModel.SelectedModal = new BoxModalVM(_mainViewModel, _modelStore);
             _mainViewModel.IsOpen = true;
         }
 

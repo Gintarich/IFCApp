@@ -20,7 +20,7 @@ public class TeklaGraphicsDrawerService
     {
         GraphicsDrawer gd = new GraphicsDrawer();
         var bbox = CreateBox(box);
-        gd.DrawMeshSurface(bbox, new Color(1, 0, 0));
+        var result = gd.DrawMeshSurface(bbox, new Color(1, 0, 0));
     }
 
     public Mesh CreateCube(Point center, double edgeLength)

@@ -1,4 +1,5 @@
 ﻿using IFCApp.Core;
+using IFCApp.Core.Geometry;
 using IFCApp.TeklaServices.Services;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace IFCApp.UI.Stores
 
         public string GetFolderPath()
         {
-            return Path.Combine(_attrServer.GetFilePath(),"Automation");
+            return Path.Combine(_attrServer.GetFilePath(), "Automation");
         }
         public void SetModelName(string name)
         {
@@ -67,13 +68,22 @@ namespace IFCApp.UI.Stores
             var json = File.ReadAllText(path);
             if (!string.IsNullOrEmpty(json))
             {
-                var model  = JsonSerializer.Deserialize<Model>(json);
+                var model = JsonSerializer.Deserialize<Model>(json);
                 if (model != null)
                 {
                     _model = model;
                 }
             }
             ModelChanged?.Invoke();
+        }
+        public Dictionary<string, BBox> GetBoxes()
+        {
+            return _model.BBoxes;
+        }
+        public void SetBoxes(Dictionary<string, BBox> boxes)
+        {
+            ModelChanged?.Invoke(); 
+            _model.BBoxes = boxes;
         }
     }
 }

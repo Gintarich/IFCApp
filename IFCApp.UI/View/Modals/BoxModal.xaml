@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:IFCApp.UI.View.Modals" 
              xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel.Modals"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="600">
 
     <!--<UserControl.DataContext>
         <viewModels:BoxModalVM/>
     </UserControl.DataContext>-->
-    <Grid Background="White">
+    <Grid Background="White" Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -22,26 +22,50 @@
                 <DataTemplate>
                     <Border BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="2">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Name}" Width="100" />
-                            <TextBlock Text="{Binding MinPt}" Width="50" Margin="10,0,0,0"/>
-                            <TextBlock Text="{Binding MaxPt}" Width="50" Margin="10,0,0,0"/>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" />
+                            <TextBlock Text="{Binding MinPt}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10,0,0,0"/>
+                            <TextBlock Text="{Binding MaxPt}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="10,0,0,0"/>
+                            <Button  
+                                Command="{Binding ShowBoxCommand}" 
+                                Style="{StaticResource HorPanelButton}"
+                                Content="Show" 
+                                Width="50" Margin="10,0,0,0"/>
                             <Button  
                                 Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
                                 Content="&#x2716;" 
                                 Foreground="DarkRed"
                                 CommandParameter="{Binding}" 
-                                Width="60" Margin="10,0,0,0"/>
+                                Width="30" Margin="10,0,0,0"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button 
-            Grid.Row="1" 
-            HorizontalAlignment="Left" 
-            Margin="10" 
-            Content="Close" 
-            Command="{Binding CloseModalCommand}"
-            Style="{StaticResource HorPanelButton}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Height="50">
+
+            <TextBox 
+                Grid.Row="1"
+                Margin="10"
+                Width="150"
+                Text="{Binding BoxName}"
+                VerticalContentAlignment="Center"
+                Padding="5 0"/>
+            <Button 
+                Grid.Row="1" 
+                Grid.Column="1"
+                HorizontalAlignment="Left" 
+                Margin="10" 
+                Content="Create" 
+                Command="{Binding AddBoxCommand}"
+                Style="{StaticResource HorPanelButton}"/>
+            <Button 
+                Grid.Row="1" 
+                Grid.Column="2"
+                HorizontalAlignment="Left" 
+                Margin="10" 
+                Content="Close" 
+                Command="{Binding CloseModalCommand}"
+                Style="{StaticResource HorPanelButton}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,5 +1,7 @@
 ﻿using IFCApp.Core.Geometry;
+using IFCApp.TeklaServices.Utils;
 using IFCApp.UI.Core;
+using IFCApp.UI.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,24 +15,38 @@ namespace IFCApp.UI.ViewModel.Modals
     public class BoxModalVM : ViewModelBase
     {
         private readonly MainViewModel _mainViewModel;
+        private readonly ModelStore _modelStore;
 
-        public ObservableCollection<BoxItemVM> BoxItems { get; set; }
+        public ObservableCollection<BoxItemVM> BoxItems { get; set; } = [];
         public ICommand RemoveItemCommand { get; set; }
         public ICommand CloseModalCommand { get; set; }
-        public BoxModalVM(MainViewModel mainViewModel)
+        public ICommand AddBoxCommand { get; set; }
+
+        private string _boxName;
+
+        public string BoxName
         {
-            BoxItems = new ObservableCollection<BoxItemVM>()
+            get { return _boxName; }
+            set { _boxName = value; OnPropertyChanged(nameof(BoxName)); }
+        }
+
+
+        public BoxModalVM(MainViewModel mainViewModel, Stores.ModelStore modelStore)
+        {
+            var boxes = modelStore.GetBoxes();
+            foreach (var box in boxes)
             {
-                new BoxItemVM("Box 1", new Point3d(0, 0, 0), new Point3d(1, 1, 1)),
-                new BoxItemVM("Box 2", new Point3d(1, 1, 1), new Point3d(2, 2, 2)),
-                new BoxItemVM("Box 3", new Point3d(2, 2, 2), new Point3d(3, 3, 3)),
-            };
+                BoxItems.Add(new BoxItemVM(box.Key, box.Value.Min, box.Value.Max));
+            }
             _mainViewModel = mainViewModel;
+            _modelStore = modelStore;
             RemoveItemCommand = new RelayCommand<object>(RemoveItem);
             CloseModalCommand = new RelayCommand(CloseModal);
+            AddBoxCommand = new RelayCommand(AddItem);
         }
         private void CloseModal()
         {
+            _modelStore.SetBoxes(BoxItems.ToDictionary(x => x.Name, x => new BBox(x.GetPoints())));
             _mainViewModel.IsOpen = false;
         }
         private void RemoveItem(object parameter)
@@ -39,6 +55,14 @@ namespace IFCApp.UI.ViewModel.Modals
             {
                 BoxItems.Remove(item);
             }
+        }
+        private void AddItem()
+        {
+            TeklaInteraction teklaInteraction = new TeklaInteraction();
+            var pt1 = teklaInteraction.PickPoint();
+            var pt2 = teklaInteraction.PickPoint();
+            var box = new BBox([pt1, pt2]);
+            BoxItems.Add(new BoxItemVM(BoxName, pt1, pt2));
         }
     }
 }
