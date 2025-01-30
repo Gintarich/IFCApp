@@ -35,7 +35,7 @@ public class OpeningMakerTests
         var windows = windowService.GetWindows();
 
         //Get Walls
-        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS"]);
+        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS"]);
 
         //Add doors to walls
         foreach (Wall wall in walls)
@@ -72,7 +72,7 @@ public class OpeningMakerTests
         var windows = windowService.GetWindows();
 
         //Get Walls
-        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS", "MŪRA SIENA"]);
+        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS", "MŪRA SIENA"]);
 
         //Add doors to walls
         foreach (Wall wall in walls)
@@ -109,7 +109,7 @@ public class OpeningMakerTests
         var windows = windowService.GetWindows();
 
         //Get Walls
-        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["SIENAS PANELIS", "MŪRA SIENA"]);
+        List<Wall> walls = new TeklaWallService(teklaBoundingBoxService).GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS", "MŪRA SIENA"]);
 
         //Add doors to walls
         foreach (Wall wall in walls)
