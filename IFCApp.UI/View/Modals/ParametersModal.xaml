@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="IFCApp.UI.View.Modals.ParametersModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IFCApp.UI.View.Modals"
+             xmlns:viewModels="clr-namespace:IFCApp.UI.ViewModel.Modals"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="650">
+    <!--<UserControl.DataContext>
+        <viewModels:ParametersModalVM/>
+    </UserControl.DataContext>-->
+    <Grid Background="White" Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Box Name" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Grid.Column="0" Margin="2"
+                       FontWeight="Bold"/>
+                    <TextBlock Text="Parameter Name" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Grid.Column="1" Margin="2"
+                       FontWeight="Bold"/>
+                    <TextBlock Text="Parameter Value" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Grid.Column="2" Margin="2"
+                       FontWeight="Bold"/>
+                    <TextBlock Text="Part Name" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Grid.Column="3" Margin="2"
+                       FontWeight="Bold"/>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding ParameterItems}" Grid.Row="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding BoxName}" 
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center" 
+                                     Grid.Column="0" Width="90"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Height="25"
+                                     Margin="0,5"/>
+                                <TextBox Text="{Binding ParameterName}" 
+                                     HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" 
+                                     Grid.Column="1" 
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Width="140" 
+                                     Height="25"
+                                     Margin="0,5"/>
+                                <TextBox Text="{Binding Value}" 
+                                     HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" 
+                                     Grid.Column="2"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Width="140"
+                                     Height="25"
+                                     Margin="0,5"/>
+                                <TextBox Text="{Binding PartName}" 
+                                     HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" 
+                                     Grid.Column="3"
+                                     HorizontalContentAlignment="Center"
+                                     VerticalContentAlignment="Center"
+                                     Width="140"
+                                     Height="25"
+                                     Margin="0,5"/>
+                                <Button Grid.Column="4" 
+                                        Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                        Style="{StaticResource HorPanelButton}"
+                                        Content="&#x2716;" 
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        FontWeight="Bold"
+                                        Foreground="Red"
+                                        CommandParameter="{Binding}" 
+                                        Width="25" Height="25"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding BoxName}"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Width="90"
+                             Height="25"
+                             Margin="0,5"/>
+                    <TextBox Grid.Column="1"
+                             Text="{Binding ParameterName}"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Width="140"
+                             Height="25"
+                             Margin="0,5"/>
+                    <TextBox Grid.Column="2"
+                             Text="{Binding ParameterValue}"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Width="140"
+                             Height="25"
+                             Margin="0,5"/>
+                    <TextBox Grid.Column="3"
+                             Text="{Binding PartName}"
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Width="140"
+                             Height="25"
+                             Margin="0,5"/>
+                    <Button Grid.Column="4" 
+                        Command="{Binding AddItemCommand}" 
+                        Style="{StaticResource HorPanelButton}"
+                        Content="+" 
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontWeight="Bold"
+                        Foreground="LawnGreen"
+                        Width="25" Height="25"/>
+                </Grid>
+            </Grid>
+        </Border>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Height="50">
+            <Button 
+                HorizontalAlignment="Left" 
+                Margin="10" 
+                Content="Close" 
+                Command="{Binding CloseModalCommand}"
+                Style="{StaticResource HorPanelButton}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

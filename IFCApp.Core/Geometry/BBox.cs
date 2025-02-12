@@ -32,6 +32,7 @@ namespace IFCApp.Core.Geometry
         {
             _coordinateSystem = CoordinateSystem;
         }
+
         public BBox TrimBoxWidth(double thickness)
         {
             var halfBox = thickness / 2;
@@ -155,6 +156,21 @@ namespace IFCApp.Core.Geometry
 
             // The overlapping volume is the product of the overlaps in X, Y, and Z.
             return overlapX * overlapY * overlapZ;
+        }
+        public bool Contains(BBox other)
+        {
+            // Get the min and max points of both bounding boxes
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+            Point3d otherMin = other.GetMin();
+            Point3d otherMax = other.GetMax();
+
+            // Check if the other box is completely inside this box
+            bool isInside = thisMin.X <= otherMin.X && thisMax.X >= otherMax.X &&
+                            thisMin.Y <= otherMin.Y && thisMax.Y >= otherMax.Y &&
+                            thisMin.Z <= otherMin.Z && thisMax.Z >= otherMax.Z;
+
+            return isInside;
         }
     }
 }

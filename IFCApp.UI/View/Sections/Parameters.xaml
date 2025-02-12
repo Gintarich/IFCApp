@@ -40,7 +40,7 @@
                 Width="auto" 
                 Padding="3 3" 
                 Content="Manage parameters" 
-                Command="{Binding OpenBoxModalCommand}"
+                Command="{Binding OpenParametersModalCommand}"
                 Style="{StaticResource HorPanelButton}"/>
         <Button 
             Style="{StaticResource HorPanelButton}"

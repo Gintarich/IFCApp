@@ -30,10 +30,10 @@ public class MainViewModel : ViewModelBase
         set { _isOpen = value; OnPropertyChanged(nameof(IsOpen)); }
     }
 
-    public MainViewModel(ModelStore modelStore)
+    public MainViewModel(ModelStore modelStore, ConfigStore cfgStore)
     {
-        _selectedViewModel = new ModelManagerVM(modelStore, this);
-        _selectedModal = new StartAppModalVM(this,modelStore);
+        _selectedViewModel = new ModelManagerVM(modelStore, this, cfgStore);
+        _selectedModal = new StartAppModalVM(this,modelStore,cfgStore);
         IsOpen = true;
     }
 }

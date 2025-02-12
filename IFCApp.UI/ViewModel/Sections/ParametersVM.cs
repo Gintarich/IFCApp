@@ -34,19 +34,29 @@ namespace IFCApp.UI.ViewModel.Sections
         private ModelManagerVM _parentViewModel;
         private MainViewModel _mainViewModel;
         private ModelStore _modelStore;
+        private ConfigStore _configStore;
         public ICommand ChangeViewCommand { get; set; }
         public ICommand OpenBoxModalCommand { get; set; }
+        public ICommand OpenParametersModalCommand { get; set; }
 
-        public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm) : base(name)
+        public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm, ConfigStore cfgStore) : base(name)
         {
             _mainViewModel = mainvm;
             _modelStore = modelStore;
+            _configStore = cfgStore;
             _parentViewModel = vm;
             ChangeViewCommand = new RelayCommand(ChangeView);
             AddParametersCommand = new RelayCommand(AddParameters);
-            OpenBoxModalCommand = new RelayCommand(OpenBoxModal);   
+            OpenBoxModalCommand = new RelayCommand(OpenBoxModal);
+            OpenParametersModalCommand = new RelayCommand(OpenParametersModal);
             Errors = "";
             _modelStore.ModelChanged += ModelChanged;
+        }
+
+        private void OpenParametersModal()
+        {
+            _mainViewModel.SelectedModal = new ParametersModalVM(_mainViewModel, _modelStore, _configStore);
+            _mainViewModel.IsOpen = true;
         }
 
         private void OpenBoxModal()
@@ -70,6 +80,22 @@ namespace IFCApp.UI.ViewModel.Sections
             NVAAtributeCreator atrCreator  = new NVAAtributeCreator();
             Errors = atrCreator.CreateClassificationForAllParts();
             atrCreator.CreateAttributesForAllParts();
+
+            ParameterCreator pCreator = new ParameterCreator();
+            foreach (var param in _configStore.Cfg.Parameters)
+            {
+                var boxName = "";
+                if (param.BoxName != null)  boxName = param.BoxName;
+                var boxes = _modelStore.Model.BBoxes;
+                if(boxes.TryGetValue(boxName, out var box))
+                {
+                    pCreator.CreateParameter(param.ParameterName, param.ParameterValue, param.PartName, box);
+                }
+                else
+                {
+                    pCreator.CreateParameter(param.ParameterName, param.ParameterValue, param.PartName);
+                }
+            }
             new Model().CommitChanges();
         }
 

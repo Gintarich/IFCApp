@@ -26,7 +26,7 @@ namespace IFCApp.Tests.SerializationTests
             var json = JsonSerializer.Serialize(opening);
 
             // Assert
-            var expectedJson = "{\"Box\":{\"Type\":\"BBox\",\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":123}";
+            var expectedJson = "{\"Box\":{\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":123,\"UserData\":null}";
             Assert.AreEqual(expectedJson, json);
         }
 
@@ -34,7 +34,7 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeOpening_ShouldReturnCorrectOpening()
         {
             // Arrange
-            var json = "{\"Box\":{\"Type\":\"BBox\",\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":123}";
+            var json = "{\"Box\":{\"Type\":\"BBox\",\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":123,\"UserData\":null}";
 
             // Act
             var opening = JsonSerializer.Deserialize<Opening>(json);

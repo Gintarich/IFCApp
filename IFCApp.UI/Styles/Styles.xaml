@@ -54,5 +54,7 @@
     <DataTemplate DataType="{x:Type modalVMS:BoxModalVM}">
         <modalViews:BoxModal/>
     </DataTemplate>
-
+    <DataTemplate DataType="{x:Type modalVMS:ParametersModalVM}">
+        <modalViews:ParametersModal/>
+    </DataTemplate>
 </ResourceDictionary>

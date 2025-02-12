@@ -15,6 +15,7 @@ namespace IFCApp.UI.ViewModel.Modals
         ObservableCollection<string> _models = [];
         public IEnumerable<string> Models => _models;
         private ModelStore _modelStore;
+        private ConfigStore _configStore;
         private readonly MainViewModel _mainViewModel;
         private string _selectedItem;
         public string SelectedItem
@@ -25,17 +26,19 @@ namespace IFCApp.UI.ViewModel.Modals
 
         public ICommand OpenModel { get; set; }
 
-        public SelectModelModalVM(List<string> models, ModelStore modelStore, MainViewModel mainViewModel)
+        public SelectModelModalVM(List<string> models, ModelStore modelStore, MainViewModel mainViewModel, ConfigStore configStore)
         {
             _models = new ObservableCollection<string>(models);
             OpenModel = new RelayCommand(OpenSelectedModel);
             _modelStore = modelStore;
             _mainViewModel = mainViewModel;
+            _configStore = configStore;
         }
 
         private void OpenSelectedModel()
         {
             _modelStore.LoadModel(SelectedItem);
+            _configStore.Load();
             _mainViewModel.IsOpen = false;
         }
     }

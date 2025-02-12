@@ -16,6 +16,14 @@ namespace IFCApp.Tests.TeklaTests;
 public class OpeningMakerTests
 {
     [TestMethod]
+    public void ClearOpenings()
+    {
+        TeklaDoorConfig dCfng = new TeklaDoorConfig();
+        TeklaWindowConfig wCfig = new TeklaWindowConfig();
+        var maker = new TeklaOpeningMaker([],wCfig,dCfng);
+        maker.ClearAllOpenings();
+    }
+    [TestMethod]
     public void AddAllOpenings()
     {
         //Dependencies

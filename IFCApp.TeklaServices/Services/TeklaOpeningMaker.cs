@@ -169,4 +169,8 @@ public class TeklaOpeningMaker
             opening.Delete();
         }
     }
+    public void ClearAllOpenings()
+    {
+        Clear();
+    }
 }

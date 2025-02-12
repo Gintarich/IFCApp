@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IFCApp.Core.Geometry;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,6 +20,16 @@ public static class Extensions
     //    }
     //    return list;
     //}
+
+    public static BBox GetBox(this Part part)
+    {
+        var solid = part.GetSolid();
+        var min = solid.MinimumPoint.CorePoint();
+        var max = solid.MaximumPoint.CorePoint();
+        var box = new BBox([min, max]);
+        return box;
+    }
+
     public static List<ModelObject> ToList(this ModelObjectEnumerator moe)
     {
         var list = new List<ModelObject>();

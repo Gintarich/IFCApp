@@ -12,7 +12,7 @@ namespace IFCApp.UI.ViewModel.Sections
     {
         private ModelManagerVM _parentViewModel;
         public ICommand ChangeViewCommand { get; set; }
-        public OpeningsVM(string name, ModelManagerVM vm, Stores.ModelStore modelStore, MainViewModel mainvm) : base(name)
+        public OpeningsVM(string name, ModelManagerVM vm, Stores.ModelStore modelStore, MainViewModel mainvm, Stores.ConfigStore cfgStore) : base(name)
         {
             _parentViewModel = vm;
             ChangeViewCommand = new RelayCommand(ChangeView);

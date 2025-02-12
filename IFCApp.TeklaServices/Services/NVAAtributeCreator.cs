@@ -68,6 +68,7 @@ public class NVAAtributeCreator
         ass.SetUserProperty("MATERIALS", material);
         ass.Modify();
     }
+
     public void CreateClassification(Assembly ass)
     {
         var name = ass.Name;
@@ -77,6 +78,7 @@ public class NVAAtributeCreator
             ass.Modify();
         }
     }
+
     public void CreateClassification(Part part)
     {
         var name = part.Name;
@@ -86,6 +88,7 @@ public class NVAAtributeCreator
             part.Modify();
         }
     }
+
     private IEnumerable<ModelObject> GetElements()
     {
         Model model = new Model();
@@ -96,6 +99,7 @@ public class NVAAtributeCreator
         var combo = beams.Concat(plates).Concat(assemblies);
         return combo;
     }
+
     public string CreateClassificationForAllParts()
     {
         var elements = GetElements();
@@ -141,6 +145,7 @@ public class NVAAtributeCreator
         }
         return sb.ToString();
     }
+
     public void CreateAttributesForAllParts()
     {
         Model model = new Model();
@@ -190,8 +195,11 @@ public class AttributeMapper
         {"METĀLA KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"HORIZONTĀLĀ SAITE","BE_07_27_05_00_Tērauda saites"},
         {"VĒJA SAITE","BE_07_27_05_00_Tērauda saites"},
-        {"KĀPŅU SIJU","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
+        {"KĀPŅU SIJA","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
         {"PAKĀPIENS","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
+        {"KĀPŅU LAIDS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB)"},
+        {"KĀPŅU LAUKUMS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB)"},
+        {"METINĀTS PLATFORMU REŽĢIS","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
         {"RVL100", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"SCHOCK DORN SLD 50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PAMATU PLĀTNE", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},

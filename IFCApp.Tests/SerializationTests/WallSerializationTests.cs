@@ -16,7 +16,7 @@ namespace IFCApp.Tests.SerializationTests
         {
             // Arrange
             var wall = new Wall(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }));
-            var expectedJson = "{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedJson = "{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"UserData\":null}";
 
             // Act
             var json = JsonSerializer.Serialize<Wall>(wall);
@@ -45,7 +45,7 @@ namespace IFCApp.Tests.SerializationTests
         {
             // Arrange
             var sandwichPanel = new SandwichPanel(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }), new Layers(70, 150, 250));
-            var expectedJson = "{\"$type\":\"SandwichPanel\",\"Layers\":{\"InnerLayerThickness\":70,\"OuterLayerThickness\":150,\"InsulationThickness\":250},\"LayerCount\":0,\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedJson = "{\"$type\":\"SandwichPanel\",\"Layers\":{\"InnerLayerThickness\":70,\"OuterLayerThickness\":150,\"InsulationThickness\":250},\"LayerCount\":0,\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"UserData\":null}";
 
             // Act
             var json = JsonSerializer.Serialize<Wall>(sandwichPanel);
@@ -74,7 +74,7 @@ namespace IFCApp.Tests.SerializationTests
         {
             // Arrange
             var wallPanel = new WallPanel(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) }));
-            var expectedJson = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}";
+            var expectedJson = "{\"$type\":\"WallPanel\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"UserData\":null}";
 
             // Act
             var json = JsonSerializer.Serialize<Wall>(wallPanel);
@@ -107,7 +107,7 @@ namespace IFCApp.Tests.SerializationTests
                 new Wall(new BBox(new List<Point3d> { new Point3d(0, 0, 0), new Point3d(1, 1, 1) })),
                 new Wall(new BBox(new List<Point3d> { new Point3d(1, 1, 1), new Point3d(2, 2, 2) }))
             };
-            var expectedJson = "[{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":1,\"Y\":1,\"Z\":1},\"Max\":{\"X\":2,\"Y\":2,\"Z\":2},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}}]";
+            var expectedJson = "[{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":0,\"Y\":0,\"Z\":0},\"Max\":{\"X\":1,\"Y\":1,\"Z\":1},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"UserData\":null},{\"$type\":\"Wall\",\"TeklaIdentifier\":0,\"ShouldHaveOpening\":false,\"Openings\":[],\"Box\":{\"Min\":{\"X\":1,\"Y\":1,\"Z\":1},\"Max\":{\"X\":2,\"Y\":2,\"Z\":2},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"Matrix\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]},\"UserData\":null}]";
 
             // Act
             var json = JsonSerializer.Serialize<List<Wall>>(walls);

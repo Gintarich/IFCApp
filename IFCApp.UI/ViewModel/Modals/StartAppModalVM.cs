@@ -27,10 +27,12 @@ namespace IFCApp.UI.ViewModel.Modals
         }
 
         private ModelStore _modelStore;
+        private ConfigStore _configStore;
         private TS.Model _tsModel;
-        public StartAppModalVM(MainViewModel mainViewModel, Stores.ModelStore modelStore)
+        public StartAppModalVM(MainViewModel mainViewModel, Stores.ModelStore modelStore, ConfigStore cfgStore)
         {
             _modelStore = modelStore;
+            _configStore = cfgStore;
             _mainViewModel = mainViewModel;
             CreateNewModelCommad = new RelayCommand(CreateModel,TeklaOpen);
             LoadModelCommand = new RelayCommand(LoadModel,TeklaOpen);
@@ -49,6 +51,7 @@ namespace IFCApp.UI.ViewModel.Modals
             if (Directory.Exists(path))
             {
                 var jsonFiles = Directory.GetFiles(path, "*.json").ToList();
+                jsonFiles = jsonFiles.Where(x=>!x.Contains("config")).ToList();
                 if (jsonFiles.Count == 0)
                 {
                     MessageBox.Show("No models found in directory.");
@@ -57,13 +60,15 @@ namespace IFCApp.UI.ViewModel.Modals
                 else if (jsonFiles.Count == 1)
                 {
                     _modelStore.LoadModel(Path.GetFileNameWithoutExtension(jsonFiles[0]));
+                    _configStore.Load();
                     _mainViewModel.IsOpen = false;
                     return;
                 }
                 else
                 {
                     var fileNames = jsonFiles.Select(Path.GetFileNameWithoutExtension).ToList();
-                    _mainViewModel.SelectedModal = new SelectModelModalVM(fileNames, _modelStore, _mainViewModel);
+                    _configStore.Load();
+                    _mainViewModel.SelectedModal = new SelectModelModalVM(fileNames, _modelStore, _mainViewModel, _configStore);
                 }
             }
             else
@@ -75,6 +80,7 @@ namespace IFCApp.UI.ViewModel.Modals
         private void CreateModel()
         {
             _modelStore.CreateModel();
+            _configStore.Load();
             _mainViewModel.IsOpen = false;
         }
     }

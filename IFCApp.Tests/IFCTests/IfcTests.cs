@@ -22,7 +22,7 @@ public class IfcTests
     public IFCModel _model { get; set; }
     public IfcTests()
     {
-        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001.ifc");
+        var model = new IFCModel("BOL-7AM-00-00-M3-AR-0001.ifc");
         _model = model;
     }
     [TestMethod]
@@ -43,7 +43,7 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllWindows()
     {
-        TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseKul);
+        TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseBol);
         BBoxService boxService = new BBoxService();
         IfcWindowService serv = new IfcWindowService(_model,transformationService,boxService);
         var windows = serv.GetWindows();

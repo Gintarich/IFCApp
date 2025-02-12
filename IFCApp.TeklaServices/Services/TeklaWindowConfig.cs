@@ -66,7 +66,7 @@ public class TeklaWindowConfig
         //Apdares slānis
         opening.SetAttribute("T_outside_off", -30.0); // Apdares slāņa offsets
         //Koka elements 
-        opening.SetAttribute("T_wood.profile", "BL100*60"); // Profils 
+        opening.SetAttribute("T_wood.profile", $"BL100*{insulationPart}"); // Profils 
         opening.SetAttribute("T_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("T_wood.name", "IZOLĀCIJA");
         opening.SetAttribute("T_wood_offset_y", insulationOffset); // Profila offsets
@@ -93,7 +93,7 @@ public class TeklaWindowConfig
         opening.SetAttribute("B_outside_cut_y", layers.OuterLayerThickness);
         opening.SetAttribute("B_outside_cut_z", 20.0);
         opening.SetAttribute("B_screws_def_type", 0);
-        opening.SetAttribute("B_wood.profile", "BL90*60");
+        opening.SetAttribute("B_wood.profile",$"BL90*{insulationPart}");
         opening.SetAttribute("B_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("B_wood.name", "IZOLĀCIJA");
         opening.SetAttribute("B_wood_cb", 0);
@@ -114,7 +114,7 @@ public class TeklaWindowConfig
         opening.SetAttribute("L_screws_def_type", 0);
         opening.SetAttribute("L_wood.material", "KOOLTHERM K20");
         opening.SetAttribute("L_wood.name", "IZOLĀCIJA");
-        opening.SetAttribute("L_wood.profile", "BL90*60");
+        opening.SetAttribute("L_wood.profile", $"BL90*{insulationPart}");
         opening.SetAttribute("L_wood_cb", 0);
         opening.SetAttribute("L_wood_offset_y", insulationOffset);
         opening.SetAttribute("right_same_as_left", 0);
