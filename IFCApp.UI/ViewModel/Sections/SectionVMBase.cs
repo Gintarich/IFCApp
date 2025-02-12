@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IFCApp.UI.ViewModel.Sections;
 
-class SectionVMBase : ViewModelBase
+public class SectionVMBase : ViewModelBase
 {
     private string _name;
     public string Name

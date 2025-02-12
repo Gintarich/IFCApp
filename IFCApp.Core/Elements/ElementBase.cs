@@ -17,5 +17,14 @@ namespace IFCApp.Core.Elements
     {
         public Dictionary<string,string> UserData { get; set; }
         public ElementBase() { }
+        public string GetData(string key)
+        {
+            if(UserData.TryGetValue(key, out var value)) return value;
+            else return string.Empty;
+        }
+        public void SetData(string key, string value)
+        {
+            UserData[key] = value;
+        }
     }
 }
