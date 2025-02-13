@@ -15,7 +15,8 @@ namespace IFCApp.Core.Elements
     [JsonDerivedType(typeof(Beam), typeDiscriminator: "Beam")]
     public class ElementBase
     {
-        public Dictionary<string,string> UserData { get; set; }
+        public Dictionary<string, string> UserData { get; set; } = [];
+        public Guid ID { get; set; }
         public ElementBase() { }
         public string GetData(string key)
         {

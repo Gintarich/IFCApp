@@ -11,12 +11,8 @@ namespace IFCApp.Core.Elements
         {
             
         }
-        public Door(BBox box, int fatherID = 0) : base(box, fatherID)
-        {
-        }
-
-        public Door(Point3d startPoint, Point3d endPoint, int fatherID = 0) : base(startPoint, endPoint, fatherID)
-        {
-        }
+        public Door(BBox box, string fatherID = "") : base(box, fatherID) { }
+        public Door(BBox box, Guid openingID) : base(box, new Guid(), openingID) { }
+        public Door(Point3d startPoint, Point3d endPoint, string fatherID = "") : base(startPoint, endPoint, fatherID) { }
     }
 }

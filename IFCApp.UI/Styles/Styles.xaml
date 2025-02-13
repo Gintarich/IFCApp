@@ -57,4 +57,7 @@
     <DataTemplate DataType="{x:Type modalVMS:ParametersModalVM}">
         <modalViews:ParametersModal/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type sectionVMS:WallsWM}">
+        <sectionViews:Walls/>
+    </DataTemplate>
 </ResourceDictionary>

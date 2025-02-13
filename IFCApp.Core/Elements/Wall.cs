@@ -11,7 +11,6 @@ namespace IFCApp.Core.Elements;
 [JsonDerivedType(typeof(WallPanel),     typeDiscriminator: "WallPanel")]
 public class Wall : ElementBase
 {
-    public int TeklaIdentifier { get; set; }
     public bool ShouldHaveOpening { get; set; }
     public List<Opening> Openings
     {
@@ -55,7 +54,7 @@ public class Wall : ElementBase
         {
             var overlap = _box.OverlapVolume(opening.GetBox());
             if (overlap<1000) { return this; } // If overlap is small then dont add opening
-            opening.FatherID = TeklaIdentifier;
+            opening.FatherID =this.ID;
             _openings.Add(opening);
         }
         return this;

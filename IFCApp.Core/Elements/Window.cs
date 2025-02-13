@@ -11,12 +11,8 @@ namespace IFCApp.Core.Elements
         {
             
         }
-        public Window(BBox box, int fatherID = 0) : base(box, fatherID)
-        {
-        }
-
-        public Window(Point3d startPoint, Point3d endPoint, int fatherID = 0) : base(startPoint, endPoint, fatherID)
-        {
-        }
+        public Window(BBox box, string fatherID = "") : base(box, fatherID) { }
+        public Window(BBox box, Guid openingID) : base(box, new Guid(), openingID) { }
+        public Window(Point3d startPoint, Point3d endPoint, string fatherID = "") : base(startPoint, endPoint, fatherID) { }
     }
 }

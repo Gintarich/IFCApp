@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace IFCApp.UI.ViewModel
 {
-    class ModelManagerVM : ViewModelBase
+    public class ModelManagerVM : ViewModelBase
     {
         private ObservableCollection<SectionVMBase> _sections = new ObservableCollection<SectionVMBase>();
         public IEnumerable<SectionVMBase> Sections => _sections;
@@ -33,7 +33,8 @@ namespace IFCApp.UI.ViewModel
         public ModelManagerVM(ModelStore modelStore, MainViewModel mainvm, ConfigStore cfgStore)
         {
             _sections.Add(new ParametersVM("Parameters", this, modelStore, mainvm, cfgStore));
-            _sections.Add(new OpeningsVM("Openings", this, modelStore, mainvm,cfgStore));
+            _sections.Add(new OpeningsVM("Openings", this, modelStore, mainvm, cfgStore));
+            _sections.Add(new WallsWM("Walls", this, modelStore, mainvm, cfgStore));
             _selectedSection = _sections.FirstOrDefault();
             ChangeToProjectSectionCommand = new RelayCommand(
                 () => SelectedSection = _sections.First(x => x.Name == "Project parameters"));

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Xbim.Ifc;
 using Xbim.Ifc2x3.SharedBldgElements;
+using Xbim.Ifc2x3.UtilityResource;
 
 namespace IFCApp.IFCServices.Services
 {
@@ -31,11 +32,13 @@ namespace IFCApp.IFCServices.Services
             foreach (var window in windows)
             {
                 var openingElement = window.FillsVoids.First().RelatingOpeningElement;
+                Guid guid = window.GlobalId;
+
                 var tforms = _transformationService;
                 var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
                 BBoxService bBoxService = _boxService;
                 var box = bBoxService.GetBBox(openingElement.Representation, matrix).TrimBoxWidth(1000);
-                windowsOut.Add(new Window(box));
+                windowsOut.Add(new Window(box,guid));
             }
             return windowsOut;
         }

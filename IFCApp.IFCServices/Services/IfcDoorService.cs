@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xbim.Ifc2x3.SharedBldgElements;
+using Xbim.Common;
 
 namespace IFCApp.IFCServices.Services;
 
@@ -28,6 +29,8 @@ public class IfcDoorService
 
         foreach (var door in doors)
         {
+            Guid guid = door.GlobalId;
+
             var openingElement = door.FillsVoids.First().RelatingOpeningElement;
             var tforms = _transformationService;
             var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
@@ -37,7 +40,7 @@ public class IfcDoorService
             var height = door.OverallHeight.Value;
             box = box.TrimBoxLength(len);
             box = box.SetHeight(height);
-            doorsOut.Add(new Door(box));
+            doorsOut.Add(new Door(box,guid));
         }
         return doorsOut;
     }

@@ -35,9 +35,11 @@ public class TeklaWallService
         foreach (var teklaWall in teklaWalls)
         {
             var box = bbService.GetBox(teklaWall);
-            var id = teklaWall.Identifier.ID;
+
+            var guid = teklaWall.Identifier.GUID;
             var wall = new Wall(box);
-            wall.TeklaIdentifier = id;
+            wall.ID = guid;
+
             walls.Add(wall);
         }
         return walls;
@@ -63,14 +65,14 @@ public class TeklaWallService
                 var sandwichPanel = new SandwichPanel(box, layers);
                 sandwichPanel.LayerCount = teklaLayerService.GetLayerCount();
                 sandwichPanel.ShouldHaveOpening = ShouldHaveOpening(panel);
-                sandwichPanel.TeklaIdentifier = mainPart.Identifier.ID;
+                sandwichPanel.ID= mainPart.Identifier.GUID;
                 walls.Add(sandwichPanel);
             }
             else
             {
                 var wallPanel = new WallPanel(_boundingBoxService.GetBox(mainPart));
                 wallPanel.ShouldHaveOpening = ShouldHaveOpening(panel);
-                wallPanel.TeklaIdentifier = mainPart.Identifier.ID;
+                wallPanel.ID = mainPart.Identifier.GUID;
                 walls.Add(wallPanel);
             }
         }

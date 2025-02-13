@@ -20,7 +20,7 @@ namespace IFCApp.Tests.SerializationTests
             // Arrange
             var startPoint = new Point3d(-300, -200, -500);
             var endPoint = new Point3d(300, 200, 500);
-            var opening = new Opening(startPoint, endPoint, 123);
+            var opening = new Opening(startPoint, endPoint, "123");
 
             // Act
             var json = JsonSerializer.Serialize(opening);
@@ -34,7 +34,7 @@ namespace IFCApp.Tests.SerializationTests
         public void DeserializeOpening_ShouldReturnCorrectOpening()
         {
             // Arrange
-            var json = "{\"Box\":{\"Type\":\"BBox\",\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":123,\"UserData\":null}";
+            var json = "{\"Box\":{\"Type\":\"BBox\",\"Min\":{\"X\":-300,\"Y\":-200,\"Z\":-500},\"Max\":{\"X\":300,\"Y\":200,\"Z\":500},\"CS\":{\"Matrix\":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]}},\"FatherID\":\"123\",\"UserData\":null}";
 
             // Act
             var opening = JsonSerializer.Deserialize<Opening>(json);
@@ -43,7 +43,7 @@ namespace IFCApp.Tests.SerializationTests
             var expectedStartPoint = new Point3d(-300, -200, -500);
             var expectedEndPoint = new Point3d(300, 200, 500);
             var expectedBBox = new BBox(new List<Point3d> { expectedStartPoint, expectedEndPoint });
-            var expectedOpening = new Opening(expectedBBox, 123);
+            var expectedOpening = new Opening(expectedBBox, "123");
 
             AssertHelpers.AssertOpeningAreEqual(expectedOpening, opening, Tolerance);
         }
