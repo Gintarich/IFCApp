@@ -6,13 +6,39 @@
              xmlns:local="clr-namespace:IFCApp.UI.View.Sections"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Foreground="{StaticResource Black}" 
-               Background="{StaticResource White}"
-               Grid.Column="1"
-               HorizontalContentAlignment="Center"
-               VerticalContentAlignment="Center"
-               Content="Openings go here" 
-               FontSize="40" />
+    <Grid Background="{StaticResource White}">
+        <Grid Background="{StaticResource White}" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+                <Button Style="{StaticResource HorPanelButton}"
+                        Grid.Column="1" Grid.Row="1"
+                        Width="auto"
+                        Margin="20 5"
+                        Content="Load Openings"
+                        Command="{Binding LoadOpeningsCommand}"/>
+                <Button Style="{StaticResource HorPanelButton}"
+                        Grid.Column="1" Grid.Row="2"
+                        Margin="20 5"
+                        Width="auto"
+                        Content="Show Openings"
+                        Command="{Binding ShowOpeningsCommand}"/>
+                <Button Style="{StaticResource HorPanelButton}"
+                        Grid.Column="1" Grid.Row="3"
+                        Margin="20 5"
+                        Width="auto"
+                        Content="Insert Openings"
+                        Command="{Binding InsertOpeningsCommand}"/>
+        </Grid>
     </Grid>
 </UserControl>

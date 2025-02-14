@@ -85,5 +85,9 @@ namespace IFCApp.UI.Stores
             ModelChanged?.Invoke(); 
             _model.BBoxes = boxes;
         }
+        public void Update()
+        {
+            ModelChanged?.Invoke();
+        }
     }
 }

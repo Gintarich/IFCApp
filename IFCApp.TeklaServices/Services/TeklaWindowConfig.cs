@@ -40,7 +40,7 @@ public class TeklaWindowConfig
     private TS.Component GetSandwichConfig(SandwichPanel sandwichPanel)
     {
         Layers layers = sandwichPanel.Layers;
-        var insulationPart = 60;
+        var insulationPart = 80;
         double thickPartWidth = layers.InsulationThickness + layers.InnerLayerThickness - insulationPart;
         double insulationOffset = layers.InsulationThickness - insulationPart;
         TS.Component opening = new TS.Component();

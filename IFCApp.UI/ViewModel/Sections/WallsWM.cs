@@ -1,4 +1,5 @@
-﻿using IFCApp.TeklaServices;
+﻿using IFCApp.Core.Elements;
+using IFCApp.TeklaServices;
 using IFCApp.TeklaServices.Services;
 using IFCApp.UI.Core;
 using IFCApp.UI.Stores;
@@ -23,6 +24,7 @@ namespace IFCApp.UI.ViewModel.Sections
             LoadWallsCommand = new RelayCommand(LoadWalls);
             ChangeViewCommand = new RelayCommand(ChangeView);
             _parentViewModel = vm;
+            _modelStore = modelStore;
         }
 
         private void ChangeView()
@@ -38,8 +40,25 @@ namespace IFCApp.UI.ViewModel.Sections
             foreach (var wall in walls)
             {
                 var model = _modelStore.Model;
+                if (model.TryGetValue(wall.ID, out var el))
+                {
+                    if (el is Wall wallEl)
+                    {
+                        wallEl.Box = wall.Box;
+                        wallEl.ID = wall.ID;
+                        wallEl.Matrix = wall.Matrix;
+                        wallEl.Openings = wall.Openings;
+                        wallEl.ShouldHaveOpening = wall.ShouldHaveOpening;
+                        wallEl.UserData = wall.UserData;
+                    }
+                }
+                else
+                {
+                    model.Insert(wall);
+                }
             }
-            _modelStore.Model.Insert(walls);
+            _modelStore.Update();
+            //TODO: Remove Unused walls ??
         }
     }
 }

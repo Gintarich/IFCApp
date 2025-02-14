@@ -1,4 +1,5 @@
-﻿using IFCApp.Core.Geometry;
+﻿using IFCApp.Core.Elements;
+using IFCApp.Core.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -157,4 +158,23 @@ public class TeklaGraphicsDrawerService
 
         return mesh; // Successfully created
     }
+
+    public void DrawOpening(Wall wall)
+    {
+        var openings = wall.Openings;
+
+        foreach (var opening in openings)
+        {
+            var box = opening.Box;
+            DrawBox(box);
+        }
+    }
+    public void DrawOpenings(List<Wall> walls)
+    {
+        foreach (var wall in walls)
+        {
+            DrawOpening(wall);
+        }
+    }
 }
+
