@@ -14,7 +14,7 @@ public class TeklaGraphicsDrawerService
     public void DrawCube(Point center)
     {
         GraphicsDrawer gd = new GraphicsDrawer();
-        var cube = CreateCube(new Point(0, 0, 0), 100);
+        var cube = CreateCube(center, 100);
         gd.DrawMeshSurface(cube,new Color(1,0,0) );
     }
     public void DrawBox(BBox box)

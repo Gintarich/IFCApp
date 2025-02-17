@@ -35,6 +35,7 @@ namespace IFCApp.UI.ViewModel
             _sections.Add(new ParametersVM("Parameters", this, modelStore, mainvm, cfgStore));
             _sections.Add(new OpeningsVM("Openings", this, modelStore, mainvm, cfgStore));
             _sections.Add(new WallsWM("Walls", this, modelStore, mainvm, cfgStore));
+            _sections.Add(new SlabsVM("Slabs", this, modelStore, mainvm, cfgStore));
             _selectedSection = _sections.FirstOrDefault();
             ChangeToProjectSectionCommand = new RelayCommand(
                 () => SelectedSection = _sections.First(x => x.Name == "Project parameters"));

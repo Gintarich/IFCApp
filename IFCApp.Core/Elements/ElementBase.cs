@@ -13,6 +13,7 @@ namespace IFCApp.Core.Elements
     [JsonDerivedType(typeof(Window), typeDiscriminator: "Window")]
     [JsonDerivedType(typeof(Opening), typeDiscriminator: "Opening")]
     [JsonDerivedType(typeof(Beam), typeDiscriminator: "Beam")]
+    [JsonDerivedType(typeof(Slab), typeDiscriminator: "Slab")]
     public class ElementBase
     {
         public Dictionary<string, string> UserData { get; set; } = [];

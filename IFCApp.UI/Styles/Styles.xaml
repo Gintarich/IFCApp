@@ -60,4 +60,7 @@
     <DataTemplate DataType="{x:Type sectionVMS:WallsWM}">
         <sectionViews:Walls/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type sectionVMS:SlabsVM}">
+        <sectionViews:Slabs/>
+    </DataTemplate>
 </ResourceDictionary>
