@@ -35,7 +35,7 @@ public class OpeningMakerTests
         //Script
 
         //Get Windows
-        IFCModel model = new IFCModel();
+        IFCModel model = new IFCModel(@"Z:\BCD projekti\Eduards Beernaerds_7AM\VUGD Depo kuldiga\Teklas modeli\KUL-7AM-00-00-M3-BK-0001\Automation\KUL-7AM-00-00-M3-AR-0001.ifc");
         IfcDoorService doorServ = new IfcDoorService(model, transformationService, bBoxService);
         var doors = doorServ.GetDoors();
 

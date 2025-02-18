@@ -29,6 +29,10 @@ public class NVAAtributeCreator
     private void CreateAttributesForPart(Part pt)
     {
         string teklaMat = pt.GetStringProp("MATERIAL_TYPE");
+        double area = pt.GetDoubleProp("AREA");
+        double areaProjNet = pt.GetDoubleProp("AREA_PROJECTION_XY_NET");
+        double areaProjGross = pt.GetDoubleProp("AREA_PROJECTION_XY_GROSS");
+
         if (teklaMat == "MISCELLANEOUS") teklaMat = pt.Material.MaterialString;
         var material = string.Empty;
         var name = pt.Name;

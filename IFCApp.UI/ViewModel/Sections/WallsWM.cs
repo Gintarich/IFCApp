@@ -17,14 +17,25 @@ namespace IFCApp.UI.ViewModel.Sections
     {
         private ModelManagerVM _parentViewModel;
         private ModelStore _modelStore;
+        private ConfigStore _configStore;
+        //private string _wallNames;
+
+        public string WallNames
+        {
+            get { return _configStore.Cfg.WallNames; }
+            set { _configStore.SetWallNames(value); OnPropertyChanged(nameof(WallNames)); }
+        }
+
         public ICommand LoadWallsCommand { get; set; }
         public ICommand ChangeViewCommand { get; set; }
         public WallsWM(string name, ModelManagerVM vm, Stores.ModelStore modelStore, MainViewModel mainvm, Stores.ConfigStore cfgStore) : base(name)
         {
-            LoadWallsCommand = new RelayCommand(LoadWalls);
+            LoadWallsCommand = new RelayCommand<string>(LoadWalls);
             ChangeViewCommand = new RelayCommand(ChangeView);
             _parentViewModel = vm;
             _modelStore = modelStore;
+            _configStore = cfgStore;
+            WallNames = cfgStore.Cfg?.WallNames is null ? "" : cfgStore.Cfg.WallNames;
         }
 
         private void ChangeView()
@@ -32,11 +43,12 @@ namespace IFCApp.UI.ViewModel.Sections
             _parentViewModel.SelectedSection = this;
         }
 
-        private void LoadWalls()
+        private void LoadWalls(string WallNames)
         {
+            var splitNames = WallNames.Split(',').Select(x=>x.Trim()).ToList();
             TeklaBoundingBoxService boxService = new();
             TeklaWallService wService = new(boxService);
-            var walls = wService.GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS"]);
+            var walls = wService.GetWalls(splitNames);
             foreach (var wall in walls)
             {
                 var model = _modelStore.Model;

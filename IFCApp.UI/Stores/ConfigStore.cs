@@ -16,7 +16,7 @@ namespace IFCApp.UI.Stores;
 public class ConfigStore
 {
     private ModelAttributeServer _attrServer = new ModelAttributeServer();
-    public Config Cfg { get; set; }
+    public Config Cfg { get; set; } = new Config();
     public event Action ConfigChanged;
     public ConfigStore() { }
 
@@ -35,6 +35,11 @@ public class ConfigStore
         return Path.Combine(_attrServer.GetFilePath(), "Automation");
     }
 
+    public void SetWallNames(string val)
+    {
+        Cfg.WallNames = val;
+        ConfigChanged?.Invoke();
+    }
     public void Save()
     {
         if (!Directory.Exists(GetFolderPath())) { return; }

@@ -50,4 +50,8 @@ public struct Point3d(double x = 0, double y = 0, double z = 0)
             }
         }
     }
+    public override string ToString()
+    {
+        return $"{X}, {Y}, {Z}";
+    }
 }

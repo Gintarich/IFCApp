@@ -140,23 +140,40 @@ namespace IFCApp.Core.Geometry
             var otherYAxis = other.CS.YAxis;
             return Math.Abs(thisYAxis.Dot(otherYAxis)) > 0.99;
         }
+
+        /// <summary>
+        /// Calculate overlap volume
+        /// </summary>
+        /// <param name="other">The other bounding box.</param>
+        /// <returns>overlap volume in metres</returns>
         public double OverlapVolume(BBox other)
         {
-            // Get the transformed (global) min and max points for both boxes.
             Point3d thisMin = this.GetMin();
             Point3d thisMax = this.GetMax();
             Point3d otherMin = other.GetMin();
             Point3d otherMax = other.GetMax();
-
-
-            // Calculate the overlapping extents along the X, Y, and Z axes.
             double overlapX = Math.Max(0, Math.Min(thisMax.X, otherMax.X) - Math.Max(thisMin.X, otherMin.X));
             double overlapY = Math.Max(0, Math.Min(thisMax.Y, otherMax.Y) - Math.Max(thisMin.Y, otherMin.Y));
             double overlapZ = Math.Max(0, Math.Min(thisMax.Z, otherMax.Z) - Math.Max(thisMin.Z, otherMin.Z));
-
-            // The overlapping volume is the product of the overlaps in X, Y, and Z.
-            return overlapX * overlapY * overlapZ;
+            return overlapX * overlapY * overlapZ / (1000 * 1000 * 1000);
         }
+
+        /// <summary>
+        /// Checks if this bounding box overlaps or touches another bounding box.
+        /// </summary>
+        /// <param name="other">The other bounding box.</param>
+        /// <returns>overlap area in metres</returns>
+        public double OverlapsXY(BBox other)
+        {
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+            Point3d otherMin = other.GetMin();
+            Point3d otherMax = other.GetMax();
+            double overlapX = Math.Max(0, Math.Min(thisMax.X, otherMax.X) - Math.Max(thisMin.X, otherMin.X));
+            double overlapY = Math.Max(0, Math.Min(thisMax.Y, otherMax.Y) - Math.Max(thisMin.Y, otherMin.Y));
+            return overlapX * overlapY / (1000 * 1000); //to convert to metres
+        }
+
         public bool Contains(BBox other)
         {
             // Get the min and max points of both bounding boxes
@@ -171,6 +188,28 @@ namespace IFCApp.Core.Geometry
                             thisMin.Z <= otherMin.Z && thisMax.Z >= otherMax.Z;
 
             return isInside;
+        }
+
+        public bool ContainsXY(BBox other)
+        {
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+            Point3d otherMin = other.GetMin();
+            Point3d otherMax = other.GetMax();
+            bool isInside = thisMin.X <= other.Min.X && thisMax.X >= otherMax.X &&
+                            thisMin.Y <= otherMin.Y && thisMax.Y >= otherMax.Y;
+            return isInside;
+        }
+
+        public BBox ToOtherCS(Matrix4d mat)
+        {
+            var minGlobal = CS.Apply(Min);
+            var maxGLobal = CS.Apply(Max);
+            var minLocal = mat.Inverse().Apply(minGlobal);
+            var maxLocal = mat.Inverse().Apply(maxGLobal);
+            minLocal.Round(2);
+            maxLocal.Round(2);
+            return new BBox([minLocal, maxLocal], mat);
         }
     }
 }

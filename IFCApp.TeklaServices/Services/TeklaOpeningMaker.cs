@@ -13,6 +13,7 @@ using System.Data;
 using Tekla.Structures.ModelInternal;
 using IFCApp.TeklaServices.Services;
 using System.Diagnostics;
+using Component = Tekla.Structures.Model.Component;
 
 namespace IFCApp.TeklaServices;
 

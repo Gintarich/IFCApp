@@ -7,9 +7,43 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{StaticResource White}">
-        <Button Style="{StaticResource HorPanelButton}"
-                Height="30"
-                Content="Load Walls"
-                Command="{Binding LoadWallsCommand}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Sienu nosaukumi" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WallNames}" Margin="10 5" Padding="3 3" Style="{StaticResource MyTextBox}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Parameters" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            <Button 
+                Grid.Row="2"
+                Grid.Column="1" 
+                Margin="20 5" 
+                Width="auto" 
+                Padding="3 3" 
+                Content="Manage parameters" 
+                Style="{StaticResource HorPanelButton}"/>
+        <Button 
+            Style="{StaticResource HorPanelButton}"
+            Grid.Column="0"
+            Grid.ColumnSpan="2" 
+            Grid.Row="3" 
+            Margin="10 15"
+            Padding="10 5"
+            Width="auto"
+            Content="Load Walls" 
+            Command="{Binding LoadWallsCommand}" 
+            CommandParameter="{Binding WallNames}"
+            HorizontalContentAlignment="Center"
+            HorizontalAlignment="Left"/>
+
     </Grid>
 </UserControl>

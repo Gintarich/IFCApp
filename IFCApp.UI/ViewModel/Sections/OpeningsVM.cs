@@ -20,7 +20,17 @@ namespace IFCApp.UI.ViewModel.Sections
     {
         private ModelManagerVM _parentViewModel;
         private ModelStore _modelStore;
+        private ConfigStore _configStore;
         private List<Wall> _walls = [];
+
+        private string _path;
+
+        public string Path
+        {
+            get { return _path; }
+            set { _path = value; OnPropertyChanged(nameof(Path)); }
+        }
+
         public ICommand LoadOpeningsCommand { get; set; }
         public ICommand ShowOpeningsCommand { get; set; }
         public ICommand InsertOpeningsCommand { get; set; }
@@ -29,15 +39,22 @@ namespace IFCApp.UI.ViewModel.Sections
         {
             _parentViewModel = vm;
             _modelStore = modelStore;
+            _configStore = cfgStore;
             ChangeViewCommand = new RelayCommand(ChangeView);
             LoadOpeningsCommand = new RelayCommand(LoadOpenings);
             ShowOpeningsCommand = new RelayCommand(ShowOpenings);
             InsertOpeningsCommand = new RelayCommand(InsertOpenings);
             _modelStore.ModelChanged += UpdateWalls;
+            _modelStore.ModelLoaded += OnModelLoaded;
         }
         private void ChangeView()
         {
             _parentViewModel.SelectedSection = this;
+        }
+        public void OnModelLoaded()
+        {
+            var archModelName = _modelStore.Model.ModelName.Replace("BK", "AR");
+            Path = _modelStore.GetFolderPath() + $"\\{archModelName}.ifc";
         }
         public void UpdateWalls()
         {
@@ -49,7 +66,6 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 _walls = _modelStore.Model.Elements.Where(x => x is Wall).Cast<Wall>().ToList();
             }
-            //_modelStore.Model.CS = VUGDCoordinateSystems.InverseKul;
             //Dependencies
             BBoxService bBoxService = new BBoxService();
             TransformationService transformationService = new TransformationService(_modelStore.Model.CS);
@@ -57,7 +73,7 @@ namespace IFCApp.UI.ViewModel.Sections
             //Script
 
             //Get Windows
-            IFCModel model = new IFCModel();
+            IFCModel model = new IFCModel(Path);
             IfcDoorService doorServ = new IfcDoorService(model, transformationService, bBoxService);
             var doors = doorServ.GetDoors();
 

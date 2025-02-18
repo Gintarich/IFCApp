@@ -9,6 +9,6 @@ namespace IFCApp.UI.Models;
 public class Config
 {
     public List<ParametersItemModel> Parameters { get; set; } = [];
-
+    public string WallNames { get; set; } = "";
     public Config() { }
 }

@@ -7,17 +7,18 @@ using System.Text.Json.Serialization;
 
 namespace IFCApp.Core.Services
 {
-    public class JsonSerializationService
+    public class JsonModelSerializationService
     {
         private readonly string _path;
 
-        public JsonSerializationService(string path)
+        public JsonModelSerializationService(string path)
         {
             _path = path;
         }
         public void Write(Model model)
         {
-            if (!Directory.Exists(_path)) { return; }
+            var dir = Path.GetDirectoryName(_path);
+            if (!Directory.Exists(dir)) { return; }
             var json = JsonSerializer.Serialize(model);
             File.WriteAllText(_path, json);
         }

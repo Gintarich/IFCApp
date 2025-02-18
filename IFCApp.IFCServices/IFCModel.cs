@@ -16,12 +16,9 @@ namespace IFCApp.IFCServices
         readonly string _fileName;
         readonly IfcStore _model;
 
-        public IFCModel(string fileName = "KUL-7AM-00-00-M3-AR-0001.ifc" )
+        public IFCModel(string filePath )
         {
-            _fileName = fileName;
-            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            var path = Path.Combine(desktop, fileName );
-            _model = IfcStore.Open(path);
+            _model = IfcStore.Open(filePath);
         }
         public IfcStore GetModel()
         {

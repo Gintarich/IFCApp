@@ -21,7 +21,7 @@ namespace IFCApp.Tests.TeklaTests
         public void MustSerialize()
         {
             var model = GenerateModel();
-            JsonSerializationService jsonService = new JsonSerializationService(
+            JsonModelSerializationService jsonService = new JsonModelSerializationService(
                 @"Z:\BCD projekti\Eduards Beernaerds_7AM\VUGD Depo Bolderaja\Teklas modeli\BOL-7AM-00-00-M3-BK-0001");
             jsonService.Write(model);
             jsonService.Read();

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Tekla.Structures.Model;
 using TS = Tekla.Structures.Model;
+using Component = Tekla.Structures.Model.Component;
 
 namespace IFCApp.TeklaServices.Services;
 

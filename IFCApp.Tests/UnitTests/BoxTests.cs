@@ -1,7 +1,11 @@
-﻿using IFCApp.Core.Geometry;
+﻿using IFCApp.Core;
+using IFCApp.Core.Elements;
+using IFCApp.Core.Geometry;
+using IFCApp.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -187,6 +191,33 @@ namespace IFCApp.Tests.UnitTests
             var box2 = new BBox(points2);
 
             Assert.IsTrue(box1.IsParallel(box2));
+        }
+
+        [TestMethod]
+        public void ShouldTransformToCS()
+        {
+            JsonModelSerializationService jSer = new("KUL-7AM-00-00-M3-BK-0001.json");
+            Model model = jSer.Read();
+            var idx = model.ElementMap[new Guid("3d02e2ba-4eae-4b60-bf7d-da5812921c52")];
+            var wall = model.Elements[idx] as SandwichPanel;
+            var openings = wall?.Openings;
+            List<BBox> bboxes = new List<BBox>();
+            foreach (var opening in openings)
+            {
+                var tformedBox = opening.Box.ToOtherCS(wall.Box.CS);
+                bboxes.Add(tformedBox);
+            }
+            List<BBox> expectedBboxes = new()
+            {
+                new BBox([new Point3d(4640, 500, 2480),new Point3d(3590, -500, 780)]),
+                new BBox([new Point3d(3040, 500, 2480),new Point3d(1990, -500, 780)]),
+                new BBox([new Point3d(1330, 500, 2480),new Point3d(280, -500, 780)])
+            };
+            for (int i = 0; i < expectedBboxes.Count; i++)
+            {
+                Assert.AreEqual(bboxes[i].Min, expectedBboxes[i].Min);
+                Assert.AreEqual(bboxes[i].Max, expectedBboxes[i].Max);
+            }
         }
     }
 }

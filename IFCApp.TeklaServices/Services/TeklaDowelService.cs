@@ -1,6 +1,8 @@
-﻿using IFCApp.TeklaServices.Utils;
+﻿using IFCApp.Core.Geometry;
+using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Tekla.Structures;
 using Tekla.Structures.Geometry3d;
@@ -10,7 +12,7 @@ namespace IFCApp.TeklaServices.Services
 {
     public class TeklaDowelService
     {
-        public void GenerateDowels(List<double> locations, Guid id1, Guid id2)
+        public void GenerateDowels(List<Point3d> points, Guid id1, Guid id2)
         {
             var model = new Model();
             var mos = model.GetModelObjectSelector();
@@ -20,10 +22,10 @@ namespace IFCApp.TeklaServices.Services
 
             var cs = wall.GetCoordinateSystem();
 
-            List<Point> points = GeneratePoints(locations, cs);
+            List<Point> tPts = points.Select(x=>x.TeklaPoint()).ToList();
 
             TeklaGraphicsDrawerService tgdService = new TeklaGraphicsDrawerService();
-            foreach (var point in points)
+            foreach (var point in tPts)
             {
                 tgdService.DrawCube(point);
             }

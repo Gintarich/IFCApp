@@ -5,97 +5,100 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace IFCApp.Core.DetailComponents;
-public class DowelComponent
+public class DowelComponent : Component
 {
-    public Guid FirstPart { get; set; }
-    public Guid SecondPart { get; set; }
-    private Action<List<double>, Guid, Guid> _func;
-
     public DowelComponent() { }
-    public DowelComponent(Guid firstPart, Guid secondPart, Action<List<double>,Guid,Guid> func)
+    public DowelComponent(Guid firstPart, Guid secondPart)
     {
         FirstPart = firstPart;
         SecondPart = secondPart;
-        _func = func;
     }
 
-    public void Run(Model model)
+    public override void Run(Model model, Action<List<Point3d>, Guid, Guid> func)
     {
         model.TryGetValue(FirstPart, out var first);
         model.TryGetValue(SecondPart, out var second);
         if (first is null || second is null) throw new Exception("Dowel component cannot operate on null elements, check if element is in Core model");
-        if (first is Slab slab && second is Wall wall) AddDowelToSlabAndWall(slab, wall);
-        else if (first is Wall && second is Wall) AddDowelToWallAndWall(first, second);
+        if (first is Slab slab && second is Wall wall) AddDowelToSlabAndWall(slab, wall, func);
+        else if (first is Wall && second is Wall) AddDowelToWallAndWall(first, second, func);
         else { throw new NotImplementedException($"Dowel Component is not ment to be used with {first.GetType().ToString()} and {second.GetType().ToString()}"); }
     }
 
-    private void AddDowelToWallAndWall(ElementBase first, ElementBase second)
+    private void AddDowelToWallAndWall(ElementBase first, ElementBase second, Action<List<Point3d>, Guid, Guid> func)
     {
         throw new NotImplementedException();
     }
 
-    private void AddDowelToSlabAndWall(Slab slab, Wall wall)
+    private void AddDowelToSlabAndWall(Slab slab, Wall wall, Action<List<Point3d>, Guid, Guid> func)
     {
         //Parameters 
-        var step = 1500;
+        double step = 1200;
+        double threshold = 200;
+        double firstOffset = 400;
 
         List<Door> doors = wall.Openings.Where(x => x is Door).Cast<Door>().ToList();
-
-        var min = wall.Box.Min;
-        var max = wall.Box.Max;
-        var midWidth = (wall.Box.Max.Y + wall.Box.Min.Y) / 2;
-        var startPoint = new Point3d(min.X, midWidth, min.Z);
-        var endPoint = new Point3d(max.X, midWidth, min.Z);
-        var length = max.X > min.X ? max.X - min.X : min.X - max.X;
-        var locations = CalculateLocations(length, step);
-        _func(locations,FirstPart,SecondPart);
+        List<Domain> domains = wall.GetLowerDomains(threshold);
+        List<Point3d> points = CalcPoints(domains, step, wall, firstOffset);
+        points = points.Select(x => wall.Box.CS.Apply(x)).ToList();
+        func(points, FirstPart, SecondPart);
     }
-    private List<double> CalculateLocations(double length, double step)
+
+    private List<Point3d> CalcPoints(List<Domain> domains, double step, Wall wall, double firstOffset)
     {
+        var points = new List<Point3d>();
+        foreach (Domain domain in domains)
+        {
+            points.AddRange(CalcPoints(domain, step, wall, firstOffset));
+        }
+        return points;
+    }
+
+    private IEnumerable<Point3d> CalcPoints(Domain domain, double step, Wall wall, double firstOffset)
+    {
+        List<Point3d> points = [];
+        List<double> distances = CalculateLocations(domain, step, firstOffset);
+        foreach (var dist in distances)
+        {
+            var midWidth = Math.Abs((wall.Box.Max.Y + wall.Box.Min.Y) / 2);
+            points.Add(new Point3d(dist, midWidth, wall.Box.Min.Z));
+        }
+        return points;
+    }
+
+    private List<double> CalculateLocations(Domain domain, double step, double firstOffset)
+    {
+        var length = domain.Length;
         double whenToCreate = 300;
         if (length < whenToCreate) return [];
         //TODO: Solve edge cases :
         //      3)Thereis space for two dowels
         int stepCount = (int)Math.Ceiling(length / step);
-        if (stepCount <= 1) return [Math.Round((length / 2) / 10) * 10];
+        if (stepCount <= 1) return [Math.Round(domain.Mid / 10) * 10];
         var realStep = length / stepCount;
-        var firstStep = Math.Ceiling(realStep / 10) * 10;
+        var firstStep = firstOffset;
         var lastStep = firstStep;
-        if (stepCount == 2) return [firstStep, length-lastStep];
-        var midLength = length - (lastStep + firstStep);
-        List<double> midlocations = CalculateMiddleSection(midLength, step);
-        return Accumulate(firstStep, midlocations);
+        Domain midDomain = new Domain(domain.Start + firstStep, domain.End - lastStep);
+        if (stepCount == 2) return [midDomain.Start, midDomain.End];
+        List<double> locations = CalculateMiddleSection(midDomain, step);
+        return locations;
     }
-    private List<double> CalculateMiddleSection(double length, double step)
+    private List<double> CalculateMiddleSection(Domain domain, double step)
     {
+        var length = domain.Length;
         int midStepCount = (int)Math.Ceiling(length / step);
-        if (midStepCount <= 1) return [length];
+        if (midStepCount <= 1) return [domain.Start, domain.End];
 
         var realStep = length / midStepCount;
-        var interval = Math.Round(realStep / 10) * 10;
-        if (midStepCount == 2) return [interval, length - interval];
+        if (midStepCount == 2) return [domain.Start, domain.Mid, domain.End];
 
         List<double> intervals = [];
-        for (var i = 0; i < midStepCount - 1; i++)
+        double current = domain.Start;
+        for (var i = 0; i < midStepCount; i++)
         {
-            intervals.Add(interval);
+            intervals.Add(current);
+            current += realStep;
         }
-        intervals.Add(length - (interval * (midStepCount - 1)));
-
-        return intervals;
-    }
-    private List<double> Accumulate(double first, List<double> middleSection)
-    {
-        if (middleSection.Count == 0) return [first];
-        if (middleSection.Count == 1) return [first, first + middleSection[0]];
-        List<double> intervals = [first];
-        double currentVal = first;
-        var count = middleSection.Count;
-        for (var i = 0; i < count; i++)
-        {
-            currentVal = currentVal + middleSection[i];
-            intervals.Add(currentVal);
-        }
+        intervals.Add(domain.End);
         return intervals;
     }
 }

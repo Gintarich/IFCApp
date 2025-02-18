@@ -353,16 +353,23 @@ public class Matrix4d
     // Override ToString() for better debugging output
     public override string ToString()
     {
-        string output = "";
+        var sb = new StringBuilder();
+        sb.AppendLine("Matrix4d:");
         for (int i = 0; i < 4; i++)
         {
+            sb.Append("{ ");
             for (int j = 0; j < 4; j++)
             {
-                output += $"{_matrix[i, j]:F2}\t";
+                // Format each number (you can adjust the format string as needed)
+                sb.Append(_matrix[i, j].ToString("G4"));
+                if (j < 3)
+                    sb.Append(", ");
             }
-            output += "\n";
+            sb.Append(" }");
+            if (i < 3)
+                sb.AppendLine();
         }
-        return output;
+        return sb.ToString();
     }
 
 };

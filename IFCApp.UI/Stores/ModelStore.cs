@@ -1,5 +1,6 @@
 ﻿using IFCApp.Core;
 using IFCApp.Core.Geometry;
+using IFCApp.IFCServices.Utils;
 using IFCApp.TeklaServices.Services;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace IFCApp.UI.Stores
 {
@@ -23,6 +25,7 @@ namespace IFCApp.UI.Stores
         }
 
         public event Action ModelChanged;
+        public event Action ModelLoaded;
         public ModelStore()
         {
             _model = new Model();
@@ -46,6 +49,20 @@ namespace IFCApp.UI.Stores
             if (!Directory.Exists(modelPath))
             {
                 Directory.CreateDirectory(modelPath);
+            }
+            switch (_model.ModelName)
+            {
+                case "DZI-7AM-00-00-M3-BK-0001":
+                    _model.CS = VUGDCoordinateSystems.InverseDzin;
+                    break;
+                case "KUL-7AM-00-00-M3-BK-0001":
+                    _model.CS = VUGDCoordinateSystems.InverseKul;
+                    break;
+                case "BOL-7AM-00-00-M3-BK-0001":
+                    _model.CS = VUGDCoordinateSystems.InverseBol;
+                    break;
+                default:
+                    break;
             }
             _model.ModelPath = modelPath;
             SaveModel();
@@ -75,6 +92,7 @@ namespace IFCApp.UI.Stores
                 }
             }
             ModelChanged?.Invoke();
+            ModelLoaded?.Invoke();
         }
         public Dictionary<string, BBox> GetBoxes()
         {
@@ -82,7 +100,7 @@ namespace IFCApp.UI.Stores
         }
         public void SetBoxes(Dictionary<string, BBox> boxes)
         {
-            ModelChanged?.Invoke(); 
+            ModelChanged?.Invoke();
             _model.BBoxes = boxes;
         }
         public void Update()

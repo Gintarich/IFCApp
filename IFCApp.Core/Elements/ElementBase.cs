@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IFCApp.Core.DetailComponents;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -14,6 +15,8 @@ namespace IFCApp.Core.Elements
     [JsonDerivedType(typeof(Opening), typeDiscriminator: "Opening")]
     [JsonDerivedType(typeof(Beam), typeDiscriminator: "Beam")]
     [JsonDerivedType(typeof(Slab), typeDiscriminator: "Slab")]
+    [JsonDerivedType(typeof(DowelComponent), typeDiscriminator: "DowelComponent")]
+
     public class ElementBase
     {
         public Dictionary<string, string> UserData { get; set; } = [];
