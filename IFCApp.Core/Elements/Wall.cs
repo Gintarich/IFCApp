@@ -59,7 +59,7 @@ public class Wall : ElementBase
             if (overlap < 0.001) { return this; } // If overlap is small then dont add opening
             var matchingOpening = matchingOpeningList.FirstOrDefault();
             matchingOpening.Box = opening.Box;
-            matchingOpening.FatherID = opening.FatherID;
+            matchingOpening.FatherID = this.ID;
             matchingOpening.UserData = opening.UserData;
             return this;
         }
