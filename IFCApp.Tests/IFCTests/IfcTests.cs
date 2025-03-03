@@ -9,11 +9,14 @@ using IFCApp.Core.Geometry;
 using IFCApp.IFCServices;
 using IFCApp.IFCServices.Services;
 using IFCApp.IFCServices.Utils;
+using IFCApp.TeklaServices;
+using IFCApp.TeklaServices.Services;
 using IFCApp.TeklaServices.Utils;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.RepresentationResource;
 using Xbim.Ifc2x3.SharedBldgElements;
+using Color = Tekla.Structures.Model.UI.Color;
 
 namespace IFCApp.Tests.IFCTests;
 [TestClass]
@@ -22,8 +25,8 @@ public class IfcTests
     public IFCModel _model { get; set; }
     public IfcTests()
     {
-        var model = new IFCModel("BOL-7AM-00-00-M3-AR-0001.ifc");
-        _model = model;
+        //var model = new IFCModel("BOL-7AM-00-00-M3-AR-0001.ifc");
+        //_model = model;
     }
     [TestMethod]
     public void MustGetWindow()
@@ -45,7 +48,7 @@ public class IfcTests
     {
         TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseBol);
         BBoxService boxService = new BBoxService();
-        IfcWindowService serv = new IfcWindowService(_model,transformationService,boxService);
+        IfcWindowService serv = new IfcWindowService(_model, transformationService, boxService);
         var windows = serv.GetWindows();
         foreach (var window in windows)
         {
@@ -58,12 +61,41 @@ public class IfcTests
     {
         TransformationService transformationService1 = new TransformationService(VUGDCoordinateSystems.InverseDzin);
         BBoxService boxService1 = new BBoxService();
-        IfcDoorService doorService = new IfcDoorService(_model,transformationService1,boxService1);
+        IfcDoorService doorService = new IfcDoorService(_model, transformationService1, boxService1);
         var doors = doorService.GetDoors();
         foreach (var door in doors)
         {
             TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
             gd.DrawBox(door.GetBox());
         }
+    }
+
+    [TestMethod]
+    public void MustGetAllOpenings()
+    {
+        TransformationService transformationService1 = new TransformationService(VUGDCoordinateSystems.InverseKul);
+        BBoxService bBoxServ = new BBoxService();
+        TeklaBoundingBoxService tBoxServ = new TeklaBoundingBoxService();
+        TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
+        TeklaWallService wServ = new TeklaWallService(tBoxServ);
+        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001_atverumu tests2.ifc", transformationService1, bBoxServ);
+        var walls = wServ.GetWalls("TRĪSSLĀŅU SIENAS PANELIS");
+        var openings = model.GetHvacOpenings(["OP"]);
+
+        foreach (var opening in openings)
+        {
+            if (opening.IsCircle)
+            {
+                var startPoint = opening.GetStartPoint().TeklaPoint();
+                var endPoint = opening.GetEndPoint().TeklaPoint();
+                var diameter = opening.GetDiameter();
+                gd.DrawCylinder(startPoint, endPoint, diameter);
+            }
+            else
+            {
+                gd.DrawBox(opening.GetBox());
+            }
+        }
+        //walls.ForEach(wall => gd.DrawBox(wall.GetBox(), new Color(0, 0.5, 0.5)));
     }
 }

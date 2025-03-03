@@ -25,5 +25,18 @@ namespace IFCApp.IFCServices.Services
             var points = GetPoints(product);
             return new BBox(points, tForm);
         }
+
+        public BBox GetGlobalBox(IfcProductRepresentation product, Matrix4d tForm)
+        {
+            var points = GetPoints(product);
+            List<Point3d> tPoints = new List<Point3d>();
+            foreach (var pt in points)
+            {
+                var tPt = tForm.Apply(pt);
+                tPoints.Add(tPt);
+            }
+            BBox box = new BBox(tPoints);
+            return box;
+        }
     }
 }

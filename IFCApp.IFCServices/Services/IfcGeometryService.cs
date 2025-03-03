@@ -24,7 +24,7 @@ namespace IFCApp.IFCServices.Services
                     }
                     else
                     {
-                        throw new NotImplementedException();
+                        //throw new NotImplementedException();
                     }
                 }
             }

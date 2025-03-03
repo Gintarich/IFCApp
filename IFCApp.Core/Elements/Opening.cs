@@ -10,6 +10,8 @@ namespace IFCApp.Core.Elements
     [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
     [JsonDerivedType(typeof(Door), typeDiscriminator: "Door")]
     [JsonDerivedType(typeof(Window), typeDiscriminator: "Window")]
+    [JsonDerivedType(typeof(HvacOpening), typeDiscriminator: "HvacOpening")]
+    [JsonDerivedType(typeof(Recess), typeDiscriminator: "Recess")]
     public class Opening : ElementBase
     {
         public BBox Box { get; set; }
@@ -60,14 +62,14 @@ namespace IFCApp.Core.Elements
         {
             return Box;
         }
-        public Point3d GetEndPoint()
+        public Point3d GetMinPoint()
         {
             var pt = Box.GetMin();
             pt.Round(0);
             return pt;
         }
 
-        public Point3d GetStartPoint()
+        public Point3d GetMaxPoint()
         {
             var pt = Box.GetMax();
             pt.Round(0);

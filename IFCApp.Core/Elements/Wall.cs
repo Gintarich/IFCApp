@@ -11,7 +11,7 @@ namespace IFCApp.Core.Elements;
 [JsonDerivedType(typeof(WallPanel), typeDiscriminator: "WallPanel")]
 public class Wall : ElementBase
 {
-    public bool ShouldHaveOpening { get; set; }
+    public bool ShouldHaveOpening { get; set; } = true;
     public List<Opening> Openings
     {
         get { return _openings; }
@@ -45,7 +45,7 @@ public class Wall : ElementBase
     }
     public Wall(BBox box) : this(box, new Matrix4d()) { }
 
-    public Wall TryToAddOpening(Opening opening)
+    public Wall TryToAddOpening(Opening opening,double minOverlap = 0.001 )
     {
         if (!ShouldHaveOpening) return this;
 
@@ -56,7 +56,7 @@ public class Wall : ElementBase
         if (matchingOpeningList.Count() > 0 && (IsParallel && colides))
         {
             var overlap = _box.OverlapVolume(opening.GetBox());
-            if (overlap < 0.001) { return this; } // If overlap is small then dont add opening
+            if (overlap < minOverlap ) { return this; } // If overlap is small then dont add opening
             var matchingOpening = matchingOpeningList.FirstOrDefault();
             matchingOpening.Box = opening.Box;
             matchingOpening.FatherID = this.ID;
@@ -67,7 +67,7 @@ public class Wall : ElementBase
         if (colides && IsParallel)
         {
             var overlap = _box.OverlapVolume(opening.GetBox());
-            if (overlap < 0.001) { return this; } // If overlap is small then dont add opening
+            if (overlap < minOverlap ) { return this; } // If overlap is small then dont add opening
             opening.FatherID = this.ID;
             GetOpenings().Add(opening);
         }
@@ -78,6 +78,12 @@ public class Wall : ElementBase
     {
         return GetOpenings().Where(x => x is Window).Cast<Window>().ToList();
     }
+
+    public List<HvacOpening> GetHvacOpenings()
+    {
+        return GetOpenings().Where(x=>x is HvacOpening).Cast<HvacOpening>().ToList(); 
+    }
+
     public List<Door> GetDoors()
     {
         return GetOpenings().Where(x => x is Door).Cast<Door>().ToList();

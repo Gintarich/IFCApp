@@ -66,8 +66,8 @@ public class TeklaOpeningMaker
 
     private void CutOutLastLayer(Opening opening)
     {
-        Point startPoint = opening.GetStartPoint().TeklaPoint();
-        Point endPoint = opening.GetEndPoint().TeklaPoint();
+        Point startPoint = opening.GetMaxPoint().TeklaPoint();
+        Point endPoint = opening.GetMinPoint().TeklaPoint();
         Identifier identifier = new Identifier(opening.FatherID);
         var father = Model.SelectModelObject(identifier) as TS.Beam;
         if (father is null) return;
@@ -127,8 +127,8 @@ public class TeklaOpeningMaker
 
     private void InsertWindow(Opening opening)
     {
-        Point startPoint = opening.GetStartPoint().TeklaPoint();
-        Point endPoint = opening.GetEndPoint().TeklaPoint();
+        Point startPoint = opening.GetMaxPoint().TeklaPoint();
+        Point endPoint = opening.GetMinPoint().TeklaPoint();
         Identifier identifier = new Identifier(opening.FatherID);
         var father = Model.SelectModelObject(identifier) as TS.Beam;
         if (father == null) return;

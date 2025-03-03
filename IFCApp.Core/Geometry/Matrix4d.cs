@@ -227,6 +227,16 @@ public class Matrix4d
         return new Vector3d(vArray[0], vArray[1], vArray[2]);
     }
 
+    public BBox ToLocal(BBox bBox)
+    {
+        var min = bBox.GetMin();
+        var max = bBox.GetMax();
+        var inverse = this.Inverse();
+        var tMin = inverse.Apply(min);
+        var tMax = inverse.Apply(max);
+        return new BBox([tMin, tMax], this);
+    }
+
     // Combine this transformation with another
     public Matrix4d Combine(Matrix4d other)
     {
