@@ -30,8 +30,10 @@ public class IfcDoorService
         foreach (var door in doors)
         {
             Guid guid = door.GlobalId;
-
-            var openingElement = door.FillsVoids.First().RelatingOpeningElement;
+            if(!door.FillsVoids.Any()) continue;
+            var voids = door.FillsVoids.First();
+            if(voids is null) continue;
+            var openingElement = voids.RelatingOpeningElement;
             var tforms = _transformationService;
             var matrix = tforms.GetTransformation(openingElement.ObjectPlacement);
             BBoxService bBoxService = _boxService;

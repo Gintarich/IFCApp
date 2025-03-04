@@ -11,10 +11,10 @@ namespace IFCApp.TeklaServices.Utils;
 
 public class TeklaGraphicsDrawerService
 {
-    public void DrawCube(Point center)
+    public void DrawCube(Point center, double edge = 100)
     {
         GraphicsDrawer gd = new GraphicsDrawer();
-        var cube = CreateCube(center, 100);
+        var cube = CreateCube(center, edge);
         gd.DrawMeshSurface(cube, new Color(1, 0, 0));
     }
     public void DrawBox(BBox box)

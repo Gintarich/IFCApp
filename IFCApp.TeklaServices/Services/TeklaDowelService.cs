@@ -21,13 +21,41 @@ namespace IFCApp.TeklaServices.Services
             var wall = objs[1] as Beam;
 
             var cs = wall.GetCoordinateSystem();
+            var tp = new TransformationPlane(cs);
+            var toLocal = tp.TransformationMatrixToLocal;
+            var toGlobal = tp.TransformationMatrixToGlobal;
+            var solid = wall.GetSolid();
+            var minPtLoc = toLocal.Transform(solid.MinimumPoint);
+            var maxPtLoc = toLocal.Transform(solid.MaximumPoint);
+            var minP = new Point(Math.Min(minPtLoc.X, maxPtLoc.X),
+                Math.Min(minPtLoc.Y, maxPtLoc.Y),
+                Math.Min(minPtLoc.Z, maxPtLoc.Z));
+            var maxP = new Point(Math.Max(minPtLoc.X, maxPtLoc.X),
+                Math.Max(minPtLoc.Y, maxPtLoc.Y),
+                Math.Max(minPtLoc.Z, maxPtLoc.Z));
 
-            List<Point> tPts = points.Select(x=>x.TeklaPoint()).ToList();
+            List<Point> tPts = points.Select(x => x.TeklaPoint()).ToList();
 
             TeklaGraphicsDrawerService tgdService = new TeklaGraphicsDrawerService();
             foreach (var point in tPts)
             {
-                tgdService.DrawCube(point);
+                var pts = new List<Point>();
+                var hLen = 50;
+                var height = 200;
+                var localPt = toLocal.Transform(point);
+                var p1 = new Point(localPt.X + hLen, minP.Y, maxP.Z);
+                var p2 = new Point(localPt.X - hLen, minP.Y, maxP.Z);
+                var p3 = new Point(localPt.X - hLen - 10, minP.Y + height, maxP.Z);
+                var p4 = new Point(localPt.X + hLen + 10, minP.Y + height, maxP.Z);
+                pts.Add(toGlobal.Transform(p1));
+                pts.Add(toGlobal.Transform(p2));
+                pts.Add(toGlobal.Transform(p3));
+                pts.Add(toGlobal.Transform(p4));
+
+                foreach (var pt in pts)
+                {
+                    tgdService.DrawCube(pt, 10);
+                }
             }
         }
 
@@ -37,7 +65,7 @@ namespace IFCApp.TeklaServices.Services
             var pts = new List<Point>();
             foreach (var location in locations)
             {
-                var pt = new Point(location,0,0);
+                var pt = new Point(location, 0, 0);
                 var tformPt = mat.Transform(pt);
                 pts.Add(tformPt);
             }

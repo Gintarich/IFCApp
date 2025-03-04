@@ -66,6 +66,7 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 _walls = _modelStore.Model.Elements.Where(x => x is Wall).Cast<Wall>().ToList();
             }
+            var guids = _walls.Select(x => x.ID).ToList();
             //Dependencies
             BBoxService bBoxService = new BBoxService();
             TransformationService transformationService = new TransformationService(_modelStore.Model.CS);
@@ -88,11 +89,26 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 foreach (var door in doors)
                 {
+                    guids.Remove(door.ID);
                     wall.TryToAddOpening(door);
                 }
                 foreach (var win in windows)
                 {
+                    guids.Remove(win.ID);
                     wall.TryToAddOpening(win);
+                }
+            }
+            if (guids.Count > 0)
+            {
+                foreach (var wall in _walls)
+                {
+                    foreach (var opening in wall.Openings)
+                    {
+                        if (guids.Contains(opening.ID))
+                        {
+                            wall.Openings.Remove(opening);
+                        }
+                    }
                 }
             }
             _modelStore.Update();
