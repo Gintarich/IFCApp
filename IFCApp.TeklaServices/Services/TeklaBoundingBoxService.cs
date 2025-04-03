@@ -38,9 +38,9 @@ public class TeklaBoundingBoxService
         var p1 = cpt1.CorePoint();
         var p2 = cpt2.CorePoint();
         Vector3d xAxis = new Vector3d(
-            p2.X - p2.X,
-            p2.Y - p2.Y,
-            p2.Z - p2.Z
+            p2.X - p1.X,
+            p2.Y - p1.Y,
+            p2.Z - p1.Z
             ).Normalize();
         // TODO: Add check if xAxis is vertical aka xAxis == zAxis
         Vector3d yAxis = Vector3d.ZAxis.Cross(xAxis);

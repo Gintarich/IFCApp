@@ -53,6 +53,16 @@
                 Content="Insert Openings" 
                 Command="{Binding InsertOpeningsCommand}"
                 Style="{StaticResource HorPanelButton}"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Clear Openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+        <Button 
+                Grid.Row="5"
+                Grid.Column="1" 
+                Margin="20 5" 
+                Width="auto" 
+                Padding="3 3" 
+                Content="Clear Openings" 
+                Command="{Binding ClearOpeningsCommand}"
+                Style="{StaticResource HorPanelButton}"/>
     </Grid>
     <!--<Grid Background="{StaticResource White}">
         <Grid Background="{StaticResource White}" Margin="10">

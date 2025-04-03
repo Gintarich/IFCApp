@@ -71,7 +71,6 @@ namespace IFCApp.IFCServices
                     }
                 }
                 if (!found) continue;
-
                 var wallPlacement = opening.VoidsElements.RelatingBuildingElement.ObjectPlacement;
                 var wallTform = _tService.GetTransformation(wallPlacement);
 
@@ -87,6 +86,7 @@ namespace IFCApp.IFCServices
                 var localBox = wallTform.ToLocal(box);
 
                 var hvacOpening = new HvacOpening(localBox);
+                hvacOpening.Name = opening.FriendlyName;
                 hvacOpening.IsCircle = isCircle;
                 hvacOpening.ID = opening.GlobalId;
                 openings.Add(hvacOpening);

@@ -96,6 +96,7 @@ public static class Extensions
     {
         var val = string.Empty;
         mo.GetReportProperty(prop, ref val);
+
         return val;
     }
     public static double GetDoubleProp(this ModelObject mo, string prop)

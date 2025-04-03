@@ -33,9 +33,9 @@ public class OpeningMakerTests
         TeklaBoundingBoxService tBoxServ = new TeklaBoundingBoxService();
         TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
         TeklaWallService wServ = new TeklaWallService(tBoxServ);
-        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001_atverumu tests2.ifc", transformationService1, bBoxServ);
-        var walls = wServ.GetWalls("TRĪSSLĀŅU SIENAS PANELIS");
-        var openings = model.GetHvacOpenings(["OP"]);
+        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001.ifc", transformationService1, bBoxServ);
+        var walls = wServ.GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS"]);
+        var openings = model.GetHvacOpenings(["ATV"]);
 
         foreach (var wall in walls)
         {
@@ -46,6 +46,7 @@ public class OpeningMakerTests
         }
 
         TeklaHvacOpeningMaker hvacOMaker = new TeklaHvacOpeningMaker(walls);
+        hvacOMaker.ClearAllOpenings();
         hvacOMaker.GenerateOpenings();
 
         //foreach (var opening in openings)

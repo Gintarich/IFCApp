@@ -11,6 +11,8 @@ namespace IFCApp.Core.Elements;
 [JsonDerivedType(typeof(WallPanel), typeDiscriminator: "WallPanel")]
 public class Wall : ElementBase
 {
+    public BottomDowelSeam BottomSeam { get; set; }
+    public TopDowelSeam TopSeam { get; set; } = new TopDowelSeam();
     public bool ShouldHaveOpening { get; set; } = true;
     public List<Opening> Openings
     {
@@ -45,7 +47,7 @@ public class Wall : ElementBase
     }
     public Wall(BBox box) : this(box, new Matrix4d()) { }
 
-    public Wall TryToAddOpening(Opening opening,double minOverlap = 0.001 )
+    public Wall TryToAddOpening(Opening opening, double minOverlap = 0.001)
     {
         if (!ShouldHaveOpening) return this;
 
@@ -56,7 +58,7 @@ public class Wall : ElementBase
         if (matchingOpeningList.Count() > 0 && (IsParallel && colides))
         {
             var overlap = _box.OverlapVolume(opening.GetBox());
-            if (overlap < minOverlap ) { return this; } // If overlap is small then dont add opening
+            if (overlap < minOverlap) { return this; } // If overlap is small then dont add opening
             var matchingOpening = matchingOpeningList.FirstOrDefault();
             matchingOpening.Box = opening.Box;
             matchingOpening.FatherID = this.ID;
@@ -67,7 +69,7 @@ public class Wall : ElementBase
         if (colides && IsParallel)
         {
             var overlap = _box.OverlapVolume(opening.GetBox());
-            if (overlap < minOverlap ) { return this; } // If overlap is small then dont add opening
+            if (overlap < minOverlap) { return this; } // If overlap is small then dont add opening
             opening.FatherID = this.ID;
             GetOpenings().Add(opening);
         }
@@ -81,7 +83,7 @@ public class Wall : ElementBase
 
     public List<HvacOpening> GetHvacOpenings()
     {
-        return GetOpenings().Where(x=>x is HvacOpening).Cast<HvacOpening>().ToList(); 
+        return GetOpenings().Where(x => x is HvacOpening).Cast<HvacOpening>().ToList();
     }
 
     public List<Door> GetDoors()
@@ -97,10 +99,10 @@ public class Wall : ElementBase
     public List<Opening> GetOpenings() { return _openings; }
 
     public List<Domain> GetLowerDomains(double threshold)
-    { 
+    {
         var domains = new List<Domain>();
-        var openingBoxes = GetOpenings().Select(x=>x.Box.ToOtherCS(Box.CS))
-            .Where(x=>x.Min.Z<threshold).ToList();
+        var openingBoxes = GetOpenings().Select(x => x.Box.ToOtherCS(Box.CS))
+            .Where(x => x.Min.Z < threshold).ToList();
         if (!openingBoxes.Any())
         {
             double left = Box.Min.X;

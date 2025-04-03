@@ -78,9 +78,9 @@ public class IfcTests
         TeklaBoundingBoxService tBoxServ = new TeklaBoundingBoxService();
         TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
         TeklaWallService wServ = new TeklaWallService(tBoxServ);
-        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001_atverumu tests2.ifc", transformationService1, bBoxServ);
+        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001.ifc", transformationService1, bBoxServ);
         var walls = wServ.GetWalls("TRĪSSLĀŅU SIENAS PANELIS");
-        var openings = model.GetHvacOpenings(["OP"]);
+        var openings = model.GetHvacOpenings(["ATV"]);
 
         foreach (var opening in openings)
         {

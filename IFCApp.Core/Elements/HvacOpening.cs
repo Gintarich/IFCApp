@@ -8,6 +8,7 @@ namespace IFCApp.Core.Elements
     public class HvacOpening : Opening
     {
         public bool IsCircle { get; set; }
+        public string Name { get; set; }
 
         public HvacOpening() { }
         public HvacOpening(BBox box, Guid FatherID, Guid OpeningID) : base(box, FatherID, OpeningID) { }

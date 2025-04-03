@@ -1,7 +1,9 @@
 ﻿using IFCApp.TeklaServices.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using Tekla.Structures.Model;
 
@@ -9,8 +11,46 @@ namespace IFCApp.TeklaServices.Services;
 
 public class NVAAtributeCreator
 {
+    private ArrayList _stringProps = new ArrayList
+    {
+        "MATERIAL_TYPE",
+        "ASSEMBLY_POS",
+        "BOTTOM_LEVEL",
+        "TOP_LEVEL",
+    };
+    private ArrayList _doubleProps = new ArrayList
+    {
+        "AREA",
+        "HEIGHT",
+        "WIDTH",
+        "LENGTH",
+        "VOLUME",
+        "WEIGHT",
+        "AREA_PROJECTION_XY_NET",
+        "AREA_PROJECTION_XY_GROSS"
+    };
+    private ArrayList _intProps = new ArrayList
+    {
+
+    };
+    private List<string> _walls = new List<string>
+    {
+        "APDARES SLĀNIS","SILTUMIZOLĀCIJA",
+        "NESOŠAIS SLĀNIS", "TRĪSSLĀŅU SIENAS PANELIS",
+        "VIENSLĀŅU SIENAS PANELIS", "APDARES ĶIEĢELIS"
+    };
+    private List<string> _slabs = new List<string>
+    {
+        "PĀRSEGUMA PANELIS", "PAMATU PLĀTNE",
+        "KAROGU MASTU PAMATS",
+    };
+    private List<string> _petraParts = new List<string>
+    {
+        "PETRA","Sideplate1","Sideplate1st","Roundbar1","Plate1", "Plate2"
+    };
     public NVAAtributeCreator()
     {
+
     }
     public void CreateAttributes(ModelObject mo)
     {
@@ -28,14 +68,19 @@ public class NVAAtributeCreator
 
     private void CreateAttributesForPart(Part pt)
     {
-        string teklaMat = pt.GetStringProp("MATERIAL_TYPE");
-        double area = pt.GetDoubleProp("AREA");
-        double areaProjNet = pt.GetDoubleProp("AREA_PROJECTION_XY_NET");
-        double areaProjGross = pt.GetDoubleProp("AREA_PROJECTION_XY_GROSS");
+        Hashtable table = new Hashtable();
+        pt.GetAllReportProperties(_stringProps, _doubleProps, _intProps, ref table);
+        var teklaMat = table["MATERIAL_TYPE"] as string;
+        string prof = pt.Profile.ProfileString;
+
 
         if (teklaMat == "MISCELLANEOUS") teklaMat = pt.Material.MaterialString;
         var material = string.Empty;
         var name = pt.Name;
+        if(name == "Sideplate1")
+        {
+            var s = 0;
+        }
         try
         {
             material = AttributeMapper.Material[teklaMat];
@@ -44,19 +89,42 @@ public class NVAAtributeCreator
         {
             throw new KeyNotFoundException($"The value that broke dict {teklaMat}");
         }
-        pt.SetUserProperty("NOSAUKUMS", name);
+        SetName(pt, name);
         pt.SetUserProperty("MATERIALS", material);
+        AddProperty(pt, "03_TIPS", table["ASSEMBLY_POS"] as string);
+        //if ((table["ASSEMBLY_POS"] as string == "TP/1003") && pt.Name == "NESOŠAIS SLĀNIS")
+        //{
+        //    var s = 0;
+        //}
+        AddProperty(pt, "04_SKERSGRIEZUMS", GetSection(pt.Profile.ProfileString).Profile);
+        var height = Math.Round((double)table["HEIGHT"], 0);
+        if (_walls.Contains(name)) AddProperty(pt, "05_AUGSTUMS", height);
+        if (_walls.Contains(name) || _slabs.Contains(name)) AddProperty(pt, "07_BIEZUMS", Math.Round((double)table["WIDTH"], 0));
+        AddProperty(pt, "08_GARUMS", Math.Round((double)table["LENGTH"], 0));
+        AddProperty(pt, "09_PLATĪBA", Math.Round((double)table["AREA_PROJECTION_XY_NET"], 0));
+        AddProperty(pt, "10_TILPUMS", Math.Round((double)table["VOLUME"], 0));
+        AddProperty(pt, "11_SVARS", Math.Round((double)table["WEIGHT"], 2));
+        AddProperty(pt, "12_ELEMENTA_AU_ATZ", (string)table["TOP_LEVEL"]);
+        AddProperty(pt, "13_ELMENETA_AP_ATZ", (string)table["BOTTOM_LEVEL"]);
+        AddProperty(pt, "15_TONIS", "N/A");
+        AddProperty(pt, "16_KLASE", pt.Material.MaterialString);
+        AddProperty(pt, "17_IEDARBIBAS_KL", pt.Finish);
+        AddProperty(pt, "18_UGUNSIEDARB_KL", "N/A");
+        AddProperty(pt, "19_PĀRKLĀJUMS", "N/A");
         pt.Modify();
     }
 
     private void CreateAttributesForAssembly(Assembly ass)
     {
+        Hashtable table = new Hashtable();
+        ass.GetAllReportProperties(_stringProps, _doubleProps, _intProps, ref table);
         var name = ass.Name;
         string material = string.Empty;
+        var mp = ass.GetMainPart() as Part;
+        if (mp is null) return;
         //Material logic
         if (!AttributeMapper.MaterialFromNames.TryGetValue(name, out material))
         {
-            var mp = ass.GetMainPart() as Part;
             var materialType = mp.GetStringProp("MATERIAL_TYPE");
             if (materialType == "MISCELLANEOUS")
             {
@@ -70,9 +138,36 @@ public class NVAAtributeCreator
         }
         ass.SetUserProperty("NOSAUKUMS", name);
         ass.SetUserProperty("MATERIALS", material);
+        AddProperty(ass, "03_TIPS", table["ASSEMBLY_POS"] as string);
+        AddProperty(ass, "04_SKERSGRIEZUMS", GetSection(mp.Profile.ProfileString).Profile);
+        var height = Math.Round((double)table["HEIGHT"], 0);
+        if (_walls.Contains(name)) AddProperty(ass, "05_AUGSTUMS", height);
+        if (_walls.Contains(name) || _slabs.Contains(name)) AddProperty(ass, "07_BIEZUMS", Math.Round((double)table["WIDTH"], 0));
+        AddProperty(ass, "08_GARUMS", Math.Round((double)table["LENGTH"], 0));
+        AddProperty(ass, "09_PLATĪBA", Math.Round((double)table["AREA_PROJECTION_XY_NET"], 0));
+        AddProperty(ass, "10_TILPUMS", Math.Round((double)table["VOLUME"], 0));
+        AddProperty(ass, "11_SVARS", Math.Round((double)table["WEIGHT"], 2));
+        AddProperty(ass, "12_ELEMENTA_AU_ATZ", (string)table["TOP_LEVEL"]);
+        AddProperty(ass, "13_ELMENETA_AP_ATZ", (string)table["BOTTOM_LEVEL"]);
+        AddProperty(ass, "15_TONIS", "N/A");
+        AddProperty(ass, "16_KLASE", "N/A");
+        AddProperty(ass, "17_IEDARBIBAS_KL", "N/A");
+        AddProperty(ass, "18_UGUNSIEDARB_KL", "N/A");
+        AddProperty(ass, "19_PĀRKLĀJUMS", "N/A");
         ass.Modify();
     }
-
+    private void CreateAttributesForRebar(Reinforcement reinforcement)
+    {
+        int count = int.MinValue;
+        reinforcement.GetReportProperty("NUMBER", ref count);
+        double len = double.MinValue;
+        reinforcement.GetReportProperty("LENGTH", ref len);
+        if (count > 0)
+        {
+            var totalLen = len * count;
+            reinforcement.SetUserProperty("TOTAL_LENGTH", totalLen);
+        }
+    }
     public void CreateClassification(Assembly ass)
     {
         var name = ass.Name;
@@ -110,30 +205,30 @@ public class NVAAtributeCreator
         List<string> errList = new List<string>();
         foreach (var element in elements)
         {
-            if(element is Assembly ass)
+            if (element is Assembly ass)
             {
                 var name = ass.Name;
-                if(AttributeMapper.Clasification.TryGetValue(name, out var classification))
+                if (AttributeMapper.Clasification.TryGetValue(name, out var classification))
                 {
                     ass.SetUserProperty("KLASIFIKACIJA", classification);
                     ass.Modify();
                 }
                 else
                 {
-                    if(!errList.Contains(name)) errList.Add(name);
+                    if (!errList.Contains(name)) errList.Add(name);
                 }
             }
             else if (element is Part part)
             {
                 var name = part.Name;
-                if(AttributeMapper.Clasification.TryGetValue(name, out var classification))
+                if (AttributeMapper.Clasification.TryGetValue(name, out var classification))
                 {
                     part.SetUserProperty("KLASIFIKACIJA", classification);
                     part.Modify();
                 }
                 else
                 {
-                    if(!errList.Contains(name)) errList.Add(name);
+                    if (!errList.Contains(name)) errList.Add(name);
                 }
             }
             else
@@ -142,7 +237,7 @@ public class NVAAtributeCreator
             }
         }
         StringBuilder sb = new StringBuilder();
-        foreach(var err in errList)
+        foreach (var err in errList)
         {
             if (err == errList[0]) sb.Append(err);
             else sb.Append(", ").Append(err);
@@ -155,14 +250,105 @@ public class NVAAtributeCreator
         Model model = new Model();
         var mos = model.GetModelObjectSelector();
         var beams = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.BEAM).ToList();
+        var polyBeam = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.POLYBEAM).ToList();
         var plates = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.CONTOURPLATE).ToList();
         var assemblies = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.ASSEMBLY).ToList();
-        var combo = beams.Concat(plates).Concat(assemblies);
+        var rebars = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.REBARGROUP).ToList();
+        var rebars2 = mos.GetAllObjectsWithType(ModelObject.ModelObjectEnum.SINGLEREBAR).ToList();
+        rebars.AddRange(rebars2);
+        var combo = beams.Concat(plates).Concat(assemblies).Concat(polyBeam);
         foreach (var part in combo)
         {
+            var nm = part.GetStringProp("NAME");
+            if(nm == "Sideplate1" || nm == "")
+            {
+                var o = 0;
+            }
             CreateAttributes(part);
         }
+        foreach (var rebar in rebars)
+        {
+            if (rebar is Reinforcement reinforcement)
+            {
+                CreateAttributesForRebar(reinforcement);
+            }
+        }
         model.CommitChanges();
+    }
+
+    private void AddProperty(Part part, string name, string value)
+    {
+        if (value == "" || value is null)
+        {
+            part.SetUserProperty(name, "N/A");
+        }
+        else
+        {
+            part.SetUserProperty(name, value);
+        }
+    }
+    private void AddProperty(Part part, string name, double value)
+    {
+        if (value == 0)
+        {
+            part.SetUserProperty(name, "N/A");
+        }
+        else
+        {
+            part.SetUserProperty(name, value);
+        }
+    }
+    private void AddProperty(Assembly ass, string name, string value)
+    {
+        if (value == "" || value is null)
+        {
+            ass.SetUserProperty(name, "N/A");
+        }
+        else
+        {
+            ass.SetUserProperty(name, value);
+        }
+    }
+    private void AddProperty(Assembly ass, string name, double value)
+    {
+        if (value == 0)
+        {
+            ass.SetUserProperty(name, "N/A");
+        }
+        else
+        {
+            ass.SetUserProperty(name, value);
+        }
+    }
+
+    private void SetName(Part part,string name)
+    {
+        if (_petraParts.Contains(name))
+        {
+            part.SetUserProperty("NAME", "PETRA");
+        }
+        else
+        {
+            part.SetUserProperty("NAME", name);
+        }
+    }
+    private (bool IsNumber,string Profile) GetSection(string name)
+    {
+        var parts = name.Split('*');
+        if (!(parts.Length == 2)) return (false,name);
+        var firstIsNumber = double.TryParse(parts[0],out double num1);
+        var secondIsNumber = double.TryParse(parts[1],out double num2);
+        bool isNumber = firstIsNumber && secondIsNumber;
+        if (isNumber)
+        {
+            num1 = Math.Round(num1,0);
+            num2 = Math.Round(num2,0);
+            return (true, $"{num1}*{num2}");
+        }
+        else
+        {
+            return (false,name);
+        }
     }
 }
 
@@ -174,7 +360,8 @@ public class AttributeMapper
         { "Keramzitbetons", "KERAMZĪTBETONS" },
         { "STEEL", "TĒRAUDS" },
         { "Insulation_hard", "IZOLĀCIJA" },
-        { "KOOLTHERM K20", "IZOLĀCIJA" }
+        { "KOOLTHERM K20", "IZOLĀCIJA" },
+        { "C30/37 SBB", "DZELZSBETONS"}
     };
     public static Dictionary<string, string> MaterialFromNames { get; set; } = new Dictionary<string, string>
     {
@@ -193,6 +380,22 @@ public class AttributeMapper
         {"TRĪSSLĀŅU SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"PĀRSEGUMA PANELIS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"PETRA", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"Sideplate1", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"Sideplate1st", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"Plate1", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"Plate2", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"Roundbar1", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"PĀRSEGUMA JOSLA", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"IELIEKAMĀ DETAĻA", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"BULTSKRŪVE M12x100, 8.8", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"UZGRIEZNIS M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"PAPLĀKSNE M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"HAS-U+HIT-HY 200-A", "BE_07_33_03_00_Ķīmiski stiprinājumi"},
+        {"RVT-M12x50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"WELDA100x100-108", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"TSS 101", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"PLĀKSNE", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA SIJA", "BE_07_21_05_00_Tērauda sijas"},
         {"JUMTA SIJA", "BE_07_21_05_00_Tērauda sijas"},
         {"KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
@@ -201,12 +404,13 @@ public class AttributeMapper
         {"VĒJA SAITE","BE_07_27_05_00_Tērauda saites"},
         {"KĀPŅU SIJA","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
         {"PAKĀPIENS","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
-        {"KĀPŅU LAIDS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB)"},
-        {"KĀPŅU LAUKUMS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB)"},
+        {"KĀPŅU LAIDS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB) kāpnes un pandusi"},
+        {"KĀPŅU LAUKUMS","BE_07_29_03_00_Saliekamā dzelzsbetona (SDZB) kāpnes un pandusi"},
         {"METINĀTS PLATFORMU REŽĢIS","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
         {"RVL100", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"SCHOCK DORN SLD 50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PAMATU PLĀTNE", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
+        {"KĀPŅU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"KAROGU MASTU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PADZIĻINĀJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PAMATA STABS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},

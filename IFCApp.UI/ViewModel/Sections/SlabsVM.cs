@@ -40,10 +40,11 @@ namespace IFCApp.UI.ViewModel.Sections
                 var model = _modelStore.Model;
                 if (model.TryGetValue(slab.ID, out var el))
                 {
-                    if (el is Slab wallEl)
+                    if (el is Slab slabEl )
                     {
-                        wallEl.ID = slab.ID;
-                        wallEl.UserData = slab.UserData;
+                        slabEl.ID = slab.ID;
+                        slabEl.Box = slab.Box;
+                        slabEl.UserData = slab.UserData;
                     }
                 }
                 else

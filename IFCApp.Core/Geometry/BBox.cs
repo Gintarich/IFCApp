@@ -99,6 +99,37 @@ namespace IFCApp.Core.Geometry
             // Boxes intersect if they overlap in all three dimensions
             return xOverlap && yOverlap && zOverlap;
         }
+
+        public bool IsUnder(BBox other, double lenUnder)
+        {
+            bool isParallel = this.IsParallel(other);
+            var overlapArea = this.OverlapsXY(other);
+            bool overlaps = overlapArea > 0.01 ? true : false;
+            if (overlaps && isParallel)
+            {
+                var thisMax = this.GetMax();
+                var otherMin = other.GetMin();
+                if (thisMax.Z > otherMin.Z) return false;
+                if (otherMin.Z - thisMax.Z < lenUnder) return true;
+                else return false;
+            }
+            else { return false; }
+        }
+        public bool IsUnderNotParallel(BBox other, double lenUnder)
+        {
+            var overlapArea = this.OverlapsXY(other);
+            bool overlaps = overlapArea > 0.01 ? true : false;
+            if (overlaps)
+            {
+                var thisMax = this.GetMax();
+                var otherMin = other.GetMin();
+                if (thisMax.Z > otherMin.Z) return false;
+                if (otherMin.Z - thisMax.Z < lenUnder) return true;
+                else return false;
+            }
+            else { return false; }
+        }
+
         private (Point3d Min, Point3d Max) CreateBox(List<Point3d> Points)
         {
             double minX = double.MaxValue;
@@ -174,6 +205,23 @@ namespace IFCApp.Core.Geometry
             return overlapX * overlapY / (1000 * 1000); //to convert to metres
         }
 
+        /// <summary>
+        /// Checks if point is inside xy plane of the box
+        /// </summary>
+        /// <param name="pt">Point to test in global coordinates</param>
+        /// <returns>Returns wether or not point is inside the plane xy box</returns>
+        public bool ContainsXY(Point3d pt)
+        {
+            // Get the min and max points of both bounding boxes
+            Point3d thisMin = this.GetMin();
+            Point3d thisMax = this.GetMax();
+
+            // Check if the other box is completely inside this box
+            bool isInside = thisMin.X <= pt.X && thisMax.X >= pt.X &&
+                            thisMin.Y <= pt.Y && thisMax.Y >= pt.Y;
+
+            return isInside;
+        }
         public bool Contains(BBox other)
         {
             // Get the min and max points of both bounding boxes

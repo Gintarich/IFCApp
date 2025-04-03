@@ -34,6 +34,7 @@ namespace IFCApp.UI.ViewModel.Sections
         public ICommand LoadOpeningsCommand { get; set; }
         public ICommand ShowOpeningsCommand { get; set; }
         public ICommand InsertOpeningsCommand { get; set; }
+        public ICommand ClearOpeningsCommand { get; set; }
         public ICommand ChangeViewCommand { get; set; }
         public OpeningsVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm, ConfigStore cfgStore) : base(name)
         {
@@ -44,6 +45,7 @@ namespace IFCApp.UI.ViewModel.Sections
             LoadOpeningsCommand = new RelayCommand(LoadOpenings);
             ShowOpeningsCommand = new RelayCommand(ShowOpenings);
             InsertOpeningsCommand = new RelayCommand(InsertOpenings);
+            ClearOpeningsCommand = new RelayCommand(ClearOpenings);
             _modelStore.ModelChanged += UpdateWalls;
             _modelStore.ModelLoaded += OnModelLoaded;
         }
@@ -66,7 +68,8 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 _walls = _modelStore.Model.Elements.Where(x => x is Wall).Cast<Wall>().ToList();
             }
-            var guids = _walls.Select(x => x.ID).ToList();
+            var guids = new List<Guid>();
+            _walls.ForEach(x => guids.AddRange(x.Openings.Select(y => y.ID).ToList()));
             //Dependencies
             BBoxService bBoxService = new BBoxService();
             TransformationService transformationService = new TransformationService(_modelStore.Model.CS);
@@ -89,7 +92,7 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 foreach (var door in doors)
                 {
-                    guids.Remove(door.ID);
+                    var success = guids.Remove(door.ID);
                     wall.TryToAddOpening(door);
                 }
                 foreach (var win in windows)
@@ -102,17 +105,31 @@ namespace IFCApp.UI.ViewModel.Sections
             {
                 foreach (var wall in _walls)
                 {
-                    foreach (var opening in wall.Openings)
+                    var indexesToRemove = new List<int>();
+                    for (int i = 0; i < wall.Openings.Count; i++)
                     {
-                        if (guids.Contains(opening.ID))
+                        if (guids.Contains(wall.Openings[i].ID))
                         {
-                            wall.Openings.Remove(opening);
+                            indexesToRemove.Add(i);
                         }
+                    }
+                    foreach (var idx in indexesToRemove)
+                    {
+                        wall.Openings.RemoveAt(idx);
                     }
                 }
             }
             _modelStore.Update();
         }
+
+        private void ClearOpenings()
+        {
+            foreach (var wall in _walls)
+            {
+                wall.Openings = new List<Opening>();
+            }
+        }
+
         private void ShowOpenings()
         {
             if (_walls.Count == 0)

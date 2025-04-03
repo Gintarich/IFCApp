@@ -33,6 +33,8 @@ public class TeklaSlabService
             if (mainPart != null)
             {
                 var slb = new Slab();
+                var box = bbService.GetBox(mainPart);
+                slb.Box = box;
                 slb.ID = mainPart.Identifier.GUID;
                 slabs.Add(slb);
             }

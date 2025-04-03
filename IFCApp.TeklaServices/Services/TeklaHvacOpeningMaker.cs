@@ -77,11 +77,11 @@ public class TeklaHvacOpeningMaker
             cp.Profile.ProfileString = thickness;
             cp.Class = BooleanPart.BooleanOperativeClassName;
             cp.Insert();
-            cp.SetUserProperty("Inserted", 1);
+            cp.SetUserProperty(_userCreatedPropertyName, 1);
             bp.SetOperativePart(cp);
             bp.Type = BooleanPart.BooleanTypeEnum.BOOLEAN_CUT;
             bp.Insert();
-            bp.OperativePart.SetUserProperty("Inserted", 1);
+            bp.OperativePart.SetUserProperty(_userCreatedPropertyName, 1);
             cp.Delete();
         }
     }
