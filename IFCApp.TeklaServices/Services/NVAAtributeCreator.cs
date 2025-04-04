@@ -379,6 +379,7 @@ public class AttributeMapper
         {"VIENSLĀŅU SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"TRĪSSLĀŅU SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"PĀRSEGUMA PANELIS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"MASĪVPLĀTNE", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"PETRA", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"Sideplate1", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},

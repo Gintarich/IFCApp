@@ -1,6 +1,5 @@
 ﻿using IFCApp.TeklaServices.Services;
 using IFCApp.UI.Models;
-using IFCApp.UI.Models;
 using IFCApp.UI.ViewModel.Modals;
 using System;
 using System.Collections.Generic;

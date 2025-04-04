@@ -1,7 +1,5 @@
 ﻿using IFCApp.UI.Stores;
 using IFCApp.UI.ViewModel;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace IFCApp.UI
