@@ -1,4 +1,5 @@
-﻿using IFCApp.Core.Elements;
+﻿using IFCApp.Core;
+using IFCApp.Core.Elements;
 using IFCApp.IFCServices;
 using IFCApp.IFCServices.Services;
 using IFCApp.IFCServices.Utils;
@@ -7,9 +8,12 @@ using IFCApp.TeklaServices.Services;
 using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Tekla.Structures.Model.UI;
 
 namespace IFCApp.Tests.TeklaTests;
 
@@ -28,13 +32,14 @@ public class OpeningMakerTests
     [TestMethod]
     public void AddHvacOpenings()
     {
-        TransformationService transformationService1 = new TransformationService(VUGDCoordinateSystems.InverseKul);
+        TransformationService transformationService1 = new TransformationService(VUGDCoordinateSystems.InverseBol);
         BBoxService bBoxServ = new BBoxService();
         TeklaBoundingBoxService tBoxServ = new TeklaBoundingBoxService();
         TeklaGraphicsDrawerService gd = new TeklaGraphicsDrawerService();
+        Model gbModel = LoadModel("BOL-7AM-00-00-M3-BK-0001");
         TeklaWallService wServ = new TeklaWallService(tBoxServ);
-        var model = new IFCModel("KUL-7AM-00-00-M3-AR-0001.ifc", transformationService1, bBoxServ);
-        var walls = wServ.GetWalls(["TRĪSSLĀŅU SIENAS PANELIS", "VIENSLĀŅU SIENAS PANELIS"]);
+        var model = new IFCModel(GetIfcPath("BOL-7AM-00-00-M3-AR-0001"), transformationService1, bBoxServ);
+        var walls = gbModel.Elements.Where(e => e is Wall).Cast<Wall>().ToList();
         var openings = model.GetHvacOpenings(["ATV"]);
 
         foreach (var wall in walls)
@@ -45,11 +50,21 @@ public class OpeningMakerTests
             }
         }
 
+        List<HvacOpening> hvacOpenings = new List<HvacOpening>();
+        foreach(var wall in walls)
+        {
+            var hopen = wall.GetHvacOpenings();
+            if(hopen.Count > 0)
+            {
+                hvacOpenings.AddRange(hopen);
+            }
+        }
+
         TeklaHvacOpeningMaker hvacOMaker = new TeklaHvacOpeningMaker(walls);
         hvacOMaker.ClearAllOpenings();
         hvacOMaker.GenerateOpenings();
 
-        //foreach (var opening in openings)
+        //foreach (var opening in hvacOpenings)
         //{
         //    if (opening.IsCircle)
         //    {
@@ -177,4 +192,25 @@ public class OpeningMakerTests
         TeklaOpeningMaker wm = new TeklaOpeningMaker(walls, wCfig, dCfng);
         wm.GenerateOpenings();
     }
+    public Model LoadModel(string name)
+    {
+        Model model = new Model();
+        string path = Path.Combine(GetFolderPath(), name + ".json");
+        var json = File.ReadAllText(path);
+        if (!string.IsNullOrEmpty(json))
+        {
+            model = JsonSerializer.Deserialize<Model>(json);
+        }
+        return model;
+    }
+    public string GetFolderPath()
+    {
+        return Path.Combine(new ModelAttributeServer().GetFilePath(), "Automation");
+    }
+    public string GetIfcPath(string name)
+    {
+        return Path.Combine(GetFolderPath(),$"{name}.ifc");
+    }
 }
+
+ 

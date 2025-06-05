@@ -1,4 +1,5 @@
-﻿using IFCApp.TeklaServices.Utils;
+﻿using FlatBuffers;
+using IFCApp.TeklaServices.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,9 @@ public class NVAAtributeCreator
         "VOLUME",
         "WEIGHT",
         "AREA_PROJECTION_XY_NET",
-        "AREA_PROJECTION_XY_GROSS"
+        "AREA_PROJECTION_XY_GROSS",
+        "AREA_PROJECTION_XZ_NET",
+        "AREA_PROJECTION_XZ_GROSS"
     };
     private ArrayList _intProps = new ArrayList
     {
@@ -77,7 +80,7 @@ public class NVAAtributeCreator
         if (teklaMat == "MISCELLANEOUS") teklaMat = pt.Material.MaterialString;
         var material = string.Empty;
         var name = pt.Name;
-        if(name == "Sideplate1")
+        if (name == "Sideplate1")
         {
             var s = 0;
         }
@@ -101,7 +104,7 @@ public class NVAAtributeCreator
         if (_walls.Contains(name)) AddProperty(pt, "05_AUGSTUMS", height);
         if (_walls.Contains(name) || _slabs.Contains(name)) AddProperty(pt, "07_BIEZUMS", Math.Round((double)table["WIDTH"], 0));
         AddProperty(pt, "08_GARUMS", Math.Round((double)table["LENGTH"], 0));
-        AddProperty(pt, "09_PLATĪBA", Math.Round((double)table["AREA_PROJECTION_XY_NET"], 0));
+        AddProperty(pt, "09_PLATĪBA", Math.Round((double)table["AREA"], 0));
         AddProperty(pt, "10_TILPUMS", Math.Round((double)table["VOLUME"], 0));
         AddProperty(pt, "11_SVARS", Math.Round((double)table["WEIGHT"], 2));
         AddProperty(pt, "12_ELEMENTA_AU_ATZ", (string)table["TOP_LEVEL"]);
@@ -111,6 +114,8 @@ public class NVAAtributeCreator
         AddProperty(pt, "17_IEDARBIBAS_KL", pt.Finish);
         AddProperty(pt, "18_UGUNSIEDARB_KL", "N/A");
         AddProperty(pt, "19_PĀRKLĀJUMS", "N/A");
+        AddProperty(pt, "72_AREA_PROJ_B", GetGrossArea(prof, table));
+        AddProperty(pt, "73_AREA_PROJ_N", GetNetoArea(prof, table));
         pt.Modify();
     }
 
@@ -144,7 +149,7 @@ public class NVAAtributeCreator
         if (_walls.Contains(name)) AddProperty(ass, "05_AUGSTUMS", height);
         if (_walls.Contains(name) || _slabs.Contains(name)) AddProperty(ass, "07_BIEZUMS", Math.Round((double)table["WIDTH"], 0));
         AddProperty(ass, "08_GARUMS", Math.Round((double)table["LENGTH"], 0));
-        AddProperty(ass, "09_PLATĪBA", Math.Round((double)table["AREA_PROJECTION_XY_NET"], 0));
+        AddProperty(ass, "09_PLATĪBA", Math.Round((double)table["AREA"], 0));
         AddProperty(ass, "10_TILPUMS", Math.Round((double)table["VOLUME"], 0));
         AddProperty(ass, "11_SVARS", Math.Round((double)table["WEIGHT"], 2));
         AddProperty(ass, "12_ELEMENTA_AU_ATZ", (string)table["TOP_LEVEL"]);
@@ -154,8 +159,43 @@ public class NVAAtributeCreator
         AddProperty(ass, "17_IEDARBIBAS_KL", "N/A");
         AddProperty(ass, "18_UGUNSIEDARB_KL", "N/A");
         AddProperty(ass, "19_PĀRKLĀJUMS", "N/A");
+        AddProperty(ass, "72_AREA_PROJ_B", GetGrossArea(mp.Profile.ProfileString, table));
+        AddProperty(ass, "73_AREA_PROJ_N", GetNetoArea(mp.Profile.ProfileString, table));
         ass.Modify();
     }
+
+    private double GetNetoArea(string profileName, Hashtable table)
+    {
+        if (profileName.Contains("HCS"))
+        {
+            var val = table["AREA_PROJECTION_XZ_NET"];
+            if (val is double number) return Math.Round(number,0);
+            else return 0;
+        }
+        else
+        {
+            var val = table["AREA_PROJECTION_XY_NET"];
+            if (val is double number) return Math.Round(number,0);
+            else return 0;
+        }
+    }
+
+    private double GetGrossArea(string profileName, Hashtable table)
+    {
+        if (profileName.Contains("HCS"))
+        {
+            var val = table["AREA_PROJECTION_XZ_GROSS"];
+            if (val is double number) return number;
+            else return 0;
+        }
+        else
+        {
+            var val = table["AREA_PROJECTION_XY_GROSS"];
+            if (val is double number) return number;
+            else return 0;
+        }
+    }
+
     private void CreateAttributesForRebar(Reinforcement reinforcement)
     {
         int count = int.MinValue;
@@ -260,7 +300,7 @@ public class NVAAtributeCreator
         foreach (var part in combo)
         {
             var nm = part.GetStringProp("NAME");
-            if(nm == "Sideplate1" || nm == "")
+            if (nm == "Sideplate1" || nm == "")
             {
                 var o = 0;
             }
@@ -321,33 +361,33 @@ public class NVAAtributeCreator
         }
     }
 
-    private void SetName(Part part,string name)
+    private void SetName(Part part, string name)
     {
         if (_petraParts.Contains(name))
         {
-            part.SetUserProperty("NAME", "PETRA");
+            part.SetUserProperty("NOSAUKUMS", "PETRA");
         }
         else
         {
-            part.SetUserProperty("NAME", name);
+            part.SetUserProperty("NOSAUKUMS", name);
         }
     }
-    private (bool IsNumber,string Profile) GetSection(string name)
+    private (bool IsNumber, string Profile) GetSection(string name)
     {
         var parts = name.Split('*');
-        if (!(parts.Length == 2)) return (false,name);
-        var firstIsNumber = double.TryParse(parts[0],out double num1);
-        var secondIsNumber = double.TryParse(parts[1],out double num2);
+        if (!(parts.Length == 2)) return (false, name);
+        var firstIsNumber = double.TryParse(parts[0], out double num1);
+        var secondIsNumber = double.TryParse(parts[1], out double num2);
         bool isNumber = firstIsNumber && secondIsNumber;
         if (isNumber)
         {
-            num1 = Math.Round(num1,0);
-            num2 = Math.Round(num2,0);
+            num1 = Math.Round(num1, 0);
+            num2 = Math.Round(num2, 0);
             return (true, $"{num1}*{num2}");
         }
         else
         {
-            return (false,name);
+            return (false, name);
         }
     }
 }
@@ -361,12 +401,14 @@ public class AttributeMapper
         { "STEEL", "TĒRAUDS" },
         { "Insulation_hard", "IZOLĀCIJA" },
         { "KOOLTHERM K20", "IZOLĀCIJA" },
+        { "Klima Konform", "IZOLĀCIJA" },
         { "C30/37 SBB", "DZELZSBETONS"}
     };
     public static Dictionary<string, string> MaterialFromNames { get; set; } = new Dictionary<string, string>
     {
         {"SIENAS PANELIS", "DZLEZSBETONA PANELIS AR SILTUMIZOLĀCIJU" }
     };
+
     //Classification 
     public static Dictionary<string, string> Clasification { get; set; } = new Dictionary<string, string>
     {
@@ -388,10 +430,17 @@ public class AttributeMapper
         {"Plate2", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"Roundbar1", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"PĀRSEGUMA JOSLA", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"MB PĀRSEGUMS", "BE_07_19_01_00_Monolītā dzelzsbetona (MDZB) pārsegumi"},
         {"IELIEKAMĀ DETAĻA", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"WELDA200x200-112", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"HPKM-16", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"PETRA SPECIAL", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"Sideplate2st", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"BULTSKRŪVE M12x100, 8.8", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"HILTI_HAS-U", "BE_07_33_03_00_Ķīmiski stiprinājumi"},
         {"UZGRIEZNIS M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
         {"PAPLĀKSNE M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"PABETONĒJUMS", "BE_07_11_00_00_Kolonnu bāzes"},
         {"HAS-U+HIT-HY 200-A", "BE_07_33_03_00_Ķīmiski stiprinājumi"},
         {"RVT-M12x50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"WELDA100x100-108", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
@@ -402,6 +451,7 @@ public class AttributeMapper
         {"KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"HORIZONTĀLĀ SAITE","BE_07_27_05_00_Tērauda saites"},
+        {"ATVĒRUMU RĀMIS","BE_07_27_05_00_Tērauda saites"},
         {"VĒJA SAITE","BE_07_27_05_00_Tērauda saites"},
         {"KĀPŅU SIJA","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
         {"PAKĀPIENS","BE_07_29_05_00_Tērauda kāpnes un pandusi"},
@@ -412,6 +462,9 @@ public class AttributeMapper
         {"SCHOCK DORN SLD 50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PAMATU PLĀTNE", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"KĀPŅU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
+        {"APBETONĒJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
+        {"DZELZSBETONA PĀRSEDZE", "BE_07_17_01_00_Monolītā dzelzsbetona (MDZB) pārsedzes"},
+        {"DZELZSBETONA JOSLA", "BE_07_21_01_00_Monolītā dzelzsbetona (MDZB) sijas"},
         {"KAROGU MASTU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PADZIĻINĀJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PAMATA STABS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
@@ -420,6 +473,7 @@ public class AttributeMapper
         {"STABVEIDA PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"LENTVEIDA PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"MŪRA SIENA", "BE_07_15_09_00_Mūra sienas"},
+        {"FIBO PĀRSEDZE", "BE_07_17_09_00_Mūra pārsedzes"},
         {"GRĪDA", "BE_09_01_01_00_Grīdas uz grunts"},
         {"KUBS",""},
         {"PIELI", ""},

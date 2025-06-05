@@ -72,6 +72,7 @@ public class Wall : ElementBase
             if (overlap < minOverlap) { return this; } // If overlap is small then dont add opening
             opening.FatherID = this.ID;
             GetOpenings().Add(opening);
+            //Console.WriteLine($"Added opening {opening.ID} to wall {this.ID} with overlap {overlap}.");
         }
         return this;
     }
