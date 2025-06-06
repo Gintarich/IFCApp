@@ -434,6 +434,7 @@ public class AttributeMapper
         {"IELIEKAMĀ DETAĻA", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"WELDA200x200-112", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"HPKM-16", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"HPMP-16", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PETRA SPECIAL", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"Sideplate2st", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"BULTSKRŪVE M12x100, 8.8", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
