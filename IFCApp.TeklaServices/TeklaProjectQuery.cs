@@ -9,5 +9,9 @@ namespace IFCApp.TeklaServices
         {
             return new Model().GetInfo().ModelName;
         }
+        public string GetModelPath()
+        {
+            return new Model().GetInfo().ModelPath;
+        }
     }
 }

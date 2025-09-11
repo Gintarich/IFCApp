@@ -44,6 +44,19 @@
             CommandParameter="{Binding WallNames}"
             HorizontalContentAlignment="Center"
             HorizontalAlignment="Left"/>
+        <Button 
+            Style="{StaticResource HorPanelButton}"
+            Grid.Column="0"
+            Grid.ColumnSpan="2" 
+            Grid.Row="4" 
+            Margin="10 15"
+            Padding="10 5"
+            Width="auto"
+            Content="Clear Walls" 
+            Command="{Binding ClearWallsCommand}" 
+            HorizontalContentAlignment="Center"
+            HorizontalAlignment="Left"/>
+
 
     </Grid>
 </UserControl>

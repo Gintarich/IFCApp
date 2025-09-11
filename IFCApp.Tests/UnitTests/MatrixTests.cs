@@ -1,4 +1,5 @@
 ﻿using IFCApp.Core.Geometry;
+using IFCApp.IFCServices.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,15 @@ public class MatrixTests
     [TestMethod]
     public void TestReturnVectors()
     {
-        var mat = new Matrix4d( new double[,]
-        { 
-            {1,0,0,0}, 
-            {0,1,0,0}, 
-            {0,0,1,0}, 
+        var mat = new Matrix4d(new double[,]
+        {
+            {1,0,0,0},
+            {0,1,0,0},
+            {0,0,1,0},
             {0,0,0,1}});
-        Assert.AreEqual(mat.XAxis,Vector3d.XAxis);
-        Assert.AreEqual(mat.YAxis,Vector3d.YAxis);
-        Assert.AreEqual(mat.ZAxis,Vector3d.ZAxis);
+        Assert.AreEqual(mat.XAxis, Vector3d.XAxis);
+        Assert.AreEqual(mat.YAxis, Vector3d.YAxis);
+        Assert.AreEqual(mat.ZAxis, Vector3d.ZAxis);
     }
     [TestMethod]
     public void ShouldTransLate()
@@ -57,6 +58,44 @@ public class MatrixTests
         var trans = Matrix4d.Translation(375689000, 315329000, 32.20);
         var tot = trans.Combine(rot);
         var inverse = tot.Inverse();
+    }
+
+    [TestMethod]
+    public void ShouldInverse()
+    {
+        var Rz = Matrix4d.RotationZ(-59);               // degrees → handled by your method
+        var Tr = Matrix4d.Translation(315329000, 375689000, 32200);
+        var T = Tr.Combine(Rz);
+        //var Rd = Rz.GetData();
+        //var T = new Matrix4d(new double[,]{
+        //    { Rd[0,0], Rd[0,1], Rd[0,2], Td[0,3] },
+        //    { Rd[1,0], Rd[1,1], Rd[1,2], Td[1,3] },
+        //    { Rd[2,0], Rd[2,1], Rd[2,2], Td[2,3] },
+        //    { 0,       0,       0,       1 }
+        //});
+        Console.WriteLine(T);
+        var Ti = T.InverseRigid();
+        Console.WriteLine(Ti);
+        var I = Ti.Combine(T);
+        I.Round(12);
+        Console.WriteLine(I); // should be (approximately) identity
+    }
+
+
+    [TestMethod]
+    public void Apply_InverseUndo_GetsOriginalPoint()
+    {
+        var T = Matrix4d.Translation( 375689000, 315329000,32200).Combine(Matrix4d.RotationZ(-59));
+        var Ti = T.InverseRigid();
+        var invmat = VUGDCoordinateSystems.GetMatrix(315329000, 375689000, 32200, -59);
+
+        var p = new Point3d(375691139.58, 315331920.13, 33075);
+        var pi = Ti.Apply(p);
+        var pi2 = VUGDCoordinateSystems.InverseKul.Apply(p);
+
+        Assert.AreEqual(pi.X, pi2.X, 1e-3);
+        Assert.AreEqual(pi.Y, pi2.Y, 1e-3);
+        Assert.AreEqual(pi.Z, pi2.Z, 1e-3);
     }
 
     [TestMethod]
@@ -147,9 +186,9 @@ public class MatrixTests
 
         for (int i = 0; i < 4; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                Assert.AreEqual( ar1 [i,j], ar2 [i,j], 0.01);
+                Assert.AreEqual(ar1[i, j], ar2[i, j], 0.01);
             }
         }
     }

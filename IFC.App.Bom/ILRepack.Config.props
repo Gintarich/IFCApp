@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Whitelist everything in System.Runtime.CompilerServices -->
+    <AllowedDuplicateNamespaces>System.Runtime.CompilerServices</AllowedDuplicateNamespaces>
+  </PropertyGroup>
+</Project>

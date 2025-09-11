@@ -14,6 +14,11 @@ public static class VUGDCoordinateSystems
             {0,                    0,                    1, -32200    },
             {0,                    0,                    0, 1        }
         });
+    public static Matrix4d GetMatrix(double N, double E, double H, double angle)
+    {
+        var mat = Matrix4d.Translation(E, N, H).Combine(Matrix4d.RotationZ(angle));
+        return mat.InverseRigid();
+    }
 
     public static Matrix4d InverseBol = new Matrix4d(new double[,]
         {
@@ -28,6 +33,15 @@ public static class VUGDCoordinateSystems
     {0.928420912597526867 , 0.3715299650237975627 , 0 , -571324486.24695154022 },
     {-0.3715299650237975627 , 0.928420912597526867 , 0 , -110466559.48612762342 },
     {0,0,1,-4000},
+    {0,0,0,1},
+    });
+
+
+    public static Matrix4d InverseLim1 = new Matrix4d( new double[,]
+    {
+    {0.8318572708,0.5549896224,0,-660213139.34972},
+    {-0.5549896224,0.8318572708,0,-10614959.3319765},
+    {0,0,1,-77500},
     {0,0,0,1},
     });
 }

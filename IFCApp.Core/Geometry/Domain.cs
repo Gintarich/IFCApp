@@ -26,6 +26,5 @@ namespace IFCApp.Core.Geometry
             var d2End = this.End > this.Start ? this.End : this.Start;
             return (new Domain(d1Start, d1End), new Domain(d2Start, d2End));
         }
-
     }
 }

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TEP Version="2.0">
+
+    <Product Id="Specifikacijas" UpgradeCode="3BBBD9EC-8197-42B9-8638-5D0496AA7B8A" Version="0.1" Language="1033" 
+        Name="Specifikacijas" Manufacturer="BCD"  
+        Description= "Create Bom according to BCD standard"
+        IconPath="%TEPDEFINITIONFILEFOLDER%\Icon.png" Type="Extension">
+        <TeklaVersions>
+            <TeklaVersion Name="2024.0"/>
+            <MinTeklaVersion Name="2017.0"/>
+            <MaxTeklaVersion Name="2099.1"/>
+        </TeklaVersions>
+    </Product>
+     
+    <SourcePathVariables>
+		<SourcePathVariable Id="TepOutputFolder"  Value="%TEPDEFINITIONFILEFOLDER%\output" />		
+		<SourcePathVariable Id="SourceBinaries"   Value="%TEPDEFINITIONFILEFOLDER%\BuildDrop"/>
+		<SourcePathVariable Id="SourceEnv"        Value="%TEPDEFINITIONFILEFOLDER%\Environments"/>
+		<SourcePathVariable Id="SourceCatalog"    Value="%TEPDEFINITIONFILEFOLDER%\Catalog"/>
+		<SourcePathVariable Id="SourceRibbon"     Value="%TEPDEFINITIONFILEFOLDER%\Ribbon"/>
+    </SourcePathVariables>
+    
+    <TargetPathVariables>
+        <PathVariable Id="ExtensionName"         Value="Specifikacijas"/>
+	    <PathVariable Id="ExtensionsRootDir"     Value="%commonEnvFolder%\extensions"/>		
+		<PathVariable Id="ExtensionsDir"         Value="%ENVDIR%\..\Extensions"/>
+		<PathVariable Id="TargetBinaries"        Value="%ExtensionsRootDir%\%ExtensionName%"/>
+    </TargetPathVariables>
+
+    <Component Id="TheExtensionComponent" Guid="0A1409A1-ABB7-4C6D-A620-CC2653FBC387">
+        <File Id="CopyBinaries" Source="%SourceBinaries%\*.*"  Target="%TargetBinaries%"       Recursive="yes" />
+	    <File Id="CopyEnvs"     Source="%SourceEnv%\*.*"       Target="%ENVDIR%"               Recursive="yes" />		
+		<File Id="CopyRibbon"   Source="%SourceRibbon%\*.*"    Target="%ExtensionsDir%\Images" Recursive="yes" />	
+		<File Id="CopyCatalog"  Source="%SourceCatalog%\*.*"   Target="%TargetBinaries%"       Recursive="yes" />
+    </Component>
+
+    <Feature Id="TheExtensionFeature" Title="ExtensionFeature">
+        <ComponentRef ReferenceId="TheExtensionComponent" />
+    </Feature>
+
+ </TEP>

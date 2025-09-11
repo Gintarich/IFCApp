@@ -35,6 +35,13 @@ namespace IFCApp.Core
             var idx = ElementMap[element.ID];
             Elements[idx] = null;
         }
+
+        public void Clear()
+        {
+            Elements.Clear();
+            ElementMap.Clear();
+        }
+
         public void CleanModel()
         {
             for (var i = 0; i < Elements.Count; i++)
@@ -44,13 +51,33 @@ namespace IFCApp.Core
                     Elements.RemoveAt(i);
                 }
             }
+            Dictionary<Guid, int> newMap = new Dictionary<Guid, int>();
             for (var i = 0; i < Elements.Count; i++)
             {
-                Dictionary<Guid, int> newMap = new Dictionary<Guid, int>();
                 newMap[Elements[i].ID] = i;
-                ElementMap = newMap;
             }
+            ElementMap = newMap;
         }
+        public void CleanModel(List<Guid> idsToLeave)
+        {
+            List<ElementBase> newElements = new List<ElementBase>();
+
+            for (var i = 0; i < Elements.Count; i++)
+            {
+                if (idsToLeave.Contains(Elements[i].ID))
+                {
+                    newElements.Add(Elements[i]);
+                }
+            }
+            Elements = newElements;
+            Dictionary<Guid, int> newMap = new Dictionary<Guid, int>();
+            for (var i = 0; i < Elements.Count; i++)
+            {
+                newMap[Elements[i].ID] = i;
+            }
+            ElementMap = newMap;
+        }
+
         public bool TryGetValue(Guid id, out ElementBase value)
         {
             if (ElementMap.TryGetValue(id, out int index))

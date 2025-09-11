@@ -131,8 +131,9 @@ public class Matrix4d
     /// <returns>A transformation matrix for the specified rotation.</returns>
     public static Matrix4d RotationY(double angle)
     {
-        double c = Math.Cos(angle);
-        double s = Math.Sin(angle);
+        var radians = angle * Math.PI / 180.0;
+        double c = Math.Cos(radians);
+        double s = Math.Sin(radians);
 
         return new Matrix4d(new double[,]
         {
@@ -360,6 +361,15 @@ public class Matrix4d
         return new Matrix4d(inv);
     }
 
+    public Matrix4d InverseRigid()
+    {
+        return new Matrix4d(new double[,] {
+            { _matrix[0,0], _matrix[0,1], _matrix[0,2], -_matrix[0, 0] * _matrix[0, 3] + -_matrix[0, 1] * _matrix[1, 3] + -_matrix[0, 2] * _matrix[2, 3]},
+            { _matrix[1,0], _matrix[1,1], _matrix[1,2], -_matrix[1, 0] * _matrix[0, 3] + -_matrix[1, 1] * _matrix[1, 3] + -_matrix[1, 2] * _matrix[2, 3]},
+            { _matrix[2,0], _matrix[2,1], _matrix[2,2], -_matrix[2, 0] * _matrix[0, 3] + -_matrix[2, 1] * _matrix[1, 3] + -_matrix[2, 2] * _matrix[2, 3]},
+            { 0,             0,             0,          1 }
+        });
+    }
     // Override ToString() for better debugging output
     public override string ToString()
     {

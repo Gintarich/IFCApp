@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using IFCApp.IFCServices.Utils;
 using IFCApp.TeklaServices;
 using IFCApp.TeklaServices.Services;
 using IFCApp.TeklaServices.Utils;
+using Tekla.Structures.Model;
 using Xbim.Ifc2x3.GeometricConstraintResource;
 using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc2x3.RepresentationResource;
@@ -46,9 +48,12 @@ public class IfcTests
     [TestMethod]
     public void MustGetAllWindows()
     {
-        TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseBol);
+        TransformationService transformationService = new TransformationService(VUGDCoordinateSystems.InverseLim1);
         BBoxService boxService = new BBoxService();
-        IfcWindowService serv = new IfcWindowService(_model, transformationService, boxService);
+        var modelPath = new TeklaProjectQuery().GetModelPath();
+        var ifcPath  = Path.Combine(modelPath,"Automation","LIM_7AM_01_00_M3_AR_0001.ifc");
+        var model = new IFCModel(ifcPath, transformationService, boxService);
+        IfcWindowService serv = new IfcWindowService(model, transformationService, boxService);
         var windows = serv.GetWindows();
         foreach (var window in windows)
         {

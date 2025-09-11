@@ -116,6 +116,7 @@ public class NVAAtributeCreator
         AddProperty(pt, "19_PĀRKLĀJUMS", "N/A");
         AddProperty(pt, "72_AREA_PROJ_B", GetGrossArea(prof, table));
         AddProperty(pt, "73_AREA_PROJ_N", GetNetoArea(prof, table));
+        SetMaxArea(pt, table, "ProjArea");
         pt.Modify();
     }
 
@@ -161,7 +162,21 @@ public class NVAAtributeCreator
         AddProperty(ass, "19_PĀRKLĀJUMS", "N/A");
         AddProperty(ass, "72_AREA_PROJ_B", GetGrossArea(mp.Profile.ProfileString, table));
         AddProperty(ass, "73_AREA_PROJ_N", GetNetoArea(mp.Profile.ProfileString, table));
+        SetMaxArea(ass, table, "ProjArea");
         ass.Modify();
+    }
+
+    private void SetMaxArea(Assembly ass, Hashtable table, string parameter)
+    {
+        double brutoXYProj = Math.Round((double)table["AREA_PROJECTION_XY_GROSS"]);
+        double brutoXZProj = Math.Round((double)table["AREA_PROJECTION_XZ_GROSS"]);
+        AddProperty(ass, parameter, Math.Max(brutoXZProj,brutoXYProj));
+    }
+    private void SetMaxArea(Part part, Hashtable table, string parameter)
+    {
+        double brutoXYProj = Math.Round((double)table["AREA_PROJECTION_XY_GROSS"]);
+        double brutoXZProj = Math.Round((double)table["AREA_PROJECTION_XZ_GROSS"]);
+        AddProperty(part, parameter, Math.Max(brutoXZProj,brutoXYProj));
     }
 
     private double GetNetoArea(string profileName, Hashtable table)
@@ -398,6 +413,7 @@ public class AttributeMapper
     {
         { "CONCRETE", "DZELZSBETONS" },
         { "Keramzitbetons", "KERAMZĪTBETONS" },
+        { "Keramzitbetons 5MPa", "KERAMZĪTBETONS 5MPA" },
         { "STEEL", "TĒRAUDS" },
         { "Insulation_hard", "IZOLĀCIJA" },
         { "KOOLTHERM K20", "IZOLĀCIJA" },
@@ -448,6 +464,7 @@ public class AttributeMapper
         {"TSS 101", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PLĀKSNE", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA SIJA", "BE_07_21_05_00_Tērauda sijas"},
+        {"MONTĀŽAS DETAĻA", "BE_07_21_05_00_Tērauda sijas"},
         {"JUMTA SIJA", "BE_07_21_05_00_Tērauda sijas"},
         {"KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
@@ -466,6 +483,7 @@ public class AttributeMapper
         {"APBETONĒJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"DZELZSBETONA PĀRSEDZE", "BE_07_17_01_00_Monolītā dzelzsbetona (MDZB) pārsedzes"},
         {"DZELZSBETONA JOSLA", "BE_07_21_01_00_Monolītā dzelzsbetona (MDZB) sijas"},
+        {"DZELZSBETONA COKOLPANELIS", "BE_07_21_01_00_Monolītā dzelzsbetona (MDZB) sijas"},
         {"KAROGU MASTU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PADZIĻINĀJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PAMATA STABS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},

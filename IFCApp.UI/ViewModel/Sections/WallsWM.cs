@@ -27,10 +27,12 @@ namespace IFCApp.UI.ViewModel.Sections
         }
 
         public ICommand LoadWallsCommand { get; set; }
+        public ICommand ClearWallsCommand { get; set; }
         public ICommand ChangeViewCommand { get; set; }
         public WallsWM(string name, ModelManagerVM vm, Stores.ModelStore modelStore, MainViewModel mainvm, Stores.ConfigStore cfgStore) : base(name)
         {
             LoadWallsCommand = new RelayCommand<string>(LoadWalls);
+            ClearWallsCommand = new RelayCommand(ClearModel);
             ChangeViewCommand = new RelayCommand(ChangeView);
             _parentViewModel = vm;
             _modelStore = modelStore;
@@ -43,15 +45,26 @@ namespace IFCApp.UI.ViewModel.Sections
             _parentViewModel.SelectedSection = this;
         }
 
+        private void ClearModel()
+        {
+            _modelStore.Model.Clear();
+        }
+
         private void LoadWalls(string WallNames)
         {
             var splitNames = WallNames.Split(',').Select(x=>x.Trim()).ToList();
             TeklaBoundingBoxService boxService = new();
             TeklaWallService wService = new(boxService);
             var walls = wService.GetWalls(splitNames);
+
+            List<Guid> newWallIDs = new List<Guid>();
+
             foreach (var wall in walls)
             {
                 var model = _modelStore.Model;
+
+                newWallIDs.Add(wall.ID);
+                
                 if (model.TryGetValue(wall.ID, out var el))
                 {
                     if (el is Wall wallEl)
@@ -69,8 +82,8 @@ namespace IFCApp.UI.ViewModel.Sections
                     model.Insert(wall);
                 }
             }
+            _modelStore.Model.CleanModel(newWallIDs);
             _modelStore.Update();
-            //TODO: Remove Unused walls ??
         }
     }
 }

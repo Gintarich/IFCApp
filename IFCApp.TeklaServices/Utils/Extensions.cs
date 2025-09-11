@@ -85,6 +85,19 @@ public static class Extensions
         else return false;
     }
 
+    public static double GetWallArea(this Part part)
+    {
+        double area = double.MinValue;
+        part.GetReportProperty("AREA", ref area);
+        return area;
+    }
+
+    public static bool IsValidLayer(this Part part)
+    {
+        var tilpums = part.GetDoubleProp("VOLUME") / 1e9;
+        return tilpums > 0.045;
+    }
+
     public static bool IsUserCreated(this Part part)
     {
         int created = int.MaxValue;
@@ -111,4 +124,5 @@ public static class Extensions
         mo.GetReportProperty(prop, ref val);
         return val;
     }
+
 }
