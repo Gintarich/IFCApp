@@ -137,3 +137,5 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+/IFC.App.Bom/Installer/BuildDrop
+/IFC.App.Bom/Installer/output
