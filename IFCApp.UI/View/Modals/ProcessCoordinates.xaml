@@ -5,8 +5,79 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IFCApp.UI.View.Modals"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="450" d:DesignWidth="500">
+
+    <Grid Margin="20" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Enter Coordinates"
+                    HorizontalAlignment="Center"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Margin="0,20,0,20"/>
+        <StackPanel Grid.Row="1" Margin="20,20,20,20">
+            <Label Content="East:"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Margin="0"
+                       FontWeight="Bold"/>
+
+            <TextBox Text="{Binding East, UpdateSourceTrigger=PropertyChanged}" 
+                     HorizontalAlignment="Left"
+                     HorizontalContentAlignment="Center"
+                     VerticalAlignment="Center"
+                     Height="25"
+                     Width="300"
+                     Margin="0, 5"/>
+
+            <Label Content="North:"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Margin="0"
+                       FontWeight="Bold"/>
+
+            <TextBox Text="{Binding North, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Left"
+                     HorizontalContentAlignment="Center"
+                     VerticalAlignment="Center"
+                     Height="25"
+                     Width="300"
+                     Margin="0, 5"/>
+            <Label Content="Height:"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Margin="0"
+                       FontWeight="Bold"/>
+
+            <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}" 
+                     HorizontalAlignment="Left"
+                     HorizontalContentAlignment="Center"
+                     VerticalAlignment="Center"
+                     Height="25"
+                     Width="300"
+                     Margin="0, 5"/>
+
+            <Label Content="Angle (°):" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Margin="0"
+                       FontWeight="Bold"/>
+
+            <TextBox Text="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" 
+                     HorizontalAlignment="Left"
+                     HorizontalContentAlignment="Center"
+                     VerticalAlignment="Center"
+                     Height="25"
+                     Width="300"
+                     Margin="0, 5"/>
+
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <Button Content="OK" Width="80" Margin="0,0,10,0" Command="{Binding OkCommand}" Style="{StaticResource HorPanelButton}" />
+            <Button Content="Cancel" Width="80" Command="{Binding CloseModalCommand}" Style="{StaticResource HorPanelButton}" />
+        </StackPanel>
     </Grid>
 </UserControl>

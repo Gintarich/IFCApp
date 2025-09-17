@@ -27,6 +27,16 @@ public class TeklaLayerService
         {
             var str = string.Empty;
             _component.GetUserProperty("ActiveLayers", ref str);
+
+            if(str == null || str == string.Empty)
+            {
+                var layerCount = GetLayerCount(_assembly);
+                for (int i = 0; i < layerCount; i++)
+                {
+                    _layers.Add(i);
+                }
+                return;
+            }
             _layers = str.Split(';').Select(x => Int32.Parse(x)).ToList();
         }
         else

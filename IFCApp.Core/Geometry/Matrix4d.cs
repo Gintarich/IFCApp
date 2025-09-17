@@ -77,6 +77,17 @@ public class Matrix4d
     }
 
     public Matrix4d(Matrix4d mat) : this(mat.GetData()) { }
+
+    public Matrix4d(double East, double North, double Elevation, double angle)
+    {
+        double radians = angle * Math.PI / 180.0;
+        _matrix = new double[,] {
+            { Math.Cos(radians), -Math.Sin(radians), 0, East },
+            { Math.Sin(radians),  Math.Cos(radians), 0, North },
+            { 0,                0,               1, Elevation },
+            { 0,                0,               0, 1 }
+        };
+    }
     public Matrix4d(Vector3d x, Vector3d y, Vector3d z, Point3d origin)
     {
         _matrix = new double[,]

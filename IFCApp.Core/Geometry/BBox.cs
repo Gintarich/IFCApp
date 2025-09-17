@@ -49,11 +49,12 @@ namespace IFCApp.Core.Geometry
         public BBox TrimBoxLength(double length)
         {
             var halfBox = length / 2;
-            if (_min.X < -halfBox)
+            var midX = (_min.X + _max.X) / 2;
+            if (midX - halfBox < -halfBox)
             {
                 _min = new Point3d(-halfBox, _min.Y, _min.Z);
             }
-            if (_max.X > halfBox)
+            if (midX + halfBox > halfBox)
             {
                 _max = new Point3d(halfBox, _max.Y, _max.Z);
             }

@@ -40,8 +40,8 @@ public class IfcDoorService
             var box = bBoxService.GetBBox(openingElement.Representation, matrix).TrimBoxWidth(1000);
             var len = door.OverallWidth.Value;
             var height = door.OverallHeight.Value;
-            box = box.TrimBoxLength(len);
-            box = box.SetHeight(height);
+            //box = box.TrimBoxLength(len); // Archicad sometimes creates larger holes than necessary
+            //box = box.SetHeight(height);
             doorsOut.Add(new Door(box,guid));
         }
         return doorsOut;

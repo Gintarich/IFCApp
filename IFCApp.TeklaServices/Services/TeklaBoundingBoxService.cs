@@ -20,16 +20,24 @@ public class TeklaBoundingBoxService
             endPoint.Z - startPoint.Z
             ).Normalize();
         // TODO: Add check if xAxis is vertical aka xAxis == zAxis
-        Vector3d yAxis = Vector3d.ZAxis.Cross(xAxis);
-        Vector3d zAxis = xAxis.Cross(yAxis);
-        Point3d origin = startPoint.CorePoint();
-        var cs = new Matrix4d(xAxis, yAxis, zAxis, origin);
-        var inverse = cs.Inverse();
-        var solid = beam.GetSolid();
-        var min = inverse.Apply(solid.MinimumPoint.CorePoint());
-        var max = inverse.Apply(solid.MaximumPoint.CorePoint());
-        var box = new BBox([min,max], cs);
-        return box;
+        var dotProduct = xAxis.Dot(Vector3d.ZAxis);
+        if (dotProduct < 0.99 && dotProduct > -0.99)
+        {
+            Vector3d yAxis = Vector3d.ZAxis.Cross(xAxis);
+            Vector3d zAxis = xAxis.Cross(yAxis);
+            Point3d origin = startPoint.CorePoint();
+            var cs = new Matrix4d(xAxis, yAxis, zAxis, origin);
+            var inverse = cs.Inverse();
+            var solid = beam.GetSolid();
+            var min = inverse.Apply(solid.MinimumPoint.CorePoint());
+            var max = inverse.Apply(solid.MaximumPoint.CorePoint());
+            var box = new BBox([min, max], cs);
+            return box;
+        }
+        else
+        {
+            throw new NotImplementedException("Beam is vertical, need to implement different logic.");
+        }
     }
     public BBox GetBox(TS.ContourPlate cp)
     {
@@ -46,12 +54,12 @@ public class TeklaBoundingBoxService
         Vector3d yAxis = Vector3d.ZAxis.Cross(xAxis);
         Vector3d zAxis = xAxis.Cross(yAxis);
         Point3d origin = p1;
-        var cs = new Matrix4d(xAxis,yAxis,zAxis,origin);
+        var cs = new Matrix4d(xAxis, yAxis, zAxis, origin);
         var inverse = cs.Inverse();
         var solid = cp.GetSolid();
         var min = inverse.Apply(solid.MinimumPoint.CorePoint());
         var max = inverse.Apply(solid.MaximumPoint.CorePoint());
-        var box = new BBox([min,max], cs);
+        var box = new BBox([min, max], cs);
         return box;
     }
 }

@@ -19,6 +19,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Model" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Boxes" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
@@ -42,11 +43,21 @@
                 Content="Manage parameters" 
                 Command="{Binding OpenParametersModalCommand}"
                 Style="{StaticResource HorPanelButton}"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Coordinates" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            <Button 
+                Grid.Row="3"
+                Grid.Column="1" 
+                Margin="20 5" 
+                Width="auto" 
+                Padding="3 3" 
+                Content="Manage Coordinates" 
+                Command="{Binding OpenCoordModalCommand}"
+                Style="{StaticResource HorPanelButton}"/>
         <Button 
             Style="{StaticResource HorPanelButton}"
             Grid.Column="0"
             Grid.ColumnSpan="2" 
-            Grid.Row="3" 
+            Grid.Row="4" 
             Margin="10 15"
             Padding="10 5"
             Width="auto"
@@ -56,9 +67,9 @@
             HorizontalAlignment="Left"/>
         <!--Margin="10"-->
         <!--Style="{StaticResource HorPanelButton}"-->
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Trūkstošie elementi klasifikācijā"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Trūkstošie elementi klasifikācijā"/>
         <TextBox Height="100" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
-        VerticalScrollBarVisibility="Auto" Text="{Binding Errors}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"/>
+        VerticalScrollBarVisibility="Auto" Text="{Binding Errors}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5"/>
 
     </Grid>
 </UserControl>

@@ -53,7 +53,7 @@ public class TeklaWallService
             .ToList().Cast<TS.Assembly>();
         TeklaBoundingBoxService bbService = _boundingBoxService;
         var panels = allAssemblies.Where(x => AssemblyNames.Contains(x.Name))
-           .Cast<TS.Assembly>();
+           .Cast<TS.Assembly>().ToList();
         foreach (var panel in panels)
         {
             TeklaLayerService teklaLayerService = new TeklaLayerService(panel);

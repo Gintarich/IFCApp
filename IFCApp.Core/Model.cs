@@ -11,7 +11,7 @@ namespace IFCApp.Core
         public string ModelName { get; set; } = "";
         public string ModelPath { get; set; } = "";
         public Dictionary<string, BBox> BBoxes { get; set; } = new();
-        public Matrix4d CS { get; set; }
+        public Coordinates CS { get; set; }
 
         public List<ElementBase> Elements { get; set; } = new();
         public Dictionary<Guid, int> ElementMap { get; set; } = new();

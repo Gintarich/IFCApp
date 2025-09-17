@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace IFCApp.UI.ViewModel.Sections
@@ -36,6 +37,8 @@ namespace IFCApp.UI.ViewModel.Sections
         public ICommand InsertOpeningsCommand { get; set; }
         public ICommand ClearOpeningsCommand { get; set; }
         public ICommand ChangeViewCommand { get; set; }
+        public ICommand CheckOpeningsCommand { get; set; }
+        public ICommand BrowseIfcFilesCommand { get; set; }
         public OpeningsVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm, ConfigStore cfgStore) : base(name)
         {
             _parentViewModel = vm;
@@ -46,9 +49,24 @@ namespace IFCApp.UI.ViewModel.Sections
             ShowOpeningsCommand = new RelayCommand(ShowOpenings);
             InsertOpeningsCommand = new RelayCommand(InsertOpenings);
             ClearOpeningsCommand = new RelayCommand(ClearOpenings);
+            CheckOpeningsCommand = new RelayCommand(CheckOpenings);
+            BrowseIfcFilesCommand = new RelayCommand(BrowseIfcFiles);
             _modelStore.ModelChanged += UpdateWalls;
             _modelStore.ModelLoaded += OnModelLoaded;
         }
+
+        private void BrowseIfcFiles()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.DefaultExt = ".ifc";
+            dialog.Filter = "IFC Files (*.ifc)|*.ifc";
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                Path = dialog.FileName;
+            }
+        }
+
         private void ChangeView()
         {
             _parentViewModel.SelectedSection = this;
@@ -72,7 +90,7 @@ namespace IFCApp.UI.ViewModel.Sections
             _walls.ForEach(x => guids.AddRange(x.Openings.Select(y => y.ID).ToList()));
             //Dependencies
             BBoxService bBoxService = new BBoxService();
-            TransformationService transformationService = new TransformationService(_modelStore.Model.CS);
+            TransformationService transformationService = new TransformationService(_modelStore.Model.CS.Matrix);
             TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
             //Script
 
@@ -122,6 +140,32 @@ namespace IFCApp.UI.ViewModel.Sections
             _modelStore.Update();
         }
 
+        private void CheckOpenings()
+        {
+            BBoxService bBoxService = new BBoxService();
+            TransformationService transformationService = new TransformationService(_modelStore.Model.CS.Matrix);
+            TeklaBoundingBoxService teklaBoundingBoxService = new TeklaBoundingBoxService();
+            //Script
+
+            //Get Windows
+            IFCModel model = new IFCModel(Path);
+            IfcDoorService doorServ = new IfcDoorService(model, transformationService, bBoxService);
+            var doors = doorServ.GetDoors();
+
+            IfcWindowService windowService = new IfcWindowService(model, transformationService, bBoxService);
+            var windows = windowService.GetWindows();
+            
+            TeklaGraphicsDrawerService drawerService = new TeklaGraphicsDrawerService();
+            foreach (var door in doors)
+            {
+                drawerService.DrawBox(door.GetBox());
+            }
+            foreach (var window in windows)
+            {
+                drawerService.DrawBox(window.GetBox());
+            }
+
+        }
         private void ClearOpenings()
         {
             foreach (var wall in _walls)

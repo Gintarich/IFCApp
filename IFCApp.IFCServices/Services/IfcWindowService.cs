@@ -31,6 +31,7 @@ namespace IFCApp.IFCServices.Services
 
             foreach (var window in windows)
             {
+                if(window.FillsVoids.Count() == 0) continue; 
                 var openingElement = window.FillsVoids.First().RelatingOpeningElement;
                 Guid guid = window.GlobalId;
 

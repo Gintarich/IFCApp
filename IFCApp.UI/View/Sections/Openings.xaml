@@ -20,9 +20,25 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Path to IFC" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium" />
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path}" Margin="10 5" Padding="3 3" Style="{StaticResource MyTextBox}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding Path}" Margin="10 5" Padding="3 3" Style="{StaticResource MyTextBox}"/>
+        <Button 
+                Grid.Row="0"
+                Grid.Column="2" 
+                Margin="0 0" 
+                Height="35"
+                HorizontalAlignment="Left"
+                Width="45" 
+                Padding="3 3" 
+                Content="···" 
+                FontSize="20"
+                FontWeight="Bold"
+                Command="{Binding BrowseIfcFilesCommand}"
+                Style="{StaticResource ButtonRoundedCorners}"/>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Load openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
         <Button 
                 Grid.Row="2"
@@ -32,7 +48,7 @@
                 Padding="3 3" 
                 Content="Load Openings" 
                 Command="{Binding LoadOpeningsCommand}"
-                Style="{StaticResource HorPanelButton}"/>
+                Style="{StaticResource ButtonRoundedCorners}"/>
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Show openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
         <Button 
                 Grid.Row="3"
@@ -42,7 +58,7 @@
                 Padding="3 3" 
                 Content="Show Openings" 
                 Command="{Binding ShowOpeningsCommand}"
-                Style="{StaticResource HorPanelButton}"/>
+                Style="{StaticResource ButtonRoundedCorners}"/>
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Insert openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
         <Button 
                 Grid.Row="4"
@@ -52,7 +68,7 @@
                 Padding="3 3" 
                 Content="Insert Openings" 
                 Command="{Binding InsertOpeningsCommand}"
-                Style="{StaticResource HorPanelButton}"/>
+                Style="{StaticResource ButtonRoundedCorners}"/>
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Clear Openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
         <Button 
                 Grid.Row="5"
@@ -62,7 +78,17 @@
                 Padding="3 3" 
                 Content="Clear Openings" 
                 Command="{Binding ClearOpeningsCommand}"
-                Style="{StaticResource HorPanelButton}"/>
+                Style="{StaticResource ButtonRoundedCorners}"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Check openings" Margin="10 10" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+        <Button 
+                Grid.Row="6"
+                Grid.Column="1" 
+                Margin="20 5" 
+                Width="auto" 
+                Padding="3 3" 
+                Content="Check Openings" 
+                Command="{Binding CheckOpeningsCommand}"
+                Style="{StaticResource ButtonRoundedCorners}"/>
     </Grid>
     <!--<Grid Background="{StaticResource White}">
         <Grid Background="{StaticResource White}" Margin="10">

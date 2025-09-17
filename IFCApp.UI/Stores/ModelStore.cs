@@ -1,4 +1,5 @@
 ﻿using IFCApp.Core;
+using IFCApp.Core.Elements;
 using IFCApp.Core.Geometry;
 using IFCApp.IFCServices.Utils;
 using IFCApp.TeklaServices.Services;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using System.Xml.Serialization;
 
 namespace IFCApp.UI.Stores
 {
@@ -50,20 +52,7 @@ namespace IFCApp.UI.Stores
             {
                 Directory.CreateDirectory(modelPath);
             }
-            switch (_model.ModelName)
-            {
-                case "DZI-7AM-00-00-M3-BK-0001":
-                    _model.CS = VUGDCoordinateSystems.InverseDzin;
-                    break;
-                case "KUL-7AM-00-00-M3-BK-0001":
-                    _model.CS = VUGDCoordinateSystems.InverseKul;
-                    break;
-                case "BOL-7AM-00-00-M3-BK-0001":
-                    _model.CS = VUGDCoordinateSystems.InverseBol;
-                    break;
-                default:
-                    break;
-            }
+            _model.CS = new Coordinates();
             _model.ModelPath = modelPath;
             SaveModel();
             ModelChanged?.Invoke();
@@ -106,6 +95,16 @@ namespace IFCApp.UI.Stores
         public void Update()
         {
             ModelChanged?.Invoke();
+        }
+        public void SetCoordinateSystem(Coordinates cs)
+        {
+            _model.CS = cs;
+            ModelChanged?.Invoke();
+        }
+
+        public Coordinates GetCoordinates()
+        {
+            return _model.CS;
         }
     }
 }

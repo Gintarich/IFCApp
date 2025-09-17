@@ -38,6 +38,7 @@ namespace IFCApp.UI.ViewModel.Sections
         public ICommand ChangeViewCommand { get; set; }
         public ICommand OpenBoxModalCommand { get; set; }
         public ICommand OpenParametersModalCommand { get; set; }
+        public ICommand OpenCoordModalCommand { get; set; }
 
         public ParametersVM(string name, ModelManagerVM vm, ModelStore modelStore, MainViewModel mainvm, ConfigStore cfgStore) : base(name)
         {
@@ -49,6 +50,7 @@ namespace IFCApp.UI.ViewModel.Sections
             AddParametersCommand = new RelayCommand(AddParameters);
             OpenBoxModalCommand = new RelayCommand(OpenBoxModal);
             OpenParametersModalCommand = new RelayCommand(OpenParametersModal);
+            OpenCoordModalCommand = new RelayCommand(OpenCoordModal);
             Errors = "";
             _modelStore.ModelChanged += ModelChanged;
         }
@@ -62,6 +64,12 @@ namespace IFCApp.UI.ViewModel.Sections
         private void OpenBoxModal()
         { 
             _mainViewModel.SelectedModal = new BoxModalVM(_mainViewModel, _modelStore);
+            _mainViewModel.IsOpen = true;
+        }
+
+        private void OpenCoordModal()
+        {
+            _mainViewModel.SelectedModal = new CoordinateInputViewModel(_mainViewModel, _modelStore);
             _mainViewModel.IsOpen = true;
         }
 

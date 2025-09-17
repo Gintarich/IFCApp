@@ -23,7 +23,7 @@ namespace IFCApp.Tests
                     { "Box1", new BBox { Min = new Point3d(0, 0, 0), Max = new Point3d(1, 1, 1), 
                         CS = new Matrix4d(new double[,] { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }) } }
                 },
-                CS = new Matrix4d(new double[,] { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }),
+                CS = new Coordinates(0,0,0,0 , new Matrix4d(new double[,] { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } })),
                 Elements = new List<ElementBase> { new ElementBase() }
             };
 

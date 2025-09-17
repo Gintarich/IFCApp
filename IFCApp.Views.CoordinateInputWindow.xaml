@@ -1,0 +1,34 @@
+<Window x:Class="IFCApp.Views.CoordinateInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Coordinate Input"
+        Height="300"
+        Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Enter Coordinates"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,20"/>
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <Label Content="North:"/>
+            <TextBox Text="{Binding North, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="East:"/>
+            <TextBox Text="{Binding East, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Height:"/>
+            <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Angle (°):"/>
+            <TextBox Text="{Binding Angle, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" Width="80" Margin="0,0,10,0" Command="{Binding OkCommand}" />
+            <Button Content="Cancel" Width="80" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

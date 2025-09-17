@@ -10,6 +10,7 @@
     <!--Colors-->
     <SolidColorBrush x:Key="Grey" Color="#8f98a1" />
     <SolidColorBrush x:Key="Black" Color="#2e2e35" />
+    <SolidColorBrush x:Key="BlackHover" Color="#505059" />
     <SolidColorBrush x:Key="White" Color="#eeeeee" />
 
     <Style x:Key="WinAll" TargetType="{x:Type Window}">
@@ -35,6 +36,54 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Width" Value="120" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                     Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                     
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="Center"
+                                   Margin="8,4"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource BlackHover}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+    </Style>
+    <Style x:Key="ButtonRoundedCorners" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Black}"/>
+        <Setter Property="Foreground" Value="{StaticResource White}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Width" Value="120" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="3"
+                    BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="Center"
+                                  Margin="8,4"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource BlackHover}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <DataTemplate DataType="{x:Type viewModels:ModelManagerVM}">
         <views:CanvasView/>
@@ -62,5 +111,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type sectionVMS:SlabsVM}">
         <sectionViews:Slabs/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modalVMS:CoordinateInputViewModel}">
+        <modalViews:ProcessCoordinates/>
     </DataTemplate>
 </ResourceDictionary>

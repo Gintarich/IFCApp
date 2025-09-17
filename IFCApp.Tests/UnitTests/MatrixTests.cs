@@ -61,6 +61,18 @@ public class MatrixTests
     }
 
     [TestMethod]
+
+    public void ShouldCreateMatrixFromNEHA()
+    {
+        var North = 375689000;
+        var East = 315329000;
+        var Height = 32200;
+        var Angle = -59;
+
+        Matrix4d mat = new Matrix4d(North, East, Height, Angle);
+    }
+
+    [TestMethod]
     public void ShouldInverse()
     {
         var Rz = Matrix4d.RotationZ(-59);               // degrees → handled by your method
@@ -85,7 +97,7 @@ public class MatrixTests
     [TestMethod]
     public void Apply_InverseUndo_GetsOriginalPoint()
     {
-        var T = Matrix4d.Translation( 375689000, 315329000,32200).Combine(Matrix4d.RotationZ(-59));
+        var T = Matrix4d.Translation(375689000, 315329000, 32200).Combine(Matrix4d.RotationZ(-59));
         var Ti = T.InverseRigid();
         var invmat = VUGDCoordinateSystems.GetMatrix(315329000, 375689000, 32200, -59);
 
@@ -98,6 +110,22 @@ public class MatrixTests
         Assert.AreEqual(pi.Z, pi2.Z, 1e-3);
     }
 
+    [TestMethod]
+    public void Apply_InverseUndo_GetsOriginalPoint2()
+    {
+        var T = Matrix4d.Translation(543311908, 375241572, 77500).Combine(Matrix4d.RotationZ(33.71));
+        var Ti = T.InverseRigid();
+        var Tii = T.Inverse();
+        var invmat = VUGDCoordinateSystems.GetMatrix(375241572, 543311908, 77500, 33.71);
+
+        var p = new Point3d(543312705, 375240632 , 78395);
+        var pi = Ti.Apply(p);
+        var pi2 = Tii.Apply(p);
+
+        Assert.AreEqual(pi.X, pi2.X, 1e-3);
+        Assert.AreEqual(pi.Y, pi2.Y, 1e-3);
+        Assert.AreEqual(pi.Z, pi2.Z, 1e-3);
+    }
     [TestMethod]
     public void Should_Define_Coordinate_System()
     {
