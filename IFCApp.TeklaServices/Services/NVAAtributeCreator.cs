@@ -434,9 +434,11 @@ public class AttributeMapper
         {"APDARES SLĀNIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"SILTUMIZOLĀCIJA", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
+        {"PAMATU BLOKI", "BE_07_07_03_00_Saliekamā dzelzsbetona (SDZB) pamati" },
         {"VIENSLĀŅU SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"TRĪSSLĀŅU SIENAS PANELIS", "BE_07_15_03_00_Saliekamā dzelzsbetona (SDZB) sienas"},
         {"PĀRSEGUMA PANELIS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
+        {"LIFTA CEPURE", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"MASĪVPLĀTNE", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"SMALKGRAUDAINS BETONS", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
         {"PETRA", "BE_07_19_03_00_Saliekamā dzelzsbetona (SDZB) pārsegumi"},
@@ -485,6 +487,7 @@ public class AttributeMapper
         {"DZELZSBETONA JOSLA", "BE_07_21_01_00_Monolītā dzelzsbetona (MDZB) sijas"},
         {"DZELZSBETONA COKOLPANELIS", "BE_07_21_01_00_Monolītā dzelzsbetona (MDZB) sijas"},
         {"KAROGU MASTU PAMATS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
+        {"MONOLĪTĀ JOSLA", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PADZIĻINĀJUMS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PAMATA STABS", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
         {"PAMATA PĒDA", "BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati"},
@@ -585,6 +588,7 @@ BE_07_05_09_00	_07	_05	_09	_00	Citi pāļi	BE_07_05_09_00_Citi pāļi
 BE_07_07_00_00	_07	_07	_00	_00	Pamati	BE_07_07_00_00_Pamati
 BE_07_07_01_00	_07	_07	_01	_00	Monolītā dzelzsbetona (MDZB) pamati	BE_07_07_01_00_Monolītā dzelzsbetona (MDZB) pamati
 BE_07_07_03_00	_07	_07	_03	_00	Saliekamā dzelzsbetona (SDZB) pamati	BE_07_07_03_00_Saliekamā dzelzsbetona (SDZB) pamati
+BE_07_07_03_00_Saliekamā dzelzsbetona (SDZB) pamati
 BE_07_07_05_00	_07	_07	_05	_00	Tērauda pamati	BE_07_07_05_00_Tērauda pamati
 BE_07_07_07_00	_07	_07	_07	_00	Mūra pamati	BE_07_07_07_00_Mūra pamati
 BE_07_07_09_00	_07	_07	_09	_00	Citi pamati	BE_07_07_09_00_Citi pamati
