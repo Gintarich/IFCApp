@@ -12,11 +12,11 @@ namespace IFC.App.Bom.Services
             _path = path;
         }
 
-        public void ExportToExcel(List<IBomCreator> creators, PrintType thpe )
+        public void ExportToExcel(List<IBomCreator> creators, PrintType thpe)
         {
             foreach (var creator in creators)
             {
-                if(creator.GetCount() == 0) continue; // Skip if no elements to export
+                if (creator.GetCount() == 0) continue; // Skip if no elements to export
                 if (thpe == PrintType.ToSingleFile)
                 {
                     ExportToSingleFile(creator);
@@ -29,7 +29,7 @@ namespace IFC.App.Bom.Services
                 {
                     throw new ArgumentException("Invalid print type specified.");
                 }
-            }        
+            }
         }
         public void ExportToSingleFile(IBomCreator creator)
         {
@@ -53,6 +53,7 @@ namespace IFC.App.Bom.Services
                 IXLWorksheet ws = workbook.Worksheets.Add(info.SheetName);
                 CreateHeaders(info, ws);
                 CreateData(creator.GetData(), ws);
+                CreateSummaryData(creator.GetSummaryData(), ws);
 
                 try
                 {
@@ -70,10 +71,24 @@ namespace IFC.App.Bom.Services
                 });
             }
         }
+
+        private void CreateSummaryData(List<List<string>> list, IXLWorksheet ws)
+        {
+            var lastRow = ws.LastRowUsed()?.RowNumber() ?? 2; // If no rows used, start from row 2
+            lastRow += 2;
+            foreach (var element in list)
+            {
+                CreateDataRow(element, ws, lastRow); // Leave one empty row before summary
+                lastRow++;
+            }
+            ws.Columns().AdjustToContents();
+        }
+
         public void ExportToMultipleFiles(IBomCreator creator)
         {
 
         }
+
         public void CreateHeaders(SheetInfo info, IXLWorksheet worksheet)
         {
             var columnCount = info.Headers.Count;
@@ -90,7 +105,7 @@ namespace IFC.App.Bom.Services
             var headderRow = 2;
             for (int i = 0; i < headers.Count; i++)
             {
-                 worksheet.Cell(headderRow, i + 1).Value = headers[i];
+                worksheet.Cell(headderRow, i + 1).Value = headers[i];
             }
             // Style headers
             var headerRow = worksheet.Range(worksheet.Cell(2, 1), worksheet.Cell(2, headers.Count));
@@ -102,7 +117,7 @@ namespace IFC.App.Bom.Services
 
         public void CreateData(List<List<List<string>>> data, IXLWorksheet worksheet)
         {
-            if (data.Count == 0 || data[0].Count == 0)  throw new ArgumentException("Data cannot be empty.");
+            if (data.Count == 0 || data[0].Count == 0) throw new ArgumentException("Data cannot be empty.");
             if (data[0].Count == 1)
             {
                 CreateRegularData(data, worksheet);
@@ -118,7 +133,7 @@ namespace IFC.App.Bom.Services
         {
             int startingRow = 3;
             int currentRow = worksheet.LastRowUsed()?.RowNumber() + 1 ?? startingRow; // Start from row 3 or next available row
-            foreach(var element in data)
+            foreach (var element in data)
             {
                 if (element.Count == 0) continue; // Skip empty elements
                 CreateDataRow(element[0], worksheet, currentRow); // Create main data row
@@ -148,7 +163,7 @@ namespace IFC.App.Bom.Services
                 CreateDataRow(element[0], worksheet, currentRow);
                 currentRow++;
             }
-            var dataRange = worksheet.Range(worksheet.Cell(startingRow, 1), worksheet.Cell(currentRow-1, list[0][0].Count));
+            var dataRange = worksheet.Range(worksheet.Cell(startingRow, 1), worksheet.Cell(currentRow - 1, list[0][0].Count));
             dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
             dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
         }

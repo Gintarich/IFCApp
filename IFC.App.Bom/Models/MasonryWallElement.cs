@@ -1,24 +1,22 @@
-﻿using Tekla.Structures.Model;
-using IFCApp.TeklaServices.Utils;
+﻿using IFCApp.TeklaServices.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Tekla.Structures.Model;
 
 namespace IFC.App.Bom.Models
 {
-    public class PrecastWallElement : IElement, IEquatable<PrecastWallElement>
+    public class MasonryWallElement : IElement, IEquatable<MasonryWallElement>
     {
         public ElementPosition Marka { get; set; }
         public string Nosaukums { get; set; }
         public int Skaits { get; set; }
         public string Materiāls { get; set; }
         public double Biezums { get; set; }
-        public double Augstums { get; set; }
-        public double Garums { get; set; }
         public double Tilpums { get; set; }
-        public double Svars { get; set; }
-        public double BrutoLaukums { get; set; }
-        public double NetoLaukums { get; set; }
         public double TilpumsKopā { get { return Tilpums * Skaits; } }
-        public double BrutoLaukumsKopā { get { return BrutoLaukums * Skaits; } }
-        public double NetoLaukumsKopā { get { return NetoLaukums * Skaits; } }
 
         public void Print()
         {
@@ -30,7 +28,7 @@ namespace IFC.App.Bom.Models
             return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Skaits}";
         }
 
-        public static PrecastWallElement CreateFromAssembly(Assembly assembly)
+        public static MasonryWallElement CreateFromAssembly(Assembly assembly)
         {
             if (assembly == null)
             {
@@ -38,27 +36,22 @@ namespace IFC.App.Bom.Models
             }
             var pt = assembly.GetMainPart() as Part;
 
-            var element = new PrecastWallElement
+            var element = new MasonryWallElement
             {
                 Marka = new ElementPosition(assembly.GetStringProp("ASSEMBLY_POS")),
                 Nosaukums = assembly.Name,
                 Materiāls = pt is null ? "N/A" : CheckWall.CheckMaterial(pt),
                 Biezums = assembly.GetDoubleProp("WIDTH"),
-                Augstums = assembly.GetDoubleProp("HEIGHT"), 
-                Garums = assembly.GetDoubleProp("LENGTH"),
-                Tilpums = assembly.GetDoubleProp("VOLUME")/1e9,
-                Svars = assembly.GetDoubleProp("WEIGHT")/1e3,
-                BrutoLaukums = assembly.GetDoubleProp("AREA_PROJECTION_XY_GROSS")/1e6,
-                NetoLaukums = assembly.GetDoubleProp("AREA_PROJECTION_XY_NET") / 1e6
+                Tilpums = assembly.GetDoubleProp("VOLUME") / 1e9,
             };
             return element;
         }
 
-        public bool Equals(PrecastWallElement other)
+        public bool Equals(MasonryWallElement other)
         {
             return Nosaukums == other.Nosaukums &&
-                Marka.Prefix == other.Marka.Prefix &&
-                Marka.Number == other.Marka.Number;
+            Marka.Prefix == other.Marka.Prefix &&
+            Marka.Number == other.Marka.Number;
         }
     }
 }

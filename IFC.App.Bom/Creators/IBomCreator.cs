@@ -6,10 +6,11 @@ namespace IFC.App.Bom.Creators
     public interface IBomCreator
     {
         public void TakeElements(List<Assembly> assemblies);
-        public void PrintElements();
+        //public void PrintElements();
         public List<IElement> GetElements();
         public SheetInfo GetSheetInfo();
         public List<List<List<string>>> GetData();
+        public List<List<string>> GetSummaryData();
         public int GetCount();
     }
 }

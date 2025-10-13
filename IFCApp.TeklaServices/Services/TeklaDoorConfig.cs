@@ -58,14 +58,14 @@ public class TeklaDoorConfig
         opening.SetAttribute("T_inside_cut_y", 10.0);
         opening.SetAttribute("T_inside_cut_z", 10.0);
         opening.SetAttribute("T_inside_cb", 2); // Otrais tips nesošajā slānī
-        opening.SetAttribute("T_inside_ext_h", 100.0); // Pabiezinājuma augstums
+        opening.SetAttribute("T_inside_ext_h", 90.0); // Pabiezinājuma augstums
         opening.SetAttribute("T_inside_ext_l", thickPartWidth); // Pabiezinājuma garums
                                                                 //Izoācija
-        opening.SetAttribute("T_insul_off", 100.0); // Izolācijas offsets
+        opening.SetAttribute("T_insul_off", 90.0); // Izolācijas offsets
                                                     //Apdares slānis
         opening.SetAttribute("T_outside_off", -30.0); // Apdares slāņa offsets
                                                       //Koka elements 
-        opening.SetAttribute("T_wood.profile", $"BL100*{insulationPart}"); // Profils 
+        opening.SetAttribute("T_wood.profile", $"BL90*{insulationPart}"); // Profils 
         opening.SetAttribute("T_wood.material", "Klima Konform");
         opening.SetAttribute("T_wood.name", "IZOLĀCIJA");
         opening.SetAttribute("T_wood_offset_y", insulationOffset); // Profila offsets

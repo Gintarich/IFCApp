@@ -7,7 +7,7 @@ namespace IFC.App.Bom.Models
     {
         public ElementPosition Marka { get; set; }
         public string Nosaukums { get; set; }
-        public int Count { get; set; }
+        public int Skaits { get; set; }
         public string Materiāls { get; set; }
         public double Biezums { get; set; }
         public double Augstums { get; set; }
@@ -16,9 +16,9 @@ namespace IFC.App.Bom.Models
         public double Svars { get; set; }
         public double BrutoLaukums { get; set; }
         public double NetoLaukums { get; set; }
-        public double TilpumsKopā { get { return Tilpums * Count; } }
-        public double BrutoLaukumsKopā { get { return BrutoLaukums * Count; } }
-        public double NetoLaukumsKopā { get { return NetoLaukums * Count; } }
+        public double TilpumsKopā { get { return Tilpums * Skaits; } }
+        public double BrutoLaukumsKopā { get { return BrutoLaukums * Skaits; } }
+        public double NetoLaukumsKopā { get { return NetoLaukums * Skaits; } }
 
         public void Print()
         {
@@ -27,7 +27,7 @@ namespace IFC.App.Bom.Models
 
         public override string ToString()
         {
-            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Count}";
+            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Skaits}";
         }
 
         public static PrecastHcsElement CreateFromAssembly(Assembly assembly)

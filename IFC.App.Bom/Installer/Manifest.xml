@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TEP Version="2.0">
 
-    <Product Id="Specifikacijas" UpgradeCode="3BBBD9EC-8197-42B9-8638-5D0496AA7B8A" Version="0.1" Language="1033" 
+    <Product Id="Specifikacijas" UpgradeCode="3BBBD9EC-8197-42B9-8638-5D0496AA7B8A" Version="0.4" Language="1033" 
         Name="Specifikacijas" Manufacturer="BCD"  
         Description= "Create Bom according to BCD standard"
         IconPath="%TEPDEFINITIONFILEFOLDER%\Icon.png" Type="Extension">

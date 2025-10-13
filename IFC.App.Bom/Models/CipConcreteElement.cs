@@ -7,9 +7,10 @@ namespace IFC.App.Bom.Models
     {
         public ElementPosition Marka { get; set; }
         public string Nosaukums { get; set; }
-        public int Count { get; set; }
+        public int Skaits { get; set; }
         public string Materiāls { get; set; }
         public double Tilpums { get; set; }
+        public double TilpumsKopā { get { return Tilpums * Skaits; } }
         public double Stiegrojums { get; set; }
 
         public void Print()
@@ -18,7 +19,7 @@ namespace IFC.App.Bom.Models
         }
         public override string ToString()
         {
-            return $"{Nosaukums}, Marka: {Marka}, Count: {Count}";
+            return $"{Nosaukums}, Marka: {Marka}, Count: {Skaits}";
         }
 
         public static CipConcreteElement CreateFromAssembly(Assembly assembly)

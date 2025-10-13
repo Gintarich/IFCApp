@@ -73,8 +73,9 @@ namespace IFC.App.Bom.Creators
                 "GARUMS, mm",
                 "SVARS, kg",
                 "LAUKUMS, m²",
-                "SVARS KOPĀ, kg",
+                "SVARS KOPĀ, t",
                 "LAUKUMS KOPĀ, m²",
+                "PIEZĪMES",
             };
         }
 
@@ -88,7 +89,7 @@ namespace IFC.App.Bom.Creators
                 data.Add([[
                         element.Marka.ToString(),
                         element.Nosaukums,
-                        element.Count.ToString(),
+                        element.Skaits.ToString(),
                         element.Materiāls,
                         element.Profils,
                         Math.Round(element.Garums, round).ToString(),
@@ -96,6 +97,7 @@ namespace IFC.App.Bom.Creators
                         Math.Round(element.Laukums, round).ToString(),
                         Math.Round(element.SvarsKopā, round).ToString(),
                         Math.Round(element.LaukumsKopā, round).ToString(),
+                        element.Piezīmes
                         ]]);
             }
             return data;
@@ -108,6 +110,42 @@ namespace IFC.App.Bom.Creators
         public int GetCount()
         {
             return _elements.GetCount();
+        }
+
+        public List<List<string>> GetSummaryData()
+        {
+            Dictionary<string, List<double>> materialTotals = new Dictionary<string, List<double>>();
+
+            foreach (var element in _elements.GetElements())
+            {
+                if(element.Materiāls == "SKATĪT RAŽ. NOR.") continue; // Skip elements with unspecified material
+                var name = $"TĒRAUDS {element.Materiāls} {element.Piezīmes}";
+                var values = materialTotals.TryGetValue(name, out List<double> existingValues)
+                    ? existingValues
+                    : new List<double> { 0.0, 0.0, 0.0 };
+
+                values[0] += element.Svars; // Volume
+
+                materialTotals[name] = values;
+
+            }
+            var OutputData = new List<List<string>>
+            {
+                new List<string>{"", "KOPĒJIE DATI PAR ELEMENTIEM"},
+                new List<string>{"","NOSAUKUMS", "SVARS, t" }
+            };
+
+            foreach (var kvp in materialTotals)
+            {
+                OutputData.Add(new List<string> { "", kvp.Key,
+                    Math.Round(kvp.Value[0], 3).ToString(),
+                });
+            }
+
+            OutputData.Add(new List<string> { "" });
+            OutputData.Add(new List<string> { "", "SPECIFIKĀCIJĀ IR UZRĀDĪTS APJOMS BEZ REZERVES KOEFICIENTIEM" });
+
+            return OutputData;
         }
     }
 }

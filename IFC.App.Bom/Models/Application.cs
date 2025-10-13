@@ -22,6 +22,8 @@ namespace IFC.App.Bom.Models
                 new PrecastBomCreator(),
                 new ConcreteBomCreator(),
                 new SteelBomCreator(),
+                new LintelBomCreator(),
+                new MasonryCreator(),
             });
         }
 
@@ -52,6 +54,7 @@ namespace IFC.App.Bom.Models
                 .OrderBy(x => x.GetAssemblyType())
                 .ThenBy(x => x.Name)
                 .Where(x => x.GetIntProp("HIERARCHY_LEVEL") == 0 && x.Name != "SMALKGRAUDAINS BETONS")
+                .Where(x => !x.Name.Contains("KUBS"))
                 .ToList();
         }
     }

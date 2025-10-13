@@ -25,7 +25,7 @@ namespace IFC.App.Bom.Creators
             List<Assembly> assembliesToRemove = new List<Assembly>();
             foreach (var assembly in assemblies)
             {
-                if (assembly.GetAssemblyType() == Assembly.AssemblyTypeEnum.PRECAST_ASSEMBLY)
+                if (assembly.GetAssemblyType() == Assembly.AssemblyTypeEnum.PRECAST_ASSEMBLY && assembly.Name != "PABETONĒJUMS")
                 {
                     var precastElement = new PrecastElement
                     {
@@ -89,8 +89,8 @@ namespace IFC.App.Bom.Creators
                 data.Add([[
                         el.Marka.ToString(),
                         el.Nosaukums,
-                        el.Count.ToString(),
-                        Math.Round(el.Tilpums, round).ToString(),
+                        el.Skaits.ToString(),
+                        Math.Round(el.TilpumsKopā, round).ToString(),
                         ]]);
             }
             return data;
@@ -103,6 +103,13 @@ namespace IFC.App.Bom.Creators
         public int GetCount()
         {
             return _elements.GetCount();
+        }
+
+        public List<List<string>> GetSummaryData()
+        {
+            return new List<List<string>>
+            {
+            };
         }
     }
 }

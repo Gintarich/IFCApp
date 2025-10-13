@@ -11,5 +11,6 @@
         public double Weight { get; set; }
         public double BrutoLaukums { get; set; }
         public double NetoLaukums { get; set; }
+        public int Skaits { get; set; } = 1;
     }
 }

@@ -91,7 +91,7 @@ namespace IFC.App.Bom.Creators
                 {
                     element.Marka.ToString(),
                     element.Nosaukums,
-                    element.Count.ToString(),
+                    element.Skaits.ToString(),
                     Math.Round(element.Tilpums, 3).ToString()
                 };
                 data.Add([row]);
@@ -106,6 +106,11 @@ namespace IFC.App.Bom.Creators
         public int GetCount()
         {
             return _elements.GetCount();
+        }
+
+        public List<List<string>> GetSummaryData()
+        {
+            return new List<List<string>>();
         }
     }
 }

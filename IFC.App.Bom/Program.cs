@@ -15,6 +15,5 @@ public class Program
 
         sw.Stop();
         Console.WriteLine($"Elapsed time: {sw.Elapsed} elements in BOM: {0000}");
-
     }
 }

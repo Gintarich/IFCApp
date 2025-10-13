@@ -92,7 +92,7 @@ namespace IFC.App.Bom.Creators
                 data.Add([[
                         el.Marka.ToString(),
                         el.Nosaukums,
-                        el.Count.ToString(),
+                        el.Skaits.ToString(),
                         el.Materiāls,
                         Math.Round(el.Biezums, 0).ToString(),
                         Math.Round(el.Augstums, 0).ToString(),
@@ -114,6 +114,44 @@ namespace IFC.App.Bom.Creators
         public int GetCount()
         {
             return _elements.GetCount();
+        }
+        public List<List<string>> GetSummaryData()
+        {
+            Dictionary<string, List<double>> materialTotals = new Dictionary<string, List<double>>();
+
+            foreach (var element in _elements.GetElements())
+            {
+                var name = $"{element.Nosaukums} HCS{Math.Round(element.Augstums,0)}";
+                var values = materialTotals.TryGetValue(name, out List<double> existingValues)
+                    ? existingValues
+                    : new List<double> { 0.0, 0.0, 0.0 };
+
+                values[0] += element.Skaits; // Volume
+                values[1] += element.BrutoLaukums * element.Skaits; // Area
+                values[2] += element.NetoLaukums * element.Skaits; // Net Area
+
+                materialTotals[name] = values;
+
+            }
+            var OutputData = new List<List<string>>
+            {
+                new List<string>{"", "KOPĒJIE DATI PAR ELEMENTIEM"},
+                new List<string>{"", "MATERIĀLS", "SKAITS", "LAUKUMS BRUTO m²", "LAUKUMS NETO m²"}
+            };
+
+            foreach (var kvp in materialTotals)
+            {
+                OutputData.Add(new List<string> { "", kvp.Key,
+                    Math.Round(kvp.Value[0], 3).ToString(),
+                    Math.Round(kvp.Value[1], 3).ToString(),
+                    Math.Round(kvp.Value[2], 3).ToString()
+                });
+            }
+
+            OutputData.Add(new List<string> { "" });
+            OutputData.Add(new List<string> { "", "SPECIFIKĀCIJĀ NAV UZRĀDĪTAS IEBETONĒJAMĀS DETAĻAS" });
+
+            return OutputData;
         }
     }
 }

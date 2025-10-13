@@ -128,6 +128,13 @@ public class NVAAtributeCreator
         string material = string.Empty;
         var mp = ass.GetMainPart() as Part;
         if (mp is null) return;
+        if(name == "PETRA")
+        {
+            var code = mp.GetStringProp("PRODUCT_CODE");
+            name = code;
+            table["ASSEMBLY_POS"] = name;
+            ass.SetUserProperty("comment", code);
+        }
         //Material logic
         if (!AttributeMapper.MaterialFromNames.TryGetValue(name, out material))
         {
@@ -451,6 +458,8 @@ public class AttributeMapper
         {"MB PĀRSEGUMS", "BE_07_19_01_00_Monolītā dzelzsbetona (MDZB) pārsegumi"},
         {"IELIEKAMĀ DETAĻA", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"WELDA200x200-112", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"WELDA100x100-108", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
+        {"WELDA150x150-70", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"HPKM-16", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"HPMP-16", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PETRA SPECIAL", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
@@ -459,15 +468,19 @@ public class AttributeMapper
         {"HILTI_HAS-U", "BE_07_33_03_00_Ķīmiski stiprinājumi"},
         {"UZGRIEZNIS M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
         {"PAPLĀKSNE M16", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"UZGRIEZNIS M30", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"PAPLĀKSNE M30", "BE_07_33_01_00_Mehāniski stiprinājumi"},
+        {"VĪTŅSTIENIS M30", "BE_07_33_01_00_Mehāniski stiprinājumi"},
         {"PABETONĒJUMS", "BE_07_11_00_00_Kolonnu bāzes"},
         {"HAS-U+HIT-HY 200-A", "BE_07_33_03_00_Ķīmiski stiprinājumi"},
         {"RVT-M12x50", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
-        {"WELDA100x100-108", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"TSS 101", "BE_07_33_07_00_Iebetonējami stiprinājumi"},
         {"PLĀKSNE", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA SIJA", "BE_07_21_05_00_Tērauda sijas"},
         {"MONTĀŽAS DETAĻA", "BE_07_21_05_00_Tērauda sijas"},
         {"JUMTA SIJA", "BE_07_21_05_00_Tērauda sijas"},
+        {"MONTĀŽAS LEŅĶIS", "BE_07_21_05_00_Tērauda sijas"},
+        {"NESOŠAIS TRAPECPROFILS", "BE_07_21_05_00_Tērauda sijas"},
         {"KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"METĀLA KOLONNA", "BE_07_13_05_00_Tērauda kolonnas"},
         {"HORIZONTĀLĀ SAITE","BE_07_27_05_00_Tērauda saites"},

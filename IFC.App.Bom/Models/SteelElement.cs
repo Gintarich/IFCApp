@@ -7,14 +7,15 @@ namespace IFC.App.Bom.Models
     {
         public ElementPosition Marka { get; set; }
         public string Nosaukums { get; set; }
-        public int Count { get; set; }
+        public int Skaits { get; set; }
         public string Materiāls { get; set; }
         public string Profils { get; set; }
         public double Garums { get; set; }
         public double Svars { get; set; }
         public double Laukums { get; set; }
-        public double SvarsKopā { get { return Svars * Count; } }
-        public double LaukumsKopā { get { return Laukums * Count; } }
+        public string Piezīmes { get; set; }
+        public double SvarsKopā { get { return Svars * Skaits; } }
+        public double LaukumsKopā { get { return Laukums * Skaits; } }
 
         public void Print()
         {
@@ -23,7 +24,7 @@ namespace IFC.App.Bom.Models
 
         public override string ToString()
         {
-            return $"{Nosaukums}, Marka: {Marka}, Profils: {Profils}, Count: {Count}";
+            return $"{Nosaukums}, Marka: {Marka}, Profils: {Profils}, Count: {Skaits}";
         }
 
         public static SteelElement CreateFromAssembly(Assembly assembly)
@@ -43,6 +44,7 @@ namespace IFC.App.Bom.Models
                 Garums = assembly.GetDoubleProp("LENGTH"),
                 Svars = assembly.GetDoubleProp("WEIGHT") / 1e3,
                 Laukums = assembly.GetDoubleProp("AREA") / 1e6,
+                Piezīmes = assembly.GetStringProp("comment")
             };
             return element;
         }

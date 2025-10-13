@@ -5,7 +5,8 @@
         public string Nosaukums { get; set; }
         public ElementPosition Marka { get; set; }
         public double Tilpums { get; set; }
-        public int Count { get; set; }
+        public int Skaits { get; set; }
+        public double TilpumsKopā { get { return Tilpums * Skaits; } }
 
         public bool Equals(PrecastElement other)
         {
@@ -19,7 +20,7 @@
         }
         public override string ToString()
         {
-            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Count}";
+            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Skaits}";
         }
     }
 }

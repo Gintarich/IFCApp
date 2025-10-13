@@ -8,11 +8,11 @@
         {
             if (_elements.Contains(element))
             {
-                _elements.FirstOrDefault(e=>e.Equals(element)).Count++;
+                _elements.FirstOrDefault(e=>e.Equals(element)).Skaits++;
             }
             else
             {
-                element.Count = 1;
+                element.Skaits = 1;
                 _elements.Add(element);
             }
         }

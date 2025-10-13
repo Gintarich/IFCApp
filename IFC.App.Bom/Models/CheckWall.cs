@@ -10,7 +10,8 @@ namespace IFC.App.Bom.Models
                 "NESOŠAIS SLĀNIS",
                 "SILTUMIZOLĀCIJA",
                 "APDARES SLĀNIS",
-                "APDARES ĶIEĢELIS"
+                "APDARES ĶIEĢELIS",
+                "IZOLĀCIJA"
             };
         private static readonly List<string> _englishNames = new List<string>
             {
@@ -33,6 +34,7 @@ namespace IFC.App.Bom.Models
             {
                 return (true, Translate[name]);
             }
+
             return (true, name);
         }
         public static string CheckMaterial(Part mo)

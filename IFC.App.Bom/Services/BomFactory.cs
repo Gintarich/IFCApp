@@ -30,15 +30,15 @@ namespace IFC.App.Bom.Services
             }
         }
 
-        public void PrintElements()
-        {
-            foreach (var creator in _bomCreators)
-            {
-                var model = new Model();
-                var modelPath = model.GetInfo().ModelPath;
-                var excelPath = Path.Combine(modelPath, "Automation", "BOM.xlsx");
-                creator.PrintElements();
-            }
-        }
+        //public void PrintElements()
+        //{
+        //    foreach (var creator in _bomCreators)
+        //    {
+        //        var model = new Model();
+        //        var modelPath = model.GetInfo().ModelPath;
+        //        var excelPath = Path.Combine(modelPath, "Automation", "BOM.xlsx");
+        //        creator.PrintElements();
+        //    }
+        //}
     }
 }

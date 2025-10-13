@@ -8,10 +8,31 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
+
+		<!--Tekla Structures TSEP build settings-->
+		<!-- Adjust if your Tekla path/version differs -->
+		<TeklaVersion>2024.0</TeklaVersion>
+		<TeklaBin>$(ProgramFiles)\Tekla Structures\$(TeklaVersion)\bin</TeklaBin>
+		<BatchBuilderExe>$(TeklaBin)\TeklaExtensionPackage.BatchBuilder.exe</BatchBuilderExe>
+		<!-- Your installer definition XML from the TSEP guide -->
+		<TsepDefinitionXml>$(MSBuildProjectDirectory)\Installer\Manifest.xml</TsepDefinitionXml>
+		<!-- Output + logging -->
+		<ArtifactsDir>$(MSBuildProjectDirectory)\artifacts</ArtifactsDir>
+		<OutputDir>$(MSBuildProjectDirectory)\Installer\output</OutputDir>
+		<LogDir>$(ArtifactsDir)\logs</LogDir>
+		<!-- Versioning (optional). Set AppendVersionToName=true to add version to filename -->
+		<TsepBaseName>Specifikacijas</TsepBaseName>
+		<TsepVersion>0.4</TsepVersion>
+		<AppendVersionToName>true</AppendVersionToName>
+		<TsepName Condition="'$(AppendVersionToName)'=='true'">$(TsepBaseName).tsep</TsepName>
+		<TsepName Condition="'$(AppendVersionToName)'!='true'">$(TsepBaseName).tsep</TsepName>
+		<TsepOut>$(OutputDir)\$(TsepName)</TsepOut>
+		<!--Tekla Structures TSEP build settings-->
+
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Installer\Environments\common\macros\modeling\Specifikacijas.cs" />
+		<Compile Remove="Installer\Environments\common\macros\modeling\Specifikacijas.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -22,17 +43,44 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\IFCApp.TeklaServices\IFCApp.TeklaServices.csproj" />
+		<ProjectReference Include="..\IFCApp.TeklaServices\IFCApp.TeklaServices.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Installer\Catalog\" />
-	  <Folder Include="Installer\output\" />
-	  <Folder Include="Installer\Ribbon\" />
+		<Folder Include="Installer\Catalog\" />
+		<Folder Include="Installer\output\" />
+		<Folder Include="Installer\Ribbon\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Installer\Environments\common\macros\modeling\Specifikacijas.cs" />
+		<None Include="Installer\Environments\common\macros\modeling\Specifikacijas.cs" />
 	</ItemGroup>
+
+	<!--Tekla Structures TSEP build settings-->
+	<Target Name="Test" AfterTargets="Build">
+		<!-- basic checks -->
+		<Error Condition="!Exists('$(BatchBuilderExe)')" Text="BatchBuilder not found: $(BatchBuilderExe)" />
+		<Error Condition="!Exists('$(TsepDefinitionXml)')" Text="Definition XML not found: $(TsepDefinitionXml)" />
+
+		<MakeDir Directories="$(ArtifactsDir)" />
+		<MakeDir Directories="$(LogDir)" />
+
+		<!-- optional flags exactly from the guide -->
+		<PropertyGroup>
+			<_Flags></_Flags>
+			<_Flags Condition="'$(TsepVersion)'!=''">$(_Flags) -v $(TsepVersion)</_Flags>
+			<_Flags Condition="'$(AppendVersionToName)'=='true'">$(_Flags) -a</_Flags>
+		</PropertyGroup>
+
+		<Message Text="Building TSEP: $(TsepOut)" Importance="High" />
+		<Exec Command="&quot;$(BatchBuilderExe)&quot; -i &quot;$(TsepDefinitionXml)&quot; -o &quot;$(TsepOut)&quot; -l &quot;$(LogDir)&quot;$(_Flags)"
+			  IgnoreExitCode="true">
+			<Output TaskParameter="ExitCode" PropertyName="BatchBuilderExitCode" />
+		</Exec>
+		<!-- Fail build on non-zero as per guide (0 ok, -1..-4 errors) -->
+		<Error Condition="'$(BatchBuilderExitCode)'!='0'" Text="TSEP build failed (exit $(BatchBuilderExitCode)). See logs: $(LogDir)" />
+		<Message Condition="'$(BatchBuilderExitCode)'=='0'" Text="Created $(TsepOut)" Importance="High" />
+	</Target>
+	<!--Tekla Structures TSEP build settings-->
 
 </Project>

@@ -5,7 +5,7 @@
         public string Nosaukums { get; set; }
         public ElementPosition Marka { get; set; }
         public double Tilpums { get; set; }
-        public int Count { get; set; }
+        public int Skaits { get; set; }
 
 
         public bool Equals(DefaultElement other)
@@ -22,7 +22,7 @@
 
         public override string ToString()
         {
-            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Count}";
+            return $"{Nosaukums}, Marka: {Marka}, Tilpums: {Math.Round(Tilpums, 3)}, Count: {Skaits}";
         }
     }
 }

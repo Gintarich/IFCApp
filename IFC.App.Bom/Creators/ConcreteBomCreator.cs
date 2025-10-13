@@ -1,4 +1,5 @@
 ﻿using IFC.App.Bom.Models;
+using IFCApp.TeklaServices.Utils;
 using Tekla.Structures.Model;
 
 namespace IFC.App.Bom.Creators
@@ -23,7 +24,7 @@ namespace IFC.App.Bom.Creators
             List<Assembly> assembliesToRemove = new List<Assembly>();
             foreach (var assembly in assemblies)
             {
-                if (assembly.GetAssemblyType() == Assembly.AssemblyTypeEnum.IN_SITU_ASSEMBLY)
+                if (assembly.GetAssemblyType() == Assembly.AssemblyTypeEnum.IN_SITU_ASSEMBLY || assembly.GetStringProp("MATERIAL_TYPE") == "CONCRETE")
                 {
                     var pt = assembly.GetMainPart() as Part;
                     if (pt == null) continue; // Skip if main part is not a Part
@@ -86,9 +87,9 @@ namespace IFC.App.Bom.Creators
                 data.Add([[
                         element.Marka.ToString(),
                         element.Nosaukums,
-                        element.Count.ToString(),
+                        element.Skaits.ToString(),
                         element.Materiāls,
-                        Math.Round(element.Tilpums, round).ToString(),
+                        Math.Round(element.TilpumsKopā, round).ToString(),
                         Math.Round(element.Stiegrojums, round).ToString(),
                         ]]);
             }
@@ -97,6 +98,20 @@ namespace IFC.App.Bom.Creators
         public int GetCount()
         {
             return _elements.GetCount();
+        }
+
+        public List<List<string>> GetSummaryData()
+        {
+            return new List<List<string>>()
+            {
+                new List<string>
+                {
+                    //"KOPĀ",
+                    //_elements.GetCount().ToString(),
+                    //Math.Round(_elements.GetTotalVolume(), 3).ToString(),
+                    //Math.Round(_elements.GetTotalReinforcement(), 3).ToString(),
+                }
+            };
         }
     }
 }
